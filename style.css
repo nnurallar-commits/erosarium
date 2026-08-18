@@ -1,0 +1,1483 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #061a2d 0%,
+            #073b5c 40%,
+            #087a9b 100%
+        );
+}
+
+h1 {
+    padding-top: 100px;
+    font-size: 55px;
+    letter-spacing: 8px;
+}
+
+body > p:first-of-type {
+    margin-top: 10px;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+h2 {
+    margin-top: 100px;
+    font-size: 30px;
+}
+
+h2 + p {
+    margin-top: 15px;
+    opacity: 0.8;
+}
+
+button {
+    margin-top: 30px;
+    padding: 16px 28px;
+
+    border: none;
+    border-radius: 30px;
+
+    background: white;
+    color: #073b5c;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 75px;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    background: rgba(3, 25, 45, 0.95);
+    backdrop-filter: blur(10px);
+
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.bottom-nav button {
+    margin: 0;
+    padding: 8px;
+
+    background: transparent;
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    font-size: 22px;
+}
+
+.bottom-nav button span {
+    font-size: 11px;
+    font-weight: normal;
+}
+
+.bottom-nav button:hover {
+    transform: translateY(-3px);
+}
+.page {
+    display: none;
+    min-height: 100vh;
+    padding: 60px 20px 120px;
+}
+
+.page.active {
+    display: block;
+}
+
+.page h1 {
+    padding-top: 40px;
+}
+
+.page h2 {
+    margin-top: 70px;
+}
+/* SAATLİK BALIK TAHMİN KARTLARI */
+
+.fish-section {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto 120px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.fish-section h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.fish-section > p {
+    text-align: center;
+    opacity: 0.75;
+    margin-bottom: 25px;
+}
+
+.fish-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.fish-hour {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 18px;
+    text-align: left;
+    backdrop-filter: blur(10px);
+}
+
+.fish-hour h3 {
+    font-size: 22px;
+    margin: 0 0 12px;
+}
+
+.fish-hour p {
+    margin: 7px 0;
+    font-size: 16px;
+}
+
+.fish-hour strong {
+    font-size: 18px;
+}
+
+.fish-hour.best {
+    border: 2px solid rgba(255, 215, 0, 0.8);
+    background: rgba(255, 215, 0, 0.08);
+}
+
+@media (max-width: 600px) {
+    .fish-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .fish-section {
+        padding: 0 14px;
+    }
+
+    .fish-section h2 {
+        font-size: 26px;
+    }
+}
+/* SAATLİK BALIK TAHMİN KARTLARI */
+
+.fish-section {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto 120px;
+    padding: 20px;
+}
+
+.hour-card {
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 20px;
+    padding: 18px 22px;
+    margin: 15px auto;
+    max-width: 650px;
+    backdrop-filter: blur(8px);
+}
+
+.hour-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+    margin-bottom: 14px;
+}
+
+.best-fish {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.10);
+    padding: 12px 15px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+}
+
+.best-label {
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+.best-result {
+    font-size: 18px;
+}
+
+.fish-scores {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.fish-scores span {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 8px 12px;
+    border-radius: 10px;
+    flex: 1;
+    text-align: center;
+    min-width: 130px;
+}
+
+@media (max-width: 600px) {
+    .fish-scores {
+        flex-direction: column;
+    }
+
+    .hour-card {
+        padding: 15px;
+    }
+}
+/* 7 GÜNLÜK BALIK TAHMİNİ */
+
+#weeklyForecast {
+    width: 100%;
+    max-width: 900px;
+    margin: 60px auto 40px;
+    padding: 20px;
+}
+
+#weeklyForecast h2 {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.weekly-subtitle {
+    text-align: center;
+    opacity: 0.75;
+    margin-bottom: 25px;
+}
+
+#weeklyCards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.weekly-card {
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 18px;
+    padding: 20px;
+    backdrop-filter: blur(8px);
+    transition: transform 0.2s ease;
+}
+
+.weekly-card:hover {
+    transform: translateY(-4px);
+}
+
+.weekly-date {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.weekly-fish {
+    background: rgba(255, 255, 255, 0.10);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 12px;
+    font-size: 18px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.weekly-fish span {
+    margin-left: auto;
+    font-weight: bold;
+}
+
+.weekly-info {
+    margin-top: 8px;
+    font-size: 15px;
+}
+
+@media (max-width: 600px) {
+    #weeklyCards {
+        grid-template-columns: 1fr;
+    }
+
+    #weeklyForecast {
+        padding: 10px;
+    }
+}
+#mapContainer {
+    width: 100%;
+    max-width: 900px;
+    margin: 25px auto;
+}
+
+#map {
+    width: 100%;
+    height: 450px;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.location-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+#selectedLocation {
+    margin-top: 12px;
+    opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+    #map {
+        height: 350px;
+    }
+}
+.daily-rating {
+    max-width: 650px;
+    margin: 30px auto;
+    padding: 22px;
+    border-radius: 22px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.10);
+}
+
+.rating-title {
+    font-size: 18px;
+    opacity: 0.8;
+}
+
+.rating-number {
+    font-size: 38px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.rating-label {
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.rating-bar {
+    font-size: 28px;
+    margin-top: 10px;
+    letter-spacing: 4px;
+}
+
+.rating-1 {
+    border-color: rgba(255, 50, 50, 0.8);
+}
+
+.rating-2 {
+    border-color: rgba(255, 140, 0, 0.8);
+}
+
+.rating-3 {
+    border-color: rgba(255, 210, 0, 0.8);
+}
+
+.rating-4 {
+    border-color: rgba(80, 220, 120, 0.8);
+}
+
+.rating-5 {
+    border-color: rgba(0, 200, 100, 0.9);
+}
+#favoriteSpots {
+    width: 100%;
+    max-width: 900px;
+    margin: 30px auto 120px;
+    padding: 0 20px;
+}
+
+.favorite-card {
+    max-width: 650px;
+    margin: 18px auto;
+    padding: 20px;
+
+    border-radius: 20px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+
+    text-align: left;
+}
+
+.favorite-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.favorite-number {
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+.favorite-top h3 {
+    margin: 5px 0 0;
+}
+
+.favorite-location {
+    opacity: 0.75;
+    margin: 15px 0;
+}
+
+.favorite-weather {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.favorite-weather p {
+    background: rgba(0,0,0,0.15);
+    padding: 9px;
+    border-radius: 10px;
+    margin: 0;
+}
+
+.favorite-rating {
+    padding: 12px;
+    border-radius: 12px;
+    margin: 15px 0;
+    background: rgba(255,255,255,0.08);
+}
+
+.favorite-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.favorite-actions button {
+    margin: 0;
+}
+
+.delete-favorite {
+    margin: 0;
+    background: transparent;
+    color: white;
+    font-size: 18px;
+}
+
+.empty-favorites {
+    text-align: center;
+    padding: 40px 20px;
+    opacity: 0.85;
+}
+/* =========================
+   ŞANS'IN AKVARYUMU 🐠
+========================= */
+
+#aquarium {
+    text-align: center;
+    padding: 55px 20px 130px;
+}
+
+.aquarium-header h2 {
+    font-size: 34px;
+    margin-bottom: 8px;
+}
+
+.aquarium-header p {
+    font-size: 18px;
+    opacity: 0.8;
+    margin-bottom: 35px;
+}
+
+.sans-card {
+    width: min(650px, 90%);
+    margin: 0 auto;
+    padding: 28px;
+
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 28px;
+
+    backdrop-filter: blur(10px);
+}
+
+.sans-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.sans-title h3 {
+    font-size: 28px;
+    margin: 0;
+}
+
+.sans-title p {
+    margin: 4px 0 0;
+    opacity: 0.7;
+}
+
+.sans-fish {
+    font-size: 55px;
+    display: inline-block;
+    animation: sansFloat 3s ease-in-out infinite;
+}
+
+@keyframes sansFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.sans-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.sans-info > div {
+    background: rgba(255,255,255,0.08);
+    padding: 18px 10px;
+    border-radius: 18px;
+}
+
+.sans-info span {
+    display: block;
+    font-size: 27px;
+    margin-bottom: 8px;
+}
+
+.sans-info strong {
+    display: block;
+}
+
+.sans-info p {
+    margin: 6px 0 0;
+    opacity: 0.75;
+}
+
+.feed-button {
+    border: none;
+    padding: 14px 28px;
+    border-radius: 30px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+
+    background: white;
+    color: #073653;
+
+    transition: 0.2s;
+}
+
+.feed-button:hover {
+    transform: translateY(-2px) scale(1.03);
+}
+
+@media (max-width: 600px) {
+    .sans-info {
+        grid-template-columns: 1fr;
+    }
+}
+.sans-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.fish-food {
+    position: absolute;
+    top: 0;
+
+    font-size: 25px;
+    color: #ffc76b;
+
+    animation: foodFall 2.3s linear forwards;
+
+    pointer-events: none;
+}
+
+@keyframes foodFall {
+
+    0% {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(320px);
+        opacity: 0;
+    }
+}
+.tank-scene {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(35, 170, 220, 0.35),
+            rgba(5, 70, 110, 0.50)
+        );
+
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.sans-fish {
+    position: absolute;
+
+    left: 10%;
+    top: 45%;
+
+    font-size: 58px;
+
+    transition:
+        left 2.5s ease-in-out,
+        top 2s ease-in-out,
+        transform 0.4s ease;
+}
+.tank-scene {
+    width: min(900px, 95%);
+    height: auto;
+    margin: 25px auto;
+    border-radius: 28px;
+    overflow: hidden;
+}
+
+.sans-fish-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 28px;
+}
+/* ===== ŞANS AKVARYUMU ===== */
+
+.tank-scene {
+    position: relative;
+    width: 100%;
+    max-width: 850px;
+    aspect-ratio: 16 / 9;
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 28px;
+}
+
+.sans-aquarium-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 28px;
+}
+
+.swimming-sans {
+    position: absolute;
+    width: 160px;
+    height: auto;
+
+    
+
+    z-index: 10;
+    object-fit: contain;
+
+    transition:
+        left 2.5s ease-in-out,
+        top 2.5s ease-in-out,
+        transform 0.4s ease;
+}
+.swimming-sans {
+    position: absolute;
+
+    width: 150px;
+    height: auto;
+
+    left: 40%;
+    top: 35%;
+
+    z-index: 5;
+
+    transition:
+        left 2.8s ease-in-out,
+        top 2.8s ease-in-out,
+        transform 0.35s ease;
+
+    pointer-events: none;
+
+    filter: drop-shadow(0 4px 7px rgba(0,0,0,0.25));
+}
+
+.tank-scene {
+    position: relative;
+    overflow: hidden;
+}
+.cleaning {
+    animation: tankClean 2.2s ease;
+}
+
+@keyframes tankClean {
+    0% {
+        filter: brightness(1);
+    }
+
+    40% {
+        filter: brightness(1.4) saturate(1.2);
+        box-shadow: 0 0 35px rgba(255, 255, 255, 0.45);
+    }
+
+    100% {
+        filter: brightness(1);
+    }
+}
+
+.clean-button {
+    border: none;
+    padding: 14px 28px;
+    margin-left: 10px;
+    border-radius: 30px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    background: white;
+    color: #073653;
+}
+.algae-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    border-radius: inherit;
+
+    background:
+        radial-gradient(
+            circle at 8% 80%,
+            rgba(58, 125, 46, 0.8),
+            transparent 18%
+        ),
+        radial-gradient(
+            circle at 92% 25%,
+            rgba(65, 135, 55, 0.65),
+            transparent 20%
+        ),
+        radial-gradient(
+            circle at 75% 95%,
+            rgba(44, 110, 40, 0.7),
+            transparent 23%
+        );
+
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.algae-light {
+    opacity: 0.18;
+}
+
+.algae-medium {
+    opacity: 0.38;
+}
+
+.algae-heavy {
+    opacity: 0.65;
+}
+.algae-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    border-radius: inherit;
+
+    background:
+        radial-gradient(circle at 5% 90%,
+            rgba(52, 120, 35, 0.95),
+            transparent 22%),
+
+        radial-gradient(circle at 95% 75%,
+            rgba(42, 105, 35, 0.85),
+            transparent 20%),
+
+        radial-gradient(circle at 15% 15%,
+            rgba(80, 145, 45, 0.65),
+            transparent 17%),
+
+        radial-gradient(circle at 85% 10%,
+            rgba(61, 130, 40, 0.55),
+            transparent 15%);
+
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.algae-light {
+    opacity: 0.15;
+}
+
+.algae-medium {
+    opacity: 0.38;
+}
+
+.algae-heavy {
+    opacity: 0.68;
+}
+/* =========================
+   AV GÜNLÜĞÜ 🎣
+========================= */
+
+.catch-subtitle {
+    opacity: 0.75;
+    margin-bottom: 25px;
+}
+
+.catch-form {
+    width: min(700px, 92%);
+    margin: 0 auto 35px;
+
+    display: grid;
+    gap: 12px;
+
+    padding: 22px;
+    border-radius: 24px;
+
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.16);
+}
+
+.catch-form input,
+.catch-form textarea {
+    width: 100%;
+    padding: 14px 16px;
+
+    border: none;
+    border-radius: 14px;
+    outline: none;
+
+    font-size: 15px;
+
+    background: rgba(255,255,255,0.95);
+    color: #073653;
+}
+
+.catch-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.catch-form button {
+    margin-top: 5px;
+}
+
+.catch-stats {
+    width: min(700px, 92%);
+    margin: 0 auto 30px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.catch-stats > div {
+    padding: 18px 10px;
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.14);
+}
+
+.catch-stats strong {
+    display: block;
+    font-size: 22px;
+}
+
+.catch-stats span {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    opacity: 0.75;
+}
+
+#catchList {
+    width: min(700px, 92%);
+    margin: 0 auto 120px;
+}
+
+.catch-card {
+    margin-bottom: 16px;
+    padding: 20px;
+
+    border-radius: 22px;
+
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.16);
+
+    text-align: left;
+}
+
+.catch-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.catch-card h3 {
+    margin: 0 0 8px;
+    font-size: 22px;
+}
+
+.record-badge {
+    display: inline-block;
+    margin-right: 6px;
+    margin-bottom: 6px;
+
+    padding: 5px 9px;
+    border-radius: 999px;
+
+    background: rgba(255,215,0,0.16);
+    border: 1px solid rgba(255,215,0,0.35);
+
+    font-size: 12px;
+}
+
+.catch-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+
+    margin-top: 14px;
+}
+
+.catch-details p {
+    margin: 0;
+}
+
+.catch-note {
+    margin-top: 16px;
+    padding: 12px;
+
+    border-radius: 12px;
+    background: rgba(0,0,0,0.14);
+
+    font-style: italic;
+}
+
+.delete-catch {
+    margin: 0;
+    padding: 8px;
+    background: transparent;
+    color: white;
+}
+
+.empty-catches {
+    padding: 40px 20px;
+    opacity: 0.8;
+}
+
+.empty-catches > div {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+    .catch-stats {
+        grid-template-columns: 1fr;
+    }
+}
+.catch-card-photo {
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+
+    display: block;
+
+    margin-bottom: 18px;
+    border-radius: 18px;
+}
+
+.catch-photo-preview {
+    display: none;
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+
+    margin-top: 12px;
+    border-radius: 16px;
+}
+
+.catch-photo-upload label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+/* ŞU AN HAVA KARTI */
+
+.weather-card {
+    width: min(620px, 92%);
+    margin: 25px auto 35px;
+    padding: 24px;
+
+    border-radius: 24px;
+
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.14);
+
+    text-align: left;
+}
+
+.weather-card h3 {
+    text-align: center;
+    font-size: 24px;
+    margin: 0 0 20px;
+}
+
+.weather-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.weather-item {
+    padding: 13px 16px;
+    border-radius: 14px;
+
+    background: rgba(0,0,0,0.14);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.weather-item span:first-child {
+    opacity: 0.72;
+}
+
+.weather-item strong {
+    text-align: right;
+}
+
+.weather-sun {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+    .weather-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .weather-sun {
+        grid-template-columns: 1fr;
+    }
+}
+/* =========================
+   BALIK REHBERİ 🐟
+========================= */
+
+#fishguide {
+    padding-bottom: 130px;
+}
+
+.fish-guide-subtitle {
+    opacity: 0.75;
+    margin-bottom: 25px;
+}
+
+.fish-city-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.fish-city {
+    padding: 12px 25px;
+    border-radius: 999px;
+    opacity: 0.65;
+}
+
+.fish-city.active {
+    opacity: 1;
+    transform: scale(1.04);
+}
+
+#fishGuideList {
+    width: min(760px, 92%);
+    margin: 0 auto;
+}
+
+.fish-guide-card {
+    margin-bottom: 18px;
+    padding: 22px;
+
+    border-radius: 22px;
+
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.16);
+
+    text-align: left;
+}
+
+.fish-guide-head {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    margin-bottom: 18px;
+}
+
+.fish-guide-emoji {
+    width: 55px;
+    height: 55px;
+
+    display: grid;
+    place-items: center;
+
+    font-size: 32px;
+
+    border-radius: 16px;
+    background: rgba(255,255,255,0.10);
+}
+
+.fish-guide-head h3 {
+    margin: 0;
+    font-size: 23px;
+}
+
+.fish-guide-head small {
+    opacity: 0.55;
+    font-style: italic;
+}
+
+.fish-guide-info {
+    display: grid;
+    gap: 9px;
+}
+
+.fish-guide-info > div {
+    padding: 12px 14px;
+
+    border-radius: 13px;
+    background: rgba(0,0,0,0.14);
+
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.fish-guide-info span {
+    opacity: 0.7;
+}
+
+.fish-guide-info strong {
+    text-align: right;
+}
+
+.active-hours {
+    border: 1px solid rgba(100, 220, 160, 0.30);
+}
+
+.active-hours strong {
+    color: #b7f5ce;
+}
+
+.fish-description {
+    margin: 15px 0 0;
+    padding-top: 14px;
+
+    border-top: 1px solid rgba(255,255,255,0.10);
+
+    opacity: 0.82;
+}
+
+@media (max-width: 600px) {
+
+    .fish-guide-info > div {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .fish-guide-info strong {
+        text-align: left;
+    }
+}
+/* =========================
+   NİSU'DAN ❤️
+========================= */
+
+#nisa {
+    padding-bottom: 130px;
+}
+
+.nisa-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.nisa-header h2 {
+    font-size: 34px;
+    margin-bottom: 8px;
+}
+
+.nisa-header p {
+    opacity: 0.7;
+}
+
+.nisa-card {
+    width: min(650px, 92%);
+    margin: 0 auto 25px;
+    padding: 32px 25px;
+
+    text-align: center;
+
+    border-radius: 26px;
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.nisa-heart {
+    font-size: 45px;
+    margin-bottom: 10px;
+}
+
+.nisa-card h3 {
+    margin-bottom: 12px;
+}
+
+.nisa-card p {
+    font-size: 20px;
+    line-height: 1.6;
+    min-height: 65px;
+}
+
+.nisa-mini-grid {
+    width: min(750px, 92%);
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.nisa-mini-card {
+    padding: 20px 12px;
+    border-radius: 18px;
+
+    text-align: center;
+
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+}
+
+.nisa-mini-card span {
+    display: block;
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.nisa-mini-card strong {
+    display: block;
+}
+
+.nisa-mini-card p {
+    opacity: 0.7;
+    font-size: 13px;
+}
+
+@media (max-width: 650px) {
+    .nisa-mini-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.sans-message-card {
+    width: min(650px, 92%);
+    margin: 30px auto;
+    padding: 24px;
+
+    border-radius: 24px;
+
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.15);
+
+    text-align: left;
+}
+
+.sans-message-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    margin-bottom: 18px;
+}
+
+.sans-message-fish {
+    font-size: 42px;
+}
+
+.sans-message-head h3 {
+    margin: 0;
+}
+
+.sans-message-head p {
+    margin: 4px 0 0;
+    opacity: 0.7;
+}
+
+.sans-message-bubble {
+    padding: 16px 18px;
+    margin-bottom: 15px;
+
+    border-radius: 18px 18px 18px 5px;
+
+    background: rgba(255,255,255,0.12);
+
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+.sans-pop {
+    animation: sansMessagePop 0.4s ease;
+}
+
+@keyframes sansMessagePop {
+    0% {
+        transform: scale(0.92);
+        opacity: 0.3;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+.love-counter-card {
+    width: min(650px, 92%);
+    margin: 25px auto;
+    padding: 28px;
+
+    text-align: center;
+
+    border-radius: 26px;
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.love-counter-heart {
+    font-size: 40px;
+    margin-bottom: 5px;
+    animation: loveBeat 1.8s ease-in-out infinite;
+}
+
+@keyframes loveBeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+}
+
+.love-counter-card h3 {
+    font-size: 25px;
+    margin: 5px 0;
+}
+
+.love-counter-since {
+    opacity: 0.65;
+    margin-bottom: 22px;
+}
+
+.love-counter {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.love-counter > div {
+    padding: 15px 5px;
+
+    border-radius: 16px;
+    background: rgba(255,255,255,0.08);
+}
+
+.love-counter strong {
+    display: block;
+    font-size: 25px;
+}
+
+.love-counter span {
+    display: block;
+    margin-top: 4px;
+
+    font-size: 12px;
+    opacity: 0.65;
+}
+
+.love-dates {
+    margin-top: 20px;
+    display: grid;
+    gap: 8px;
+}
+
+.love-dates > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 12px 15px;
+
+    border-radius: 14px;
+    background: rgba(0,0,0,0.12);
+}
+
+.love-dates span {
+    opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+
+    .love-counter {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
