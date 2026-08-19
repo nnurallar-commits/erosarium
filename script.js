@@ -1759,8 +1759,7 @@ const photo =
         return;
     }
 
-    const catches =
-        JSON.parse(localStorage.getItem("erosariumCatches")) || [];
+  
 
     const newCatch = {
     id: Date.now(),
@@ -1773,13 +1772,40 @@ const photo =
         note: note
     };
 
-    catches.push(newCatch);
+  if (!window.firebaseDb || !window.firebaseTools) {
+    alert("Firebase bağlantısı hazır değil.");
+    return;
+}
 
-    localStorage.setItem(
-        "erosariumCatches",
-        JSON.stringify(catches)
-    );
+const { collection, addDoc } = window.firebaseTools;
 
+addDoc(
+    collection(window.firebaseDb, "catches"),
+    newCatch
+).then(() => {
+    showCatches();
+    alert("🎣 Av günlüğüne eklendi!");
+}).catch((error) => {
+    console.error("Av kaydetme hatası:", error);
+    alert("Av kaydedilemedi.");
+});
+if (!window.firebaseDb || !window.firebaseTools) {
+    alert("Firebase bağlantısı hazır değil.");
+    return;
+}
+
+const { collection, addDoc } = window.firebaseTools;
+
+addDoc(
+    collection(window.firebaseDb, "catches"),
+    newCatch
+).then(() => {
+    showCatches();
+    alert("🎣 Av günlüğüne eklendi!");
+}).catch((error) => {
+    console.error("Av kaydetme hatası:", error);
+    alert("Av kaydedilemedi.");
+});
     document.getElementById("catchFish").value = "";
     document.getElementById("catchWeight").value = "";
     document.getElementById("catchLength").value = "";
@@ -1800,20 +1826,196 @@ function showCatches() {
 
     if (!catchList || !catchStats) return;
 
-    const catches =
-        JSON.parse(localStorage.getItem("erosariumCatches")) || [];
-
-    if (catches.length === 0) {
-        catchStats.innerHTML = "";
+    if (!window.firebaseDb || !window.firebaseTools) {
         catchList.innerHTML = `
             <div class="empty-catches">
-                <div>🎣</div>
-                <h3>Henüz kayıtlı av yok</h3>
-                <p>İlk avını eklediğinde burada görünecek.</p>
+                <h3>☁️ Bağlantı hazırlanıyor...</h3>
             </div>
         `;
         return;
     }
+
+    const {
+        collection,
+        onSnapshot
+    } = window.firebaseTools;
+
+    const catchesRef =
+        collection(window.firebaseDb, "catches");
+
+    onSnapshot(
+        catchesRef,
+
+        function(snapshot) {
+
+            const catches = [];
+
+            snapshot.forEach(function(document) {
+                catches.push({
+                    firebaseId: document.id,
+                    ...document.data()
+                });
+            });
+
+            if (catches.length === 0) {
+                catchStats.innerHTML = "";
+
+                catchList.innerHTML = `
+                    <div class="empty-catches">
+                        <div>🎣</div>
+                        <h3>Henüz kayıtlı av yok</h3>
+                        <p>Sen veya Erol bir av eklediğinde burada görünecek.</p>
+                    </div>
+                `;
+
+                return;
+            }
+
+            const heaviest = catches
+                .filter(item => item.weight)
+                .sort((a, b) => b.weight - a.weight)[0];
+
+            const longest = catches
+                .filter(item => item.length)
+                .sort((a, b) => b.length - a.length)[0];
+
+            catchStats.innerHTML = `
+                <div class="catch-stats">
+
+                    <div>
+                        <strong>${catches.length}</strong>
+                        <span>🎣 Toplam Av</span>
+                    </div>
+
+                    <div>
+                        <strong>
+                            ${heaviest ? heaviest.weight + " kg" : "-"}
+                        </strong>
+                        <span>⚖️ En Ağır</span>
+                    </div>
+
+                    <div>
+                        <strong>
+                            ${longest ? longest.length + " cm" : "-"}
+                        </strong>
+                        <span>📏 En Uzun</span>
+                    </div>
+
+                </div>
+            `;
+
+            const sortedCatches = [...catches].sort(function(a, b) {
+                return new Date(b.date) - new Date(a.date);
+            });
+
+            catchList.innerHTML =
+                sortedCatches.map(function(item) {
+
+                    const dateText =
+                        new Date(item.date).toLocaleString("tr-TR", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        });
+
+                    const isHeaviest =
+                        heaviest &&
+                        item.firebaseId === heaviest.firebaseId;
+
+                    const isLongest =
+                        longest &&
+                        item.firebaseId === longest.firebaseId;
+
+                    return `
+                        <div class="catch-card">
+
+                            ${
+                                item.photo
+                                    ? `
+                                        <img
+                                            src="${item.photo}"
+                                            class="catch-card-photo"
+                                            alt="${item.fish}"
+                                        >
+                                      `
+                                    : ""
+                            }
+
+                            <div class="catch-card-top">
+
+                                <div>
+                                    <h3>🐟 ${item.fish}</h3>
+
+                                    ${
+                                        isHeaviest
+                                            ? `<span class="record-badge">🏆 En Ağır</span>`
+                                            : ""
+                                    }
+
+                                    ${
+                                        isLongest
+                                            ? `<span class="record-badge">📏 En Uzun</span>`
+                                            : ""
+                                    }
+                                </div>
+
+                                <button
+                                    class="delete-catch"
+                                    onclick="deleteFirebaseCatch('${item.firebaseId}')">
+                                    🗑️
+                                </button>
+
+                            </div>
+
+                            <div class="catch-details">
+
+                                ${
+                                    item.weight
+                                        ? `<p>⚖️ ${item.weight} kg</p>`
+                                        : ""
+                                }
+
+                                ${
+                                    item.length
+                                        ? `<p>📏 ${item.length} cm</p>`
+                                        : ""
+                                }
+
+                                ${
+                                    item.location
+                                        ? `<p>📍 ${item.location}</p>`
+                                        : ""
+                                }
+
+                                <p>🕐 ${dateText}</p>
+
+                            </div>
+
+                            ${
+                                item.note
+                                    ? `<p class="catch-note">“${item.note}”</p>`
+                                    : ""
+                            }
+
+                        </div>
+                    `;
+
+                }).join("");
+        },
+
+        function(error) {
+            console.error("Av günlüğü alınamadı:", error);
+
+            catchList.innerHTML = `
+                <div class="empty-catches">
+                    <h3>⚠️ Av günlüğü alınamadı</h3>
+                </div>
+            `;
+        }
+    );
+}
 
     const heaviest = catches
         .filter(item => item.weight)
@@ -1941,24 +2143,36 @@ ${
 
     }).join("");
 }
-function deleteCatch(index) {
-
-    const catches =
-        JSON.parse(localStorage.getItem("erosariumCatches")) || [];
+async function deleteFirebaseCatch(firebaseId) {
 
     const confirmed =
         confirm("Bu av kaydını silmek istediğine emin misin?");
 
     if (!confirmed) return;
 
-    catches.splice(index, 1);
+    if (!window.firebaseDb || !window.firebaseTools) return;
 
-    localStorage.setItem(
-        "erosariumCatches",
-        JSON.stringify(catches)
-    );
+    const {
+        doc,
+        deleteDoc
+    } = window.firebaseTools;
 
-    showCatches();
+    try {
+
+        await deleteDoc(
+            doc(
+                window.firebaseDb,
+                "catches",
+                firebaseId
+            )
+        );
+
+    } catch (error) {
+
+        console.error("Av kaydı silinemedi:", error);
+
+        alert("Av kaydı silinemedi.");
+    }
 }
 showCatches();
 const catchPhotoInput = document.getElementById("catchPhoto");
