@@ -1083,7 +1083,11 @@ function createWeeklyForecast(data) {
 
     const spots =
         JSON.parse(localStorage.getItem("fishingSpots")) || [];
+const favoriteCount = document.getElementById("favoriteCount");
 
+if (favoriteCount) {
+    favoriteCount.innerText = spots.length;
+}
     if (spots.length === 0) {
         container.innerHTML = `
             <div class="empty-favorites">
