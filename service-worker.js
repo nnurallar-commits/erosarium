@@ -1,4 +1,4 @@
-const CACHE_NAME = "erosarium-v2";
+const CACHE_NAME = "erosarium-v3";
 
 const FILES_TO_CACHE = [
     "./",
