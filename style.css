@@ -1,7 +1,3 @@
-/* =========================
-   EROSARIUM
-========================= */
-
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -15,9 +11,9 @@
     --white: #ffffff;
     --text: #123246;
     --muted: #708896;
-    --green: #27ae60;
-    --yellow: #f4b942;
-    --red: #e75b52;
+    --green: #15946a;
+    --yellow: #d6a12b;
+    --red: #c85650;
     --shadow: 0 10px 30px rgba(6, 40, 61, 0.12);
     --radius: 22px;
 }
@@ -29,11 +25,29 @@ html {
 body {
     margin: 0;
     min-height: 100vh;
+
     background:
-        linear-gradient(180deg, #eaf7fb 0%, #f7fbfd 45%, #edf7fa 100%);
+        linear-gradient(
+            180deg,
+            #eaf7fb 0%,
+            #f8fcfd 50%,
+            #edf7fa 100%
+        );
+
     color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-    padding-bottom: calc(100px + env(safe-area-inset-bottom));
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    padding-bottom:
+        calc(
+            105px +
+            env(safe-area-inset-bottom)
+        );
 }
 
 button,
@@ -48,7 +62,7 @@ button {
 }
 
 button:active {
-    transform: scale(0.97);
+    transform: scale(.98);
 }
 
 .hidden {
@@ -56,17 +70,26 @@ button:active {
 }
 
 
-/* =========================
-   SAYFALAR
-========================= */
+/* SAYFALAR */
 
 .page {
     display: none;
+
     width: 100%;
     max-width: 760px;
-    min-height: calc(100vh - 100px);
+
+    min-height:
+        calc(
+            100vh -
+            100px
+        );
+
     margin: auto;
-    padding: 28px 18px 45px;
+
+    padding:
+        28px
+        18px
+        45px;
 }
 
 .page.active {
@@ -79,7 +102,6 @@ button:active {
 }
 
 .page > h2 {
-    margin: 8px 0 8px;
     color: var(--navy);
 }
 
@@ -89,25 +111,33 @@ button:active {
 }
 
 
-/* =========================
-   ANA SAYFA
-========================= */
+/* ANA */
 
 #home {
     text-align: center;
-    padding-top: 80px;
+    padding-top: 75px;
 }
 
 #home h1 {
     margin: 0;
+
     color: var(--navy);
-    font-size: clamp(38px, 10vw, 66px);
-    letter-spacing: 5px;
+
+    font-size:
+        clamp(
+            38px,
+            10vw,
+            66px
+        );
+
     font-weight: 900;
+
+    letter-spacing: 5px;
 }
 
 .home-subtitle {
-    margin-top: 6px;
+    margin-top: 7px;
+
     font-size: 14px;
     letter-spacing: 1px;
 }
@@ -119,72 +149,100 @@ button:active {
 
 #home > button {
     margin-top: 24px;
-    padding: 16px 26px;
+
+    padding:
+        16px
+        26px;
+
     border-radius: 18px;
-    background: var(--navy);
+
+    background:
+        var(--navy);
+
     color: white;
+
     font-weight: 800;
-    box-shadow: var(--shadow);
+
+    box-shadow:
+        var(--shadow);
 }
 
 
-/* =========================
-   GENEL BUTONLAR
-========================= */
+/* GENEL */
 
 .location-buttons {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+
+    grid-template-columns:
+        1fr 1fr;
+
     gap: 10px;
+
     margin: 22px 0;
 }
 
 .location-buttons button,
 #saveSpotButton,
 .detail-map-button {
-    padding: 14px 12px;
+    padding: 14px;
+
     border-radius: 16px;
-    background: var(--navy);
+
+    background:
+        var(--navy);
+
     color: white;
-    font-weight: 750;
+
+    font-weight: 800;
 }
 
 #saveSpotButton {
     width: 100%;
     margin-top: 12px;
-    background: #16855a;
+
+    background:
+        var(--green);
 }
 
 
-/* =========================
-   HARİTA
-========================= */
+/* HARİTA */
 
 .map-container {
-    margin: 18px 0 24px;
+    margin:
+        18px 0
+        24px;
+
     padding: 10px;
+
     background: white;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
+
+    border-radius:
+        var(--radius);
+
+    box-shadow:
+        var(--shadow);
 }
 
 #map {
     width: 100%;
     height: 330px;
+
     border-radius: 16px;
+
     overflow: hidden;
 }
 
 #selectedLocation {
     text-align: center;
-    color: var(--muted);
-    font-size: 14px;
+
+    color:
+        var(--muted);
+
+    font-size: 13px;
 }
 
 
-/* =========================
-   HAVA
-========================= */
+/* HAVA */
 
 #forecastResult {
     margin-top: 18px;
@@ -193,11 +251,17 @@ button:active {
 .weather-card,
 .loading-card,
 .error-card {
-    background: white;
-    border-radius: var(--radius);
-    padding: 20px;
     margin: 16px 0;
-    box-shadow: var(--shadow);
+
+    padding: 20px;
+
+    background: white;
+
+    border-radius:
+        var(--radius);
+
+    box-shadow:
+        var(--shadow);
 }
 
 .loading-card,
@@ -207,13 +271,18 @@ button:active {
 
 .weather-card-title {
     display: flex;
+
     align-items: center;
-    justify-content: space-between;
+
+    justify-content:
+        space-between;
 }
 
 .weather-card-title > div:first-child {
     display: flex;
+
     align-items: center;
+
     gap: 12px;
 }
 
@@ -223,9 +292,12 @@ button:active {
 
 .weather-card small,
 .section-title-row small {
-    color: var(--muted);
+    color:
+        var(--muted);
+
     font-weight: 800;
-    letter-spacing: 1.2px;
+
+    letter-spacing: 1px;
 }
 
 .weather-card h3 {
@@ -233,94 +305,136 @@ button:active {
 }
 
 .current-temperature {
-    font-size: 42px;
-    font-weight: 900;
     color: var(--navy);
+
+    font-size: 42px;
+
+    font-weight: 900;
 }
 
 .weather-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
+
     gap: 9px;
+
     margin-top: 20px;
 }
 
 .weather-item {
-    background: var(--light);
+    padding:
+        12px
+        8px;
+
+    background:
+        var(--light);
+
     border-radius: 15px;
-    padding: 12px 8px;
+
     text-align: center;
 }
 
 .weather-item span {
     display: block;
-    color: var(--muted);
-    font-size: 12px;
+
+    color:
+        var(--muted);
+
+    font-size: 11px;
 }
 
 .weather-item strong {
     display: block;
+
     margin-top: 5px;
+
     font-size: 14px;
 }
 
 
-/* =========================
-   İDEAL AV
-========================= */
+/* İDEAL AV */
 
 .ideal-fishing-card {
     position: relative;
-    overflow: hidden;
-    margin: 18px 0;
-    padding: 22px;
-    border-radius: 24px;
-    background: linear-gradient(135deg, #073b52, #0b6377);
-    color: white;
-    box-shadow: var(--shadow);
-}
 
-.ideal-fishing-card::after {
-    content: "🎣";
-    position: absolute;
-    right: -12px;
-    bottom: -32px;
-    font-size: 110px;
-    opacity: 0.08;
-    transform: rotate(-20deg);
+    overflow: hidden;
+
+    margin: 18px 0;
+
+    padding: 22px;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #073b52,
+            #0b6377
+        );
+
+    color: white;
+
+    box-shadow:
+        var(--shadow);
 }
 
 .ideal-fishing-card.good,
 .ideal-fishing-card.very-good {
-    background: linear-gradient(135deg, #07583f, #15946a);
+    background:
+        linear-gradient(
+            135deg,
+            #07583f,
+            #15946a
+        );
 }
 
 .ideal-fishing-card.medium {
-    background: linear-gradient(135deg, #74560d, #c28a13);
+    background:
+        linear-gradient(
+            135deg,
+            #74560d,
+            #c28a13
+        );
 }
 
 .ideal-fishing-card.poor {
-    background: linear-gradient(135deg, #75342f, #b64e47);
+    background:
+        linear-gradient(
+            135deg,
+            #75342f,
+            #b64e47
+        );
 }
 
 .ideal-label {
     font-size: 11px;
+
     font-weight: 900;
-    letter-spacing: 1.2px;
-    opacity: 0.8;
+
+    letter-spacing: 1.1px;
+
+    opacity: .85;
 }
 
 .ideal-main {
-    position: relative;
-    z-index: 1;
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
+
+    justify-content:
+        space-between;
+
     margin-top: 15px;
 }
 
 .ideal-main h2 {
     margin: 7px 0;
+
     font-size: 24px;
 }
 
@@ -329,39 +443,79 @@ button:active {
 }
 
 .ideal-score {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+
+    place-items: center;
+
     width: 70px;
     height: 70px;
+
     flex-shrink: 0;
+
+    border:
+        2px solid
+        rgba(
+            255,
+            255,
+            255,
+            .35
+        );
+
     border-radius: 50%;
-    background: rgba(255,255,255,.17);
-    border: 2px solid rgba(255,255,255,.35);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .15
+        );
+
     font-size: 22px;
+
     font-weight: 900;
 }
 
+.ideal-score-label {
+    margin-top: 4px;
+
+    text-align: right;
+
+    font-size: 9px;
+
+    opacity: .7;
+}
+
 .ideal-weather {
-    position: relative;
-    z-index: 1;
     display: flex;
+
     flex-wrap: wrap;
+
     gap: 8px;
+
     margin-top: 16px;
 }
 
 .ideal-weather span {
-    background: rgba(255,255,255,.13);
+    padding:
+        8px
+        10px;
+
     border-radius: 12px;
-    padding: 8px 10px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .13
+        );
+
     font-size: 12px;
 }
 
 
-/* =========================
-   SAATLİK HAVA
-========================= */
+/* SAATLİK */
 
 .hourly-section {
     margin: 28px 0;
@@ -369,28 +523,45 @@ button:active {
 
 .section-title-row {
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
+
+    align-items:
+        flex-end;
+
+    justify-content:
+        space-between;
+
     margin-bottom: 12px;
 }
 
 .section-title-row h2 {
     margin: 3px 0;
+
     font-size: 21px;
 }
 
 .section-title-row > span {
-    color: var(--muted);
+    color:
+        var(--muted);
+
     font-size: 11px;
 }
 
 .hourly-scroll {
     display: flex;
+
     gap: 10px;
+
     overflow-x: auto;
-    padding: 4px 3px 14px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
+
+    padding:
+        4px 3px
+        14px;
+
+    scroll-snap-type:
+        x mandatory;
+
+    scrollbar-width:
+        none;
 }
 
 .hourly-scroll::-webkit-scrollbar {
@@ -398,46 +569,73 @@ button:active {
 }
 
 .hourly-weather-card {
-    min-width: 105px;
-    padding: 15px 10px;
+    min-width: 110px;
+
+    padding:
+        15px 10px;
+
     border-radius: 18px;
+
     background: white;
+
     text-align: center;
-    box-shadow: 0 6px 18px rgba(6,40,61,.08);
-    scroll-snap-align: start;
+
+    box-shadow:
+        0 6px 18px
+        rgba(
+            6,
+            40,
+            61,
+            .08
+        );
+
+    scroll-snap-align:
+        start;
 }
 
 .hourly-weather-card.current-hour {
-    border: 2px solid var(--blue);
+    border:
+        2px solid
+        var(--blue);
 }
 
 .hourly-time {
-    color: var(--navy);
+    color:
+        var(--navy);
 }
 
 .hourly-temp {
-    margin: 12px 0;
+    margin:
+        12px 0;
+
     font-size: 20px;
+
     font-weight: 900;
 }
 
 .hourly-weather-card > div {
-    margin: 6px 0;
-    font-size: 12px;
+    margin:
+        6px 0;
+
+    font-size: 11px;
 }
 
 .hourly-score {
-    margin-top: 10px !important;
+    margin-top:
+        10px !important;
+
     padding: 6px;
+
     border-radius: 10px;
-    background: var(--light);
+
+    background:
+        var(--light);
+
     font-weight: 800;
 }
 
 
-/* =========================
-   7 GÜNLÜK
-========================= */
+/* 7 GÜNLÜK */
 
 #weeklyForecast {
     margin-top: 32px;
@@ -445,107 +643,268 @@ button:active {
 
 #weeklyForecast > h2 {
     text-align: center;
+
     margin-bottom: 5px;
 }
 
 .weekly-subtitle {
-    text-align: center;
-    color: var(--muted);
     margin-top: 0;
+
+    text-align: center;
+
+    color:
+        var(--muted);
 }
 
 #weeklyCards {
     display: grid;
-    gap: 11px;
+
+    gap: 13px;
+
     margin-top: 20px;
 }
 
+.weekly-day-wrapper {
+    display: grid;
+
+    gap: 8px;
+}
+
 .weekly-card {
+    width: 100%;
+
+    padding:
+        17px
+        18px;
+
+    border-radius: 20px;
+
     background: white;
-    padding: 16px 18px;
-    border-radius: 18px;
-    box-shadow: 0 5px 18px rgba(6,40,61,.07);
+
+    color:
+        var(--text);
+
+    text-align: left;
+
+    box-shadow:
+        0 5px 18px
+        rgba(
+            6,
+            40,
+            61,
+            .08
+        );
 }
 
-.weekly-card > div:first-child {
+.weekly-top {
     display: flex;
-    justify-content: space-between;
-    gap: 12px;
+
+    align-items: center;
+
+    justify-content:
+        space-between;
+
+    gap: 10px;
 }
 
-.weekly-card span {
-    color: var(--green);
-    font-size: 13px;
+.weekly-top > span {
+    color:
+        var(--green);
+
+    font-size: 12px;
+
     font-weight: 800;
 }
 
 .weekly-score {
     margin-top: 8px;
-    color: var(--navy);
-    font-size: 27px;
+
+    color:
+        var(--navy);
+
+    font-size: 28px;
+
     font-weight: 900;
 }
 
-.weekly-card p {
-    margin: 5px 0 0;
-    color: var(--muted);
-    font-size: 13px;
+.weekly-best-time {
+    margin:
+        5px 0
+        12px;
+
+    color:
+        var(--muted);
+
+    font-size: 12px;
+}
+
+.weekly-day-stats {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 8px;
+}
+
+.weekly-day-stats > div {
+    padding: 11px;
+
+    border-radius: 13px;
+
+    background:
+        var(--light);
+}
+
+.weekly-day-stats span,
+.weekly-day-stats strong,
+.weekly-day-stats small {
+    display: block;
+}
+
+.weekly-day-stats span {
+    color:
+        var(--muted);
+
+    font-size: 10px;
+}
+
+.weekly-day-stats strong {
+    margin-top: 4px;
+
+    color:
+        var(--navy);
+
+    font-size: 17px;
+}
+
+.weekly-day-stats small {
+    margin-top: 3px;
+
+    color:
+        var(--muted);
+
+    font-size: 10px;
+}
+
+.weekly-detail-hint {
+    margin:
+        13px 0
+        0;
+
+    color:
+        var(--blue);
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+.weekly-day-detail {
+    padding:
+        16px 12px;
+
+    border-radius: 20px;
+
+    background:
+        #e9f5f8;
+}
+
+.weekly-day-detail h3 {
+    margin:
+        0 3px
+        13px;
+
+    font-size: 16px;
 }
 
 
-/* =========================
-   FAVORİLER
-========================= */
+/* FAVORİLER */
 
 .favorites-header,
 .aquarium-header,
+.activity-header,
 .nisa-header {
     text-align: center;
 }
 
-.favorites-icon {
+.favorites-icon,
+.activity-icon {
     font-size: 44px;
 }
 
 .favorites-header h2,
 .aquarium-header h2,
+.activity-header h2,
 .nisa-header h2 {
-    margin: 6px 0;
+    margin:
+        6px 0;
+
     font-size: 27px;
 }
 
 .favorites-header p,
 .aquarium-header p,
+.activity-header p,
 .nisa-header p {
     margin-top: 5px;
-    color: var(--muted);
+
+    color:
+        var(--muted);
 }
 
 .favorites-stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
+
     gap: 9px;
+
     margin: 25px 0;
 }
 
 .favorites-stats > div {
+    padding:
+        14px
+        7px;
+
     background: white;
+
     border-radius: 17px;
-    padding: 14px 7px;
+
     text-align: center;
-    box-shadow: 0 5px 16px rgba(6,40,61,.06);
+
+    box-shadow:
+        0 5px 16px
+        rgba(
+            6,
+            40,
+            61,
+            .06
+        );
 }
 
 .favorites-stats strong {
     display: block;
-    color: var(--navy);
+
+    color:
+        var(--navy);
+
     font-size: 22px;
 }
 
 .favorites-stats span {
     display: block;
+
     margin-top: 5px;
-    color: var(--muted);
+
+    color:
+        var(--muted);
+
     font-size: 10px;
 }
 
@@ -556,20 +915,30 @@ button:active {
 
 .favorite-card {
     padding: 18px;
+
     background: white;
+
     border-radius: 20px;
-    box-shadow: var(--shadow);
+
+    box-shadow:
+        var(--shadow);
 }
 
 .favorite-card-top {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        flex-start;
 }
 
 .favorite-card-top > div {
     display: flex;
+
     align-items: center;
+
     gap: 8px;
 }
 
@@ -585,85 +954,150 @@ button:active {
 .delete-catch {
     width: 38px;
     height: 38px;
+
     border-radius: 12px;
-    background: #fff1ef;
+
+    background:
+        #fff1ef;
 }
 
 .favorite-note {
-    color: var(--muted);
+    color:
+        var(--muted);
 }
 
 .favorite-coordinates {
     display: inline-block;
-    padding: 7px 10px;
+
+    padding:
+        7px
+        10px;
+
     border-radius: 10px;
-    background: var(--light);
-    color: var(--muted);
+
+    background:
+        var(--light);
+
+    color:
+        var(--muted);
+
     font-size: 11px;
 }
 
 .favorite-actions {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+
+    grid-template-columns:
+        1fr 1fr;
+
     gap: 8px;
+
     margin-top: 15px;
 }
 
 .favorite-actions button {
-    padding: 12px 7px;
+    padding:
+        12px
+        7px;
+
     border-radius: 13px;
+
     font-size: 12px;
+
     font-weight: 800;
 }
 
 .favorite-detail-button {
-    background: var(--navy);
+    background:
+        var(--navy);
+
     color: white;
 }
 
 .favorite-map-button {
-    background: #e5f4f8;
-    color: var(--navy);
+    background:
+        #e5f4f8;
+
+    color:
+        var(--navy);
 }
 
 
-/* =========================
-   FAVORİ DETAY
-========================= */
+/* FAVORİ DETAY */
 
 .favorite-detail-modal {
     position: fixed;
+
     inset: 0;
+
     z-index: 5000;
+
     display: flex;
-    align-items: flex-end;
-    justify-content: center;
+
+    align-items:
+        flex-end;
+
+    justify-content:
+        center;
+
     padding: 15px;
-    background: rgba(2, 23, 35, .6);
-    backdrop-filter: blur(5px);
+
+    background:
+        rgba(
+            2,
+            23,
+            35,
+            .6
+        );
+
+    backdrop-filter:
+        blur(5px);
 }
 
 .favorite-detail-panel {
     position: relative;
-    width: min(100%, 650px);
-    max-height: 88vh;
+
+    width:
+        min(
+            100%,
+            650px
+        );
+
+    max-height:
+        88vh;
+
     overflow-y: auto;
-    padding: 26px 18px;
-    border-radius: 28px 28px 20px 20px;
-    background: #f4fafc;
-    box-shadow: 0 -10px 40px rgba(0,0,0,.18);
+
+    padding:
+        26px
+        18px;
+
+    border-radius:
+        28px
+        28px
+        20px
+        20px;
+
+    background:
+        #f4fafc;
 }
 
 .favorite-detail-close {
     position: absolute;
+
     top: 13px;
     right: 13px;
-    z-index: 5;
+
     width: 40px;
     height: 40px;
+
     border-radius: 50%;
+
     background: white;
-    color: var(--navy);
+
+    color:
+        var(--navy);
+
     font-weight: 900;
 }
 
@@ -672,40 +1106,54 @@ button:active {
 }
 
 .favorite-detail-header > span {
-    color: var(--green);
+    color:
+        var(--green);
+
     font-size: 11px;
+
     font-weight: 900;
 }
 
 .favorite-detail-header h2 {
-    margin: 5px 0;
+    margin:
+        5px 0;
 }
 
 .favorite-detail-header p,
 .favorite-detail-header small {
-    color: var(--muted);
+    color:
+        var(--muted);
 }
 
 .favorite-detail-loading {
-    padding: 45px 10px;
-    text-align: center;
-}
+    padding:
+        45px 10px;
 
-.favorite-detail-loading:first-letter {
-    font-size: 30px;
+    text-align: center;
 }
 
 .favorite-live-weather {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+
+    grid-template-columns:
+        repeat(
+            4,
+            1fr
+        );
+
     gap: 7px;
+
     margin: 20px 0;
 }
 
 .favorite-live-weather > div {
-    padding: 12px 4px;
+    padding:
+        12px 4px;
+
     border-radius: 14px;
+
     background: white;
+
     text-align: center;
 }
 
@@ -716,167 +1164,356 @@ button:active {
 }
 
 .favorite-live-weather strong {
-    margin: 4px 0;
-    font-size: 16px;
+    margin:
+        4px 0;
+
+    font-size: 15px;
 }
 
 .favorite-live-weather small {
-    color: var(--muted);
+    color:
+        var(--muted);
+
     font-size: 9px;
 }
 
 .detail-map-button {
     width: 100%;
+
     margin-top: 10px;
 }
 
 
-/* =========================
-   EMPTY
-========================= */
+/* EMPTY */
 
 .empty-state {
-    padding: 50px 20px;
+    padding:
+        50px 20px;
+
     background: white;
-    border-radius: var(--radius);
+
+    border-radius:
+        var(--radius);
+
     text-align: center;
-    box-shadow: var(--shadow);
+
+    box-shadow:
+        var(--shadow);
 }
 
 .empty-icon {
     font-size: 45px;
 }
 
-.empty-state h3 {
-    margin-bottom: 5px;
-}
-
 .empty-state p {
-    color: var(--muted);
+    color:
+        var(--muted);
 }
 
 
-/* =========================
-   AKVARYUM
-========================= */
+/* HAREKETLER */
+
+.activity-list {
+    display: grid;
+
+    gap: 10px;
+
+    margin-top: 24px;
+}
+
+.activity-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding:
+        15px;
+
+    border-radius: 18px;
+
+    background: white;
+
+    box-shadow:
+        0 5px 18px
+        rgba(
+            6,
+            40,
+            61,
+            .07
+        );
+}
+
+.activity-card-icon {
+    display: grid;
+
+    place-items: center;
+
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    border-radius: 15px;
+
+    background:
+        var(--light);
+
+    font-size: 23px;
+}
+
+.activity-card-content p {
+    margin: 0;
+
+    font-weight: 700;
+}
+
+.activity-card-content span {
+    display: block;
+
+    margin-top: 4px;
+
+    color:
+        var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* AKVARYUM */
 
 .sans-card {
     margin-top: 25px;
+
     overflow: hidden;
+
     background: white;
+
     border-radius: 25px;
-    box-shadow: var(--shadow);
+
+    box-shadow:
+        var(--shadow);
 }
 
 .tank-scene {
     position: relative;
+
     width: 100%;
     height: 340px;
+
     overflow: hidden;
-    background: #80cfe4;
+
+    background:
+        #80cfe4;
 }
 
 .sans-aquarium-bg {
     width: 100%;
     height: 100%;
+
     object-fit: cover;
 }
 
 .swimming-sans {
     position: absolute;
+
     z-index: 4;
+
     top: 120px;
     left: 70px;
+
     width: 105px;
+
     transition:
         left 3s ease-in-out,
         top 3s ease-in-out,
         transform .5s ease;
-    filter: drop-shadow(0 6px 8px rgba(0,0,0,.18));
+
+    filter:
+        drop-shadow(
+            0 6px 8px
+            rgba(
+                0,
+                0,
+                0,
+                .18
+            )
+        );
 }
 
 .algae-layer {
-    pointer-events: none;
     position: absolute;
+
     inset: 0;
+
     z-index: 3;
-    transition: .8s;
+
+    pointer-events: none;
 }
 
 .algae-light {
     background:
-        linear-gradient(0deg, rgba(55,128,71,.10), transparent 40%);
+        linear-gradient(
+            0deg,
+            rgba(
+                55,
+                128,
+                71,
+                .10
+            ),
+            transparent 40%
+        );
 }
 
 .algae-medium {
     background:
-        linear-gradient(0deg, rgba(40,117,56,.20), transparent 55%);
+        linear-gradient(
+            0deg,
+            rgba(
+                40,
+                117,
+                56,
+                .20
+            ),
+            transparent 55%
+        );
 }
 
 .algae-heavy {
     background:
-        linear-gradient(0deg, rgba(31,103,46,.34), rgba(40,117,56,.06));
+        linear-gradient(
+            0deg,
+            rgba(
+                31,
+                103,
+                46,
+                .34
+            ),
+            rgba(
+                40,
+                117,
+                56,
+                .06
+            )
+        );
 }
 
 .tank-scene.cleaning::after {
-    content: "🫧 🫧 🫧";
+    content:
+        "🫧 🫧 🫧";
+
     position: absolute;
-    z-index: 10;
+
     inset: 0;
+
+    z-index: 10;
+
     display: grid;
+
     place-items: center;
-    background: rgba(191,239,250,.35);
+
+    background:
+        rgba(
+            191,
+            239,
+            250,
+            .35
+        );
+
     font-size: 35px;
-    animation: cleanFlash 1.8s ease;
+
+    animation:
+        cleanFlash
+        1.8s ease;
 }
 
 @keyframes cleanFlash {
-    0% { opacity: 0; }
-    40% { opacity: 1; }
-    100% { opacity: 0; }
+
+    0% {
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+
 }
 
 .fish-food {
     position: absolute;
+
     z-index: 8;
+
     top: -10px;
-    color: #6e3d20;
+
+    color:
+        #6e3d20;
+
     font-size: 28px;
-    animation: foodFall 2.5s linear forwards;
+
+    animation:
+        foodFall
+        2.5s linear
+        forwards;
 }
 
 @keyframes foodFall {
+
     to {
         top: 70%;
         opacity: .2;
     }
+
 }
 
 .sans-title {
-    padding: 18px 20px 4px;
+    padding:
+        18px 20px
+        4px;
 }
 
 .sans-title h3 {
     margin: 0;
+
     font-size: 23px;
 }
 
 .sans-title p {
-    margin: 4px 0;
-    color: var(--muted);
+    margin:
+        4px 0;
+
+    color:
+        var(--muted);
 }
 
 .sans-info {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
+
     gap: 7px;
+
     padding: 14px;
 }
 
 .sans-info > div {
-    padding: 12px 5px;
+    padding:
+        12px 5px;
+
     border-radius: 14px;
-    background: var(--light);
+
+    background:
+        var(--light);
+
     text-align: center;
 }
 
@@ -888,93 +1525,143 @@ button:active {
 
 .sans-info strong {
     margin-top: 4px;
-    font-size: 12px;
+
+    font-size: 11px;
 }
 
 .sans-info p {
-    margin: 4px 0 0;
-    color: var(--muted);
-    font-size: 10px;
+    margin:
+        4px 0
+        0;
+
+    color:
+        var(--muted);
+
+    font-size: 9px;
 }
 
 .aquarium-actions {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+
+    grid-template-columns:
+        1fr 1fr;
+
     gap: 9px;
-    padding: 0 14px 18px;
+
+    padding:
+        0 14px
+        18px;
 }
 
 .aquarium-actions button {
-    padding: 14px 7px;
+    padding:
+        13px 6px;
+
     border-radius: 15px;
+
     font-weight: 800;
 }
 
 .feed-button {
-    background: #f2b84b;
-    color: #51370b;
+    background:
+        #f2b84b;
+
+    color:
+        #51370b;
 }
 
 .clean-button {
-    background: var(--navy);
+    background:
+        var(--navy);
+
     color: white;
 }
 
+.undo-button {
+    background:
+        #edf3f5;
 
-/* =========================
-   AV GÜNLÜĞÜ
-========================= */
+    color:
+        var(--navy);
 
-.catch-subtitle {
-    margin-top: 0;
+    font-size: 11px;
 }
+
+
+/* AVLAR */
 
 .catch-form {
     display: grid;
+
     gap: 10px;
-    margin: 22px 0;
+
+    margin:
+        22px 0;
+
     padding: 17px;
+
     background: white;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
+
+    border-radius:
+        var(--radius);
+
+    box-shadow:
+        var(--shadow);
 }
 
 .catch-form input,
 .catch-form textarea {
     width: 100%;
-    border: 1px solid #dbe8ed;
-    outline: none;
-    border-radius: 14px;
-    padding: 13px;
-    background: #f9fcfd;
-    color: var(--text);
-}
 
-.catch-form input:focus,
-.catch-form textarea:focus {
-    border-color: var(--blue);
+    padding: 13px;
+
+    border:
+        1px solid
+        #dbe8ed;
+
+    border-radius: 14px;
+
+    outline: 0;
+
+    background:
+        #f9fcfd;
 }
 
 .catch-form textarea {
     min-height: 95px;
+
     resize: vertical;
 }
 
 #saveCatchBtn {
     padding: 14px;
+
     border-radius: 14px;
-    background: var(--navy);
+
+    background:
+        var(--navy);
+
     color: white;
+
     font-weight: 800;
 }
 
 .catch-photo-upload label {
     display: block;
+
     padding: 14px;
-    border: 2px dashed #bdd6df;
+
+    border:
+        2px dashed
+        #bdd6df;
+
     border-radius: 14px;
+
     text-align: center;
-    color: var(--blue);
+
+    color:
+        var(--blue);
+
     cursor: pointer;
 }
 
@@ -984,24 +1671,40 @@ button:active {
 
 .catch-photo-preview {
     display: none;
+
     width: 100%;
+
     max-height: 320px;
+
     object-fit: cover;
+
     margin-top: 10px;
+
     border-radius: 14px;
 }
 
 .catch-stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
+
     gap: 8px;
+
     margin-bottom: 18px;
 }
 
 .catch-stats > div {
-    padding: 14px 5px;
+    padding:
+        14px 5px;
+
     border-radius: 15px;
+
     background: white;
+
     text-align: center;
 }
 
@@ -1010,40 +1713,58 @@ button:active {
     display: block;
 }
 
-.catch-stats strong {
-    font-size: 18px;
-}
-
 .catch-stats span {
     margin-top: 5px;
-    color: var(--muted);
+
+    color:
+        var(--muted);
+
     font-size: 10px;
 }
 
 #catchList {
     display: grid;
+
     gap: 15px;
 }
 
 .catch-card {
     overflow: hidden;
+
     padding: 16px;
+
     background: white;
+
     border-radius: 20px;
-    box-shadow: var(--shadow);
+
+    box-shadow:
+        var(--shadow);
 }
 
 .catch-card-photo {
-    width: calc(100% + 32px);
+    width:
+        calc(
+            100% +
+            32px
+        );
+
     max-height: 350px;
+
     object-fit: cover;
-    margin: -16px -16px 16px;
+
+    margin:
+        -16px
+        -16px
+        16px;
 }
 
 .catch-card-top {
     display: flex;
+
     align-items: center;
-    justify-content: space-between;
+
+    justify-content:
+        space-between;
 }
 
 .catch-card-top h3 {
@@ -1052,80 +1773,113 @@ button:active {
 
 .catch-details {
     display: flex;
+
     flex-wrap: wrap;
-    gap: 6px 14px;
+
+    gap:
+        6px
+        14px;
+
     margin-top: 10px;
 }
 
 .catch-details p {
     margin: 0;
-    color: var(--muted);
+
+    color:
+        var(--muted);
+
     font-size: 12px;
 }
 
 .catch-note {
     margin-bottom: 0;
+
     padding: 12px;
+
     border-radius: 12px;
-    background: var(--light);
+
+    background:
+        var(--light);
+
     font-style: italic;
 }
 
 
-/* =========================
-   BALIK REHBERİ
-========================= */
-
-.fish-guide-subtitle {
-    margin-top: 0;
-}
+/* REHBER */
 
 .fish-city-buttons {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+
+    grid-template-columns:
+        1fr 1fr;
+
     gap: 9px;
-    margin: 22px 0;
+
+    margin:
+        22px 0;
 }
 
 .fish-city {
     padding: 13px;
+
     border-radius: 14px;
+
     background: white;
-    color: var(--navy);
+
+    color:
+        var(--navy);
+
     font-weight: 800;
 }
 
 .fish-city.active {
-    background: var(--navy);
+    background:
+        var(--navy);
+
     color: white;
 }
 
 #fishGuideList {
     display: grid;
+
     gap: 13px;
 }
 
 .fish-guide-card {
     padding: 17px;
+
     border-radius: 20px;
+
     background: white;
-    box-shadow: var(--shadow);
+
+    box-shadow:
+        var(--shadow);
 }
 
 .fish-guide-head {
     display: flex;
+
     align-items: center;
+
     gap: 12px;
 }
 
 .fish-guide-emoji {
     display: grid;
+
     place-items: center;
+
     width: 52px;
     height: 52px;
+
     flex-shrink: 0;
+
     border-radius: 16px;
-    background: var(--light);
+
+    background:
+        var(--light);
+
     font-size: 28px;
 }
 
@@ -1134,20 +1888,27 @@ button:active {
 }
 
 .fish-guide-head small {
-    color: var(--muted);
+    color:
+        var(--muted);
+
     font-style: italic;
 }
 
 .fish-guide-info {
     display: grid;
+
     gap: 7px;
+
     margin-top: 15px;
 }
 
 .fish-guide-info > div {
     padding: 10px;
+
     border-radius: 12px;
-    background: var(--light);
+
+    background:
+        var(--light);
 }
 
 .fish-guide-info span,
@@ -1156,65 +1917,78 @@ button:active {
 }
 
 .fish-guide-info span {
-    color: var(--muted);
+    color:
+        var(--muted);
+
     font-size: 10px;
 }
 
 .fish-guide-info strong {
     margin-top: 3px;
+
     font-size: 12px;
 }
 
 .fish-guide-card > p {
     margin-bottom: 0;
-    color: var(--muted);
+
+    color:
+        var(--muted);
+
     font-size: 12px;
 }
 
 
-/* =========================
-   NİSU'DAN
-========================= */
+/* NİSU */
 
 .love-counter-card,
 .nisa-card,
 .sans-message-card {
-    margin: 20px 0;
+    margin:
+        20px 0;
+
     padding: 22px;
+
     border-radius: 24px;
+
     background: white;
-    box-shadow: var(--shadow);
+
+    box-shadow:
+        var(--shadow);
 }
 
-.love-counter-card {
+.love-counter-card,
+.nisa-card {
     text-align: center;
 }
 
-.love-counter-heart {
-    font-size: 35px;
-}
-
-.love-counter-card h3 {
-    margin: 7px 0 2px;
-}
-
-.love-counter-since {
-    margin-top: 3px;
-    color: var(--muted);
-    font-size: 12px;
+.love-counter-heart,
+.nisa-heart {
+    font-size: 36px;
 }
 
 .love-counter {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+
+    grid-template-columns:
+        repeat(
+            4,
+            1fr
+        );
+
     gap: 6px;
+
     margin: 20px 0;
 }
 
 .love-counter > div {
-    padding: 11px 3px;
+    padding:
+        11px 3px;
+
     border-radius: 14px;
-    background: #fff1f3;
+
+    background:
+        #fff1f3;
 }
 
 .love-counter strong,
@@ -1223,60 +1997,64 @@ button:active {
 }
 
 .love-counter strong {
+    color:
+        #b9475a;
+
     font-size: 20px;
-    color: #b9475a;
 }
 
 .love-counter span {
     margin-top: 3px;
-    color: var(--muted);
+
+    color:
+        var(--muted);
+
     font-size: 9px;
 }
 
 .love-dates {
     display: grid;
+
     gap: 7px;
 }
 
 .love-dates > div {
     display: flex;
-    justify-content: space-between;
+
+    justify-content:
+        space-between;
+
     padding: 10px;
+
     border-radius: 12px;
-    background: var(--light);
+
+    background:
+        var(--light);
+
     font-size: 11px;
-}
-
-.nisa-card {
-    text-align: center;
-}
-
-.nisa-heart {
-    font-size: 38px;
-}
-
-.nisa-card h3 {
-    margin-bottom: 8px;
-}
-
-#nisaMessage {
-    min-height: 45px;
-    color: var(--muted);
 }
 
 .nisa-card button,
 .sans-message-card button {
     width: 100%;
+
     padding: 13px;
+
     border-radius: 14px;
-    background: var(--navy);
+
+    background:
+        var(--navy);
+
     color: white;
+
     font-weight: 800;
 }
 
 .sans-message-head {
     display: flex;
+
     align-items: center;
+
     gap: 12px;
 }
 
@@ -1284,71 +2062,122 @@ button:active {
     font-size: 37px;
 }
 
-.sans-message-head h3,
-.sans-message-head p {
-    margin: 2px 0;
-}
-
-.sans-message-head p {
-    color: var(--muted);
-    font-size: 11px;
-}
-
 .sans-message-bubble {
-    margin: 18px 0;
+    margin:
+        18px 0;
+
     padding: 16px;
-    border-radius: 18px 18px 18px 5px;
-    background: var(--light);
-    line-height: 1.5;
+
+    border-radius:
+        18px
+        18px
+        18px
+        5px;
+
+    background:
+        var(--light);
 }
 
 
-/* =========================
-   ALT NAVİGASYON
-========================= */
+/* ALT MENÜ */
 
 .bottom-nav {
     position: fixed;
+
     z-index: 4000;
+
     left: 50%;
     bottom: 0;
-    transform: translateX(-50%);
+
+    transform:
+        translateX(-50%);
+
     display: flex;
-    width: min(100%, 760px);
+
+    width:
+        min(
+            100%,
+            760px
+        );
+
     padding:
-        8px 4px
-        calc(8px + env(safe-area-inset-bottom));
-    background: rgba(255,255,255,.96);
-    border-top: 1px solid rgba(6,40,61,.08);
-    box-shadow: 0 -8px 30px rgba(6,40,61,.10);
-    backdrop-filter: blur(15px);
+        8px 3px
+        calc(
+            8px +
+            env(
+                safe-area-inset-bottom
+            )
+        );
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .97
+        );
+
+    border-top:
+        1px solid
+        rgba(
+            6,
+            40,
+            61,
+            .08
+        );
+
+    box-shadow:
+        0 -8px 30px
+        rgba(
+            6,
+            40,
+            61,
+            .10
+        );
+
+    backdrop-filter:
+        blur(15px);
 }
 
 .bottom-nav button {
     flex: 1;
+
     min-width: 0;
-    padding: 7px 2px;
-    background: transparent;
-    color: var(--navy);
-    font-size: 18px;
+
+    padding:
+        7px 1px;
+
+    background:
+        transparent;
+
+    color:
+        var(--navy);
+
+    font-size: 17px;
 }
 
 .bottom-nav button span {
     display: block;
+
     margin-top: 3px;
+
     overflow: hidden;
-    font-size: 8px;
+
+    font-size: 7px;
+
     font-weight: 750;
+
     text-overflow: ellipsis;
+
     white-space: nowrap;
 }
 
 
-/* =========================
-   TELEFON
-========================= */
+/* TELEFON */
 
-@media (max-width: 520px) {
+@media (
+    max-width: 520px
+) {
 
     .page {
         padding-left: 13px;
@@ -1359,12 +2188,12 @@ button:active {
         padding-top: 65px;
     }
 
-    #home h2 {
-        margin-top: 75px;
-    }
-
     .weather-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+            repeat(
+                2,
+                1fr
+            );
     }
 
     .current-temperature {
@@ -1378,11 +2207,16 @@ button:active {
     .ideal-score {
         width: 62px;
         height: 62px;
-        font-size: 18px;
+
+        font-size: 19px;
     }
 
     .favorite-live-weather {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+            repeat(
+                2,
+                1fr
+            );
     }
 
     .tank-scene {
@@ -1392,29 +2226,28 @@ button:active {
     .swimming-sans {
         width: 90px;
     }
+
 }
 
 
-/* =========================
-   ÇOK KÜÇÜK EKRAN
-========================= */
+/* KÜÇÜK EKRAN */
 
-@media (max-width: 370px) {
+@media (
+    max-width: 370px
+) {
 
     .bottom-nav button {
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .bottom-nav button span {
-        font-size: 7px;
-    }
-
-    .favorites-stats {
-        gap: 5px;
+        font-size: 6px;
     }
 
     .location-buttons,
     .favorite-actions {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
     }
+
 }
