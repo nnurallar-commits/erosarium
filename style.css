@@ -1,1554 +1,1420 @@
+/* =========================
+   EROSARIUM
+========================= */
+
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --navy: #06283d;
+    --navy2: #0b3a53;
+    --blue: #176b87;
+    --light: #eef8fb;
+    --white: #ffffff;
+    --text: #123246;
+    --muted: #708896;
+    --green: #27ae60;
+    --yellow: #f4b942;
+    --red: #e75b52;
+    --shadow: 0 10px 30px rgba(6, 40, 61, 0.12);
+    --radius: 22px;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
+    margin: 0;
     min-height: 100vh;
-    font-family: Arial, sans-serif;
-    color: white;
-    text-align: center;
-
     background:
-        linear-gradient(
-            180deg,
-            #061a2d 0%,
-            #073b5c 40%,
-            #087a9b 100%
-        );
+        linear-gradient(180deg, #eaf7fb 0%, #f7fbfd 45%, #edf7fa 100%);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    padding-bottom: calc(100px + env(safe-area-inset-bottom));
 }
 
-h1 {
-    padding-top: 100px;
-    font-size: 55px;
-    letter-spacing: 8px;
-}
-
-body > p:first-of-type {
-    margin-top: 10px;
-    font-style: italic;
-    opacity: 0.8;
-}
-
-h2 {
-    margin-top: 100px;
-    font-size: 30px;
-}
-
-h2 + p {
-    margin-top: 15px;
-    opacity: 0.8;
+button,
+input,
+textarea {
+    font: inherit;
 }
 
 button {
-    margin-top: 30px;
-    padding: 16px 28px;
-
-    border: none;
-    border-radius: 30px;
-
-    background: white;
-    color: #073b5c;
-
-    font-size: 16px;
-    font-weight: bold;
-
+    border: 0;
     cursor: pointer;
 }
 
-button:hover {
-    transform: scale(1.05);
-}
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 75px;
-
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    background: rgba(3, 25, 45, 0.95);
-    backdrop-filter: blur(10px);
-
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
+button:active {
+    transform: scale(0.97);
 }
 
-.bottom-nav button {
-    margin: 0;
-    padding: 8px;
-
-    background: transparent;
-    color: white;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-
-    font-size: 22px;
+.hidden {
+    display: none !important;
 }
 
-.bottom-nav button span {
-    font-size: 11px;
-    font-weight: normal;
-}
 
-.bottom-nav button:hover {
-    transform: translateY(-3px);
-}
+/* =========================
+   SAYFALAR
+========================= */
+
 .page {
     display: none;
-    min-height: 100vh;
-    padding: 60px 20px 120px;
+    width: 100%;
+    max-width: 760px;
+    min-height: calc(100vh - 100px);
+    margin: auto;
+    padding: 28px 18px 45px;
 }
 
 .page.active {
     display: block;
 }
 
-.page h1 {
-    padding-top: 40px;
-}
-
-.page h2 {
-    margin-top: 70px;
-}
-/* SAATLİK BALIK TAHMİN KARTLARI */
-
-.fish-section {
-    width: 100%;
-    max-width: 900px;
-    margin: 40px auto 120px;
-    padding: 0 20px;
-    box-sizing: border-box;
-}
-
-.fish-section h2 {
+.page > h1,
+.page > h2 {
     text-align: center;
-    font-size: 32px;
-    margin-bottom: 8px;
 }
 
-.fish-section > p {
+.page > h2 {
+    margin: 8px 0 8px;
+    color: var(--navy);
+}
+
+.page > p {
     text-align: center;
-    opacity: 0.75;
-    margin-bottom: 25px;
+    color: var(--muted);
 }
 
-.fish-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-}
 
-.fish-hour {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 20px;
-    padding: 18px;
-    text-align: left;
-    backdrop-filter: blur(10px);
-}
+/* =========================
+   ANA SAYFA
+========================= */
 
-.fish-hour h3 {
-    font-size: 22px;
-    margin: 0 0 12px;
-}
-
-.fish-hour p {
-    margin: 7px 0;
-    font-size: 16px;
-}
-
-.fish-hour strong {
-    font-size: 18px;
-}
-
-.fish-hour.best {
-    border: 2px solid rgba(255, 215, 0, 0.8);
-    background: rgba(255, 215, 0, 0.08);
-}
-
-@media (max-width: 600px) {
-    .fish-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .fish-section {
-        padding: 0 14px;
-    }
-
-    .fish-section h2 {
-        font-size: 26px;
-    }
-}
-/* SAATLİK BALIK TAHMİN KARTLARI */
-
-.fish-section {
-    width: 100%;
-    max-width: 900px;
-    margin: 40px auto 120px;
-    padding: 20px;
-}
-
-.hour-card {
-    background: rgba(255, 255, 255, 0.10);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 20px;
-    padding: 18px 22px;
-    margin: 15px auto;
-    max-width: 650px;
-    backdrop-filter: blur(8px);
-}
-
-.hour-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 20px;
-    margin-bottom: 14px;
-}
-
-.best-fish {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.10);
-    padding: 12px 15px;
-    border-radius: 14px;
-    margin-bottom: 12px;
-}
-
-.best-label {
-    font-size: 13px;
-    opacity: 0.7;
-}
-
-.best-result {
-    font-size: 18px;
-}
-
-.fish-scores {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.fish-scores span {
-    background: rgba(0, 0, 0, 0.15);
-    padding: 8px 12px;
-    border-radius: 10px;
-    flex: 1;
+#home {
     text-align: center;
-    min-width: 130px;
+    padding-top: 80px;
 }
 
-@media (max-width: 600px) {
-    .fish-scores {
-        flex-direction: column;
-    }
-
-    .hour-card {
-        padding: 15px;
-    }
-}
-/* 7 GÜNLÜK BALIK TAHMİNİ */
-
-#weeklyForecast {
-    width: 100%;
-    max-width: 900px;
-    margin: 60px auto 40px;
-    padding: 20px;
+#home h1 {
+    margin: 0;
+    color: var(--navy);
+    font-size: clamp(38px, 10vw, 66px);
+    letter-spacing: 5px;
+    font-weight: 900;
 }
 
-#weeklyForecast h2 {
-    text-align: center;
-    margin-bottom: 8px;
+.home-subtitle {
+    margin-top: 6px;
+    font-size: 14px;
+    letter-spacing: 1px;
 }
 
-.weekly-subtitle {
-    text-align: center;
-    opacity: 0.75;
-    margin-bottom: 25px;
+#home h2 {
+    margin-top: 90px;
+    font-size: 26px;
 }
 
-#weeklyCards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-}
-
-.weekly-card {
-    background: rgba(255, 255, 255, 0.10);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+#home > button {
+    margin-top: 24px;
+    padding: 16px 26px;
     border-radius: 18px;
-    padding: 20px;
-    backdrop-filter: blur(8px);
-    transition: transform 0.2s ease;
+    background: var(--navy);
+    color: white;
+    font-weight: 800;
+    box-shadow: var(--shadow);
 }
 
-.weekly-card:hover {
-    transform: translateY(-4px);
+
+/* =========================
+   GENEL BUTONLAR
+========================= */
+
+.location-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 22px 0;
 }
 
-.weekly-date {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 15px;
+.location-buttons button,
+#saveSpotButton,
+.detail-map-button {
+    padding: 14px 12px;
+    border-radius: 16px;
+    background: var(--navy);
+    color: white;
+    font-weight: 750;
 }
 
-.weekly-fish {
-    background: rgba(255, 255, 255, 0.10);
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 12px;
-    font-size: 18px;
-
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.weekly-fish span {
-    margin-left: auto;
-    font-weight: bold;
-}
-
-.weekly-info {
-    margin-top: 8px;
-    font-size: 15px;
-}
-
-@media (max-width: 600px) {
-    #weeklyCards {
-        grid-template-columns: 1fr;
-    }
-
-    #weeklyForecast {
-        padding: 10px;
-    }
-}
-#mapContainer {
+#saveSpotButton {
     width: 100%;
-    max-width: 900px;
-    margin: 25px auto;
+    margin-top: 12px;
+    background: #16855a;
+}
+
+
+/* =========================
+   HARİTA
+========================= */
+
+.map-container {
+    margin: 18px 0 24px;
+    padding: 10px;
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
 }
 
 #map {
     width: 100%;
-    height: 450px;
-    border-radius: 22px;
+    height: 330px;
+    border-radius: 16px;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.2);
-}
-
-.location-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
 }
 
 #selectedLocation {
-    margin-top: 12px;
-    opacity: 0.8;
-}
-
-@media (max-width: 600px) {
-    #map {
-        height: 350px;
-    }
-}
-.daily-rating {
-    max-width: 650px;
-    margin: 30px auto;
-    padding: 22px;
-    border-radius: 22px;
     text-align: center;
-    border: 1px solid rgba(255,255,255,0.18);
-    background: rgba(255,255,255,0.10);
+    color: var(--muted);
+    font-size: 14px;
 }
 
-.rating-title {
-    font-size: 18px;
+
+/* =========================
+   HAVA
+========================= */
+
+#forecastResult {
+    margin-top: 18px;
+}
+
+.weather-card,
+.loading-card,
+.error-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 16px 0;
+    box-shadow: var(--shadow);
+}
+
+.loading-card,
+.error-card {
+    text-align: center;
+}
+
+.weather-card-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.weather-card-title > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.weather-big-icon {
+    font-size: 40px;
+}
+
+.weather-card small,
+.section-title-row small {
+    color: var(--muted);
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+.weather-card h3 {
+    margin: 3px 0;
+}
+
+.current-temperature {
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--navy);
+}
+
+.weather-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+    margin-top: 20px;
+}
+
+.weather-item {
+    background: var(--light);
+    border-radius: 15px;
+    padding: 12px 8px;
+    text-align: center;
+}
+
+.weather-item span {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.weather-item strong {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+
+/* =========================
+   İDEAL AV
+========================= */
+
+.ideal-fishing-card {
+    position: relative;
+    overflow: hidden;
+    margin: 18px 0;
+    padding: 22px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #073b52, #0b6377);
+    color: white;
+    box-shadow: var(--shadow);
+}
+
+.ideal-fishing-card::after {
+    content: "🎣";
+    position: absolute;
+    right: -12px;
+    bottom: -32px;
+    font-size: 110px;
+    opacity: 0.08;
+    transform: rotate(-20deg);
+}
+
+.ideal-fishing-card.good,
+.ideal-fishing-card.very-good {
+    background: linear-gradient(135deg, #07583f, #15946a);
+}
+
+.ideal-fishing-card.medium {
+    background: linear-gradient(135deg, #74560d, #c28a13);
+}
+
+.ideal-fishing-card.poor {
+    background: linear-gradient(135deg, #75342f, #b64e47);
+}
+
+.ideal-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
     opacity: 0.8;
 }
 
-.rating-number {
-    font-size: 38px;
-    font-weight: bold;
-    margin-top: 8px;
+.ideal-main {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
 }
 
-.rating-label {
+.ideal-main h2 {
+    margin: 7px 0;
+    font-size: 24px;
+}
+
+.ideal-status {
+    font-weight: 900;
+}
+
+.ideal-score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,.17);
+    border: 2px solid rgba(255,255,255,.35);
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.ideal-weather {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.ideal-weather span {
+    background: rgba(255,255,255,.13);
+    border-radius: 12px;
+    padding: 8px 10px;
+    font-size: 12px;
+}
+
+
+/* =========================
+   SAATLİK HAVA
+========================= */
+
+.hourly-section {
+    margin: 28px 0;
+}
+
+.section-title-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.section-title-row h2 {
+    margin: 3px 0;
+    font-size: 21px;
+}
+
+.section-title-row > span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.hourly-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 4px 3px 14px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.hourly-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.hourly-weather-card {
+    min-width: 105px;
+    padding: 15px 10px;
+    border-radius: 18px;
+    background: white;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(6,40,61,.08);
+    scroll-snap-align: start;
+}
+
+.hourly-weather-card.current-hour {
+    border: 2px solid var(--blue);
+}
+
+.hourly-time {
+    color: var(--navy);
+}
+
+.hourly-temp {
+    margin: 12px 0;
     font-size: 20px;
+    font-weight: 900;
+}
+
+.hourly-weather-card > div {
+    margin: 6px 0;
+    font-size: 12px;
+}
+
+.hourly-score {
+    margin-top: 10px !important;
+    padding: 6px;
+    border-radius: 10px;
+    background: var(--light);
+    font-weight: 800;
+}
+
+
+/* =========================
+   7 GÜNLÜK
+========================= */
+
+#weeklyForecast {
+    margin-top: 32px;
+}
+
+#weeklyForecast > h2 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.weekly-subtitle {
+    text-align: center;
+    color: var(--muted);
+    margin-top: 0;
+}
+
+#weeklyCards {
+    display: grid;
+    gap: 11px;
+    margin-top: 20px;
+}
+
+.weekly-card {
+    background: white;
+    padding: 16px 18px;
+    border-radius: 18px;
+    box-shadow: 0 5px 18px rgba(6,40,61,.07);
+}
+
+.weekly-card > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.weekly-card span {
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.weekly-score {
+    margin-top: 8px;
+    color: var(--navy);
+    font-size: 27px;
+    font-weight: 900;
+}
+
+.weekly-card p {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+
+/* =========================
+   FAVORİLER
+========================= */
+
+.favorites-header,
+.aquarium-header,
+.nisa-header {
+    text-align: center;
+}
+
+.favorites-icon {
+    font-size: 44px;
+}
+
+.favorites-header h2,
+.aquarium-header h2,
+.nisa-header h2 {
+    margin: 6px 0;
+    font-size: 27px;
+}
+
+.favorites-header p,
+.aquarium-header p,
+.nisa-header p {
     margin-top: 5px;
+    color: var(--muted);
 }
 
-.rating-bar {
-    font-size: 28px;
-    margin-top: 10px;
-    letter-spacing: 4px;
+.favorites-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+    margin: 25px 0;
 }
 
-.rating-1 {
-    border-color: rgba(255, 50, 50, 0.8);
+.favorites-stats > div {
+    background: white;
+    border-radius: 17px;
+    padding: 14px 7px;
+    text-align: center;
+    box-shadow: 0 5px 16px rgba(6,40,61,.06);
 }
 
-.rating-2 {
-    border-color: rgba(255, 140, 0, 0.8);
+.favorites-stats strong {
+    display: block;
+    color: var(--navy);
+    font-size: 22px;
 }
 
-.rating-3 {
-    border-color: rgba(255, 210, 0, 0.8);
+.favorites-stats span {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 10px;
 }
 
-.rating-4 {
-    border-color: rgba(80, 220, 120, 0.8);
-}
-
-.rating-5 {
-    border-color: rgba(0, 200, 100, 0.9);
-}
 #favoriteSpots {
-    width: 100%;
-    max-width: 900px;
-    margin: 30px auto 120px;
-    padding: 0 20px;
+    display: grid;
+    gap: 13px;
 }
 
 .favorite-card {
-    max-width: 650px;
-    margin: 18px auto;
-    padding: 20px;
-
+    padding: 18px;
+    background: white;
     border-radius: 20px;
-    background: rgba(255,255,255,0.10);
-    border: 1px solid rgba(255,255,255,0.18);
-
-    text-align: left;
+    box-shadow: var(--shadow);
 }
 
-.favorite-top {
+.favorite-card-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
 }
 
-.favorite-number {
-    font-size: 12px;
-    opacity: 0.6;
-}
-
-.favorite-top h3 {
-    margin: 5px 0 0;
-}
-
-.favorite-location {
-    opacity: 0.75;
-    margin: 15px 0;
-}
-
-.favorite-weather {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+.favorite-card-top > div {
+    display: flex;
+    align-items: center;
     gap: 8px;
-    margin: 15px 0;
 }
 
-.favorite-weather p {
-    background: rgba(0,0,0,0.15);
-    padding: 9px;
-    border-radius: 10px;
+.favorite-pin {
+    font-size: 25px;
+}
+
+.favorite-card h3 {
     margin: 0;
 }
 
-.favorite-rating {
-    padding: 12px;
+.favorite-delete-button,
+.delete-catch {
+    width: 38px;
+    height: 38px;
     border-radius: 12px;
-    margin: 15px 0;
-    background: rgba(255,255,255,0.08);
+    background: #fff1ef;
+}
+
+.favorite-note {
+    color: var(--muted);
+}
+
+.favorite-coordinates {
+    display: inline-block;
+    padding: 7px 10px;
+    border-radius: 10px;
+    background: var(--light);
+    color: var(--muted);
+    font-size: 11px;
 }
 
 .favorite-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 15px;
 }
 
 .favorite-actions button {
-    margin: 0;
+    padding: 12px 7px;
+    border-radius: 13px;
+    font-size: 12px;
+    font-weight: 800;
 }
 
-.delete-favorite {
-    margin: 0;
-    background: transparent;
+.favorite-detail-button {
+    background: var(--navy);
     color: white;
-    font-size: 18px;
 }
 
-.empty-favorites {
-    text-align: center;
-    padding: 40px 20px;
-    opacity: 0.85;
+.favorite-map-button {
+    background: #e5f4f8;
+    color: var(--navy);
 }
+
+
 /* =========================
-   ŞANS'IN AKVARYUMU 🐠
+   FAVORİ DETAY
 ========================= */
 
-#aquarium {
-    text-align: center;
-    padding: 55px 20px 130px;
-}
-
-.aquarium-header h2 {
-    font-size: 34px;
-    margin-bottom: 8px;
-}
-
-.aquarium-header p {
-    font-size: 18px;
-    opacity: 0.8;
-    margin-bottom: 35px;
-}
-
-.sans-card {
-    width: min(650px, 90%);
-    margin: 0 auto;
-    padding: 28px;
-
-    background: rgba(255,255,255,0.10);
-    border: 1px solid rgba(255,255,255,0.18);
-    border-radius: 28px;
-
-    backdrop-filter: blur(10px);
-}
-
-.sans-title {
+.favorite-detail-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
     display: flex;
+    align-items: flex-end;
     justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 30px;
+    padding: 15px;
+    background: rgba(2, 23, 35, .6);
+    backdrop-filter: blur(5px);
 }
 
-.sans-title h3 {
-    font-size: 28px;
-    margin: 0;
+.favorite-detail-panel {
+    position: relative;
+    width: min(100%, 650px);
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 26px 18px;
+    border-radius: 28px 28px 20px 20px;
+    background: #f4fafc;
+    box-shadow: 0 -10px 40px rgba(0,0,0,.18);
 }
 
-.sans-title p {
-    margin: 4px 0 0;
-    opacity: 0.7;
-}
-
-.sans-fish {
-    font-size: 55px;
-    display: inline-block;
-    animation: sansFloat 3s ease-in-out infinite;
-}
-
-@keyframes sansFloat {
-    0%, 100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-.sans-info {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 25px;
-}
-
-.sans-info > div {
-    background: rgba(255,255,255,0.08);
-    padding: 18px 10px;
-    border-radius: 18px;
-}
-
-.sans-info span {
-    display: block;
-    font-size: 27px;
-    margin-bottom: 8px;
-}
-
-.sans-info strong {
-    display: block;
-}
-
-.sans-info p {
-    margin: 6px 0 0;
-    opacity: 0.75;
-}
-
-.feed-button {
-    border: none;
-    padding: 14px 28px;
-    border-radius: 30px;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-
+.favorite-detail-close {
+    position: absolute;
+    top: 13px;
+    right: 13px;
+    z-index: 5;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     background: white;
-    color: #073653;
-
-    transition: 0.2s;
+    color: var(--navy);
+    font-weight: 900;
 }
 
-.feed-button:hover {
-    transform: translateY(-2px) scale(1.03);
+.favorite-detail-header {
+    padding-right: 40px;
 }
 
-@media (max-width: 600px) {
-    .sans-info {
-        grid-template-columns: 1fr;
-    }
-}
-.sans-card {
-    position: relative;
-    overflow: hidden;
+.favorite-detail-header > span {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 900;
 }
 
-.fish-food {
-    position: absolute;
-    top: 0;
-
-    font-size: 25px;
-    color: #ffc76b;
-
-    animation: foodFall 2.3s linear forwards;
-
-    pointer-events: none;
+.favorite-detail-header h2 {
+    margin: 5px 0;
 }
 
-@keyframes foodFall {
-
-    0% {
-        transform: translateY(-10px);
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateY(320px);
-        opacity: 0;
-    }
-}
-.tank-scene {
-    position: relative;
-    width: 100%;
-    height: 220px;
-    margin-bottom: 25px;
-    overflow: hidden;
-    border-radius: 22px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(35, 170, 220, 0.35),
-            rgba(5, 70, 110, 0.50)
-        );
-
-    border: 1px solid rgba(255,255,255,0.15);
+.favorite-detail-header p,
+.favorite-detail-header small {
+    color: var(--muted);
 }
 
-.sans-fish {
-    position: absolute;
-
-    left: 10%;
-    top: 45%;
-
-    font-size: 58px;
-
-    transition:
-        left 2.5s ease-in-out,
-        top 2s ease-in-out,
-        transform 0.4s ease;
-}
-.tank-scene {
-    width: min(900px, 95%);
-    height: auto;
-    margin: 25px auto;
-    border-radius: 28px;
-    overflow: hidden;
+.favorite-detail-loading {
+    padding: 45px 10px;
+    text-align: center;
 }
 
-.sans-fish-photo {
-    width: 100%;
-    height: auto;
+.favorite-detail-loading:first-letter {
+    font-size: 30px;
+}
+
+.favorite-live-weather {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+    margin: 20px 0;
+}
+
+.favorite-live-weather > div {
+    padding: 12px 4px;
+    border-radius: 14px;
+    background: white;
+    text-align: center;
+}
+
+.favorite-live-weather span,
+.favorite-live-weather strong,
+.favorite-live-weather small {
     display: block;
-    border-radius: 28px;
 }
-/* ===== ŞANS AKVARYUMU ===== */
+
+.favorite-live-weather strong {
+    margin: 4px 0;
+    font-size: 16px;
+}
+
+.favorite-live-weather small {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.detail-map-button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty-state {
+    padding: 50px 20px;
+    background: white;
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.empty-icon {
+    font-size: 45px;
+}
+
+.empty-state h3 {
+    margin-bottom: 5px;
+}
+
+.empty-state p {
+    color: var(--muted);
+}
+
+
+/* =========================
+   AKVARYUM
+========================= */
+
+.sans-card {
+    margin-top: 25px;
+    overflow: hidden;
+    background: white;
+    border-radius: 25px;
+    box-shadow: var(--shadow);
+}
 
 .tank-scene {
     position: relative;
     width: 100%;
-    max-width: 850px;
-    aspect-ratio: 16 / 9;
-    margin: 20px auto;
+    height: 340px;
     overflow: hidden;
-    border-radius: 28px;
+    background: #80cfe4;
 }
 
 .sans-aquarium-bg {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
-    border-radius: 28px;
 }
 
 .swimming-sans {
     position: absolute;
-    width: 160px;
-    height: auto;
-
-    
-
-    z-index: 10;
-    object-fit: contain;
-
+    z-index: 4;
+    top: 120px;
+    left: 70px;
+    width: 105px;
     transition:
-        left 2.5s ease-in-out,
-        top 2.5s ease-in-out,
-        transform 0.4s ease;
+        left 3s ease-in-out,
+        top 3s ease-in-out,
+        transform .5s ease;
+    filter: drop-shadow(0 6px 8px rgba(0,0,0,.18));
 }
-.swimming-sans {
-    position: absolute;
 
-    width: 150px;
-    height: auto;
-
-    left: 40%;
-    top: 35%;
-
-    z-index: 5;
-
-    transition:
-        left 2.8s ease-in-out,
-        top 2.8s ease-in-out,
-        transform 0.35s ease;
-
+.algae-layer {
     pointer-events: none;
-
-    filter: drop-shadow(0 4px 7px rgba(0,0,0,0.25));
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    transition: .8s;
 }
 
-.tank-scene {
-    position: relative;
-    overflow: hidden;
-}
-.cleaning {
-    animation: tankClean 2.2s ease;
+.algae-light {
+    background:
+        linear-gradient(0deg, rgba(55,128,71,.10), transparent 40%);
 }
 
-@keyframes tankClean {
-    0% {
-        filter: brightness(1);
-    }
+.algae-medium {
+    background:
+        linear-gradient(0deg, rgba(40,117,56,.20), transparent 55%);
+}
 
-    40% {
-        filter: brightness(1.4) saturate(1.2);
-        box-shadow: 0 0 35px rgba(255, 255, 255, 0.45);
-    }
+.algae-heavy {
+    background:
+        linear-gradient(0deg, rgba(31,103,46,.34), rgba(40,117,56,.06));
+}
 
-    100% {
-        filter: brightness(1);
+.tank-scene.cleaning::after {
+    content: "🫧 🫧 🫧";
+    position: absolute;
+    z-index: 10;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(191,239,250,.35);
+    font-size: 35px;
+    animation: cleanFlash 1.8s ease;
+}
+
+@keyframes cleanFlash {
+    0% { opacity: 0; }
+    40% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.fish-food {
+    position: absolute;
+    z-index: 8;
+    top: -10px;
+    color: #6e3d20;
+    font-size: 28px;
+    animation: foodFall 2.5s linear forwards;
+}
+
+@keyframes foodFall {
+    to {
+        top: 70%;
+        opacity: .2;
     }
+}
+
+.sans-title {
+    padding: 18px 20px 4px;
+}
+
+.sans-title h3 {
+    margin: 0;
+    font-size: 23px;
+}
+
+.sans-title p {
+    margin: 4px 0;
+    color: var(--muted);
+}
+
+.sans-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+    padding: 14px;
+}
+
+.sans-info > div {
+    padding: 12px 5px;
+    border-radius: 14px;
+    background: var(--light);
+    text-align: center;
+}
+
+.sans-info span,
+.sans-info strong,
+.sans-info p {
+    display: block;
+}
+
+.sans-info strong {
+    margin-top: 4px;
+    font-size: 12px;
+}
+
+.sans-info p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.aquarium-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    padding: 0 14px 18px;
+}
+
+.aquarium-actions button {
+    padding: 14px 7px;
+    border-radius: 15px;
+    font-weight: 800;
+}
+
+.feed-button {
+    background: #f2b84b;
+    color: #51370b;
 }
 
 .clean-button {
-    border: none;
-    padding: 14px 28px;
-    margin-left: 10px;
-    border-radius: 30px;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-    background: white;
-    color: #073653;
-}
-.algae-layer {
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    pointer-events: none;
-    border-radius: inherit;
-
-    background:
-        radial-gradient(
-            circle at 8% 80%,
-            rgba(58, 125, 46, 0.8),
-            transparent 18%
-        ),
-        radial-gradient(
-            circle at 92% 25%,
-            rgba(65, 135, 55, 0.65),
-            transparent 20%
-        ),
-        radial-gradient(
-            circle at 75% 95%,
-            rgba(44, 110, 40, 0.7),
-            transparent 23%
-        );
-
-    opacity: 0;
-    transition: opacity 1.5s ease;
+    background: var(--navy);
+    color: white;
 }
 
-.algae-light {
-    opacity: 0.18;
-}
 
-.algae-medium {
-    opacity: 0.38;
-}
-
-.algae-heavy {
-    opacity: 0.65;
-}
-.algae-layer {
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    pointer-events: none;
-    border-radius: inherit;
-
-    background:
-        radial-gradient(circle at 5% 90%,
-            rgba(52, 120, 35, 0.95),
-            transparent 22%),
-
-        radial-gradient(circle at 95% 75%,
-            rgba(42, 105, 35, 0.85),
-            transparent 20%),
-
-        radial-gradient(circle at 15% 15%,
-            rgba(80, 145, 45, 0.65),
-            transparent 17%),
-
-        radial-gradient(circle at 85% 10%,
-            rgba(61, 130, 40, 0.55),
-            transparent 15%);
-
-    opacity: 0;
-    transition: opacity 1.5s ease;
-}
-
-.algae-light {
-    opacity: 0.15;
-}
-
-.algae-medium {
-    opacity: 0.38;
-}
-
-.algae-heavy {
-    opacity: 0.68;
-}
 /* =========================
-   AV GÜNLÜĞÜ 🎣
+   AV GÜNLÜĞÜ
 ========================= */
 
 .catch-subtitle {
-    opacity: 0.75;
-    margin-bottom: 25px;
+    margin-top: 0;
 }
 
 .catch-form {
-    width: min(700px, 92%);
-    margin: 0 auto 35px;
-
     display: grid;
-    gap: 12px;
-
-    padding: 22px;
-    border-radius: 24px;
-
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.16);
+    gap: 10px;
+    margin: 22px 0;
+    padding: 17px;
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
 }
 
 .catch-form input,
 .catch-form textarea {
     width: 100%;
-    padding: 14px 16px;
-
-    border: none;
-    border-radius: 14px;
+    border: 1px solid #dbe8ed;
     outline: none;
+    border-radius: 14px;
+    padding: 13px;
+    background: #f9fcfd;
+    color: var(--text);
+}
 
-    font-size: 15px;
-
-    background: rgba(255,255,255,0.95);
-    color: #073653;
+.catch-form input:focus,
+.catch-form textarea:focus {
+    border-color: var(--blue);
 }
 
 .catch-form textarea {
-    min-height: 100px;
+    min-height: 95px;
     resize: vertical;
 }
 
-.catch-form button {
-    margin-top: 5px;
-}
-
-.catch-stats {
-    width: min(700px, 92%);
-    margin: 0 auto 30px;
-
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-
-.catch-stats > div {
-    padding: 18px 10px;
-    border-radius: 18px;
-
-    background: rgba(255,255,255,0.09);
-    border: 1px solid rgba(255,255,255,0.14);
-}
-
-.catch-stats strong {
-    display: block;
-    font-size: 22px;
-}
-
-.catch-stats span {
-    display: block;
-    margin-top: 6px;
-    font-size: 13px;
-    opacity: 0.75;
-}
-
-#catchList {
-    width: min(700px, 92%);
-    margin: 0 auto 120px;
-}
-
-.catch-card {
-    margin-bottom: 16px;
-    padding: 20px;
-
-    border-radius: 22px;
-
-    background: rgba(255,255,255,0.09);
-    border: 1px solid rgba(255,255,255,0.16);
-
-    text-align: left;
-}
-
-.catch-card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-.catch-card h3 {
-    margin: 0 0 8px;
-    font-size: 22px;
-}
-
-.record-badge {
-    display: inline-block;
-    margin-right: 6px;
-    margin-bottom: 6px;
-
-    padding: 5px 9px;
-    border-radius: 999px;
-
-    background: rgba(255,215,0,0.16);
-    border: 1px solid rgba(255,215,0,0.35);
-
-    font-size: 12px;
-}
-
-.catch-details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 16px;
-
-    margin-top: 14px;
-}
-
-.catch-details p {
-    margin: 0;
-}
-
-.catch-note {
-    margin-top: 16px;
-    padding: 12px;
-
-    border-radius: 12px;
-    background: rgba(0,0,0,0.14);
-
-    font-style: italic;
-}
-
-.delete-catch {
-    margin: 0;
-    padding: 8px;
-    background: transparent;
+#saveCatchBtn {
+    padding: 14px;
+    border-radius: 14px;
+    background: var(--navy);
     color: white;
+    font-weight: 800;
 }
 
-.empty-catches {
-    padding: 40px 20px;
-    opacity: 0.8;
-}
-
-.empty-catches > div {
-    font-size: 42px;
-    margin-bottom: 10px;
-}
-
-@media (max-width: 600px) {
-    .catch-stats {
-        grid-template-columns: 1fr;
-    }
-}
-.catch-card-photo {
-    width: 100%;
-    max-height: 350px;
-    object-fit: cover;
-
+.catch-photo-upload label {
     display: block;
+    padding: 14px;
+    border: 2px dashed #bdd6df;
+    border-radius: 14px;
+    text-align: center;
+    color: var(--blue);
+    cursor: pointer;
+}
 
-    margin-bottom: 18px;
-    border-radius: 18px;
+#catchPhoto {
+    display: none;
 }
 
 .catch-photo-preview {
     display: none;
     width: 100%;
-    max-height: 300px;
+    max-height: 320px;
     object-fit: cover;
-
-    margin-top: 12px;
-    border-radius: 16px;
-}
-
-.catch-photo-upload label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-    cursor: pointer;
-}
-/* ŞU AN HAVA KARTI */
-
-.weather-card {
-    width: min(620px, 92%);
-    margin: 25px auto 35px;
-    padding: 24px;
-
-    border-radius: 24px;
-
-    background: rgba(255,255,255,0.09);
-    border: 1px solid rgba(255,255,255,0.14);
-
-    text-align: left;
-}
-
-.weather-card h3 {
-    text-align: center;
-    font-size: 24px;
-    margin: 0 0 20px;
-}
-
-.weather-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-}
-
-.weather-item {
-    padding: 13px 16px;
+    margin-top: 10px;
     border-radius: 14px;
-
-    background: rgba(0,0,0,0.14);
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
 }
 
-.weather-item span:first-child {
-    opacity: 0.72;
-}
-
-.weather-item strong {
-    text-align: right;
-}
-
-.weather-sun {
-    grid-column: 1 / -1;
+.catch-stats {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 4px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 18px;
 }
 
-@media (max-width: 600px) {
-    .weather-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .weather-sun {
-        grid-template-columns: 1fr;
-    }
+.catch-stats > div {
+    padding: 14px 5px;
+    border-radius: 15px;
+    background: white;
+    text-align: center;
 }
+
+.catch-stats strong,
+.catch-stats span {
+    display: block;
+}
+
+.catch-stats strong {
+    font-size: 18px;
+}
+
+.catch-stats span {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+#catchList {
+    display: grid;
+    gap: 15px;
+}
+
+.catch-card {
+    overflow: hidden;
+    padding: 16px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+.catch-card-photo {
+    width: calc(100% + 32px);
+    max-height: 350px;
+    object-fit: cover;
+    margin: -16px -16px 16px;
+}
+
+.catch-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.catch-card-top h3 {
+    margin: 0;
+}
+
+.catch-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-top: 10px;
+}
+
+.catch-details p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.catch-note {
+    margin-bottom: 0;
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--light);
+    font-style: italic;
+}
+
+
 /* =========================
-   BALIK REHBERİ 🐟
+   BALIK REHBERİ
 ========================= */
 
-#fishguide {
-    padding-bottom: 130px;
-}
-
 .fish-guide-subtitle {
-    opacity: 0.75;
-    margin-bottom: 25px;
+    margin-top: 0;
 }
 
 .fish-city-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin: 22px 0;
 }
 
 .fish-city {
-    padding: 12px 25px;
-    border-radius: 999px;
-    opacity: 0.65;
+    padding: 13px;
+    border-radius: 14px;
+    background: white;
+    color: var(--navy);
+    font-weight: 800;
 }
 
 .fish-city.active {
-    opacity: 1;
-    transform: scale(1.04);
+    background: var(--navy);
+    color: white;
 }
 
 #fishGuideList {
-    width: min(760px, 92%);
-    margin: 0 auto;
+    display: grid;
+    gap: 13px;
 }
 
 .fish-guide-card {
-    margin-bottom: 18px;
-    padding: 22px;
-
-    border-radius: 22px;
-
-    background: rgba(255,255,255,0.09);
-    border: 1px solid rgba(255,255,255,0.16);
-
-    text-align: left;
+    padding: 17px;
+    border-radius: 20px;
+    background: white;
+    box-shadow: var(--shadow);
 }
 
 .fish-guide-head {
     display: flex;
     align-items: center;
-    gap: 15px;
-
-    margin-bottom: 18px;
+    gap: 12px;
 }
 
 .fish-guide-emoji {
-    width: 55px;
-    height: 55px;
-
     display: grid;
     place-items: center;
-
-    font-size: 32px;
-
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
     border-radius: 16px;
-    background: rgba(255,255,255,0.10);
+    background: var(--light);
+    font-size: 28px;
 }
 
 .fish-guide-head h3 {
     margin: 0;
-    font-size: 23px;
 }
 
 .fish-guide-head small {
-    opacity: 0.55;
+    color: var(--muted);
     font-style: italic;
 }
 
 .fish-guide-info {
     display: grid;
-    gap: 9px;
+    gap: 7px;
+    margin-top: 15px;
 }
 
 .fish-guide-info > div {
-    padding: 12px 14px;
+    padding: 10px;
+    border-radius: 12px;
+    background: var(--light);
+}
 
-    border-radius: 13px;
-    background: rgba(0,0,0,0.14);
-
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
+.fish-guide-info span,
+.fish-guide-info strong {
+    display: block;
 }
 
 .fish-guide-info span {
-    opacity: 0.7;
+    color: var(--muted);
+    font-size: 10px;
 }
 
 .fish-guide-info strong {
-    text-align: right;
+    margin-top: 3px;
+    font-size: 12px;
 }
 
-.active-hours {
-    border: 1px solid rgba(100, 220, 160, 0.30);
+.fish-guide-card > p {
+    margin-bottom: 0;
+    color: var(--muted);
+    font-size: 12px;
 }
 
-.active-hours strong {
-    color: #b7f5ce;
-}
 
-.fish-description {
-    margin: 15px 0 0;
-    padding-top: 14px;
-
-    border-top: 1px solid rgba(255,255,255,0.10);
-
-    opacity: 0.82;
-}
-
-@media (max-width: 600px) {
-
-    .fish-guide-info > div {
-        flex-direction: column;
-        gap: 4px;
-    }
-
-    .fish-guide-info strong {
-        text-align: left;
-    }
-}
 /* =========================
-   NİSU'DAN ❤️
+   NİSU'DAN
 ========================= */
 
-#nisa {
-    padding-bottom: 130px;
-}
-
-.nisa-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.nisa-header h2 {
-    font-size: 34px;
-    margin-bottom: 8px;
-}
-
-.nisa-header p {
-    opacity: 0.7;
-}
-
-.nisa-card {
-    width: min(650px, 92%);
-    margin: 0 auto 25px;
-    padding: 32px 25px;
-
-    text-align: center;
-
-    border-radius: 26px;
-    background: rgba(255,255,255,0.09);
-    border: 1px solid rgba(255,255,255,0.15);
-}
-
-.nisa-heart {
-    font-size: 45px;
-    margin-bottom: 10px;
-}
-
-.nisa-card h3 {
-    margin-bottom: 12px;
-}
-
-.nisa-card p {
-    font-size: 20px;
-    line-height: 1.6;
-    min-height: 65px;
-}
-
-.nisa-mini-grid {
-    width: min(750px, 92%);
-    margin: 0 auto;
-
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-
-.nisa-mini-card {
-    padding: 20px 12px;
-    border-radius: 18px;
-
-    text-align: center;
-
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.12);
-}
-
-.nisa-mini-card span {
-    display: block;
-    font-size: 30px;
-    margin-bottom: 8px;
-}
-
-.nisa-mini-card strong {
-    display: block;
-}
-
-.nisa-mini-card p {
-    opacity: 0.7;
-    font-size: 13px;
-}
-
-@media (max-width: 650px) {
-    .nisa-mini-grid {
-        grid-template-columns: 1fr;
-    }
-}
+.love-counter-card,
+.nisa-card,
 .sans-message-card {
-    width: min(650px, 92%);
-    margin: 30px auto;
-    padding: 24px;
-
+    margin: 20px 0;
+    padding: 22px;
     border-radius: 24px;
-
-    background: rgba(255,255,255,0.09);
-    border: 1px solid rgba(255,255,255,0.15);
-
-    text-align: left;
+    background: white;
+    box-shadow: var(--shadow);
 }
 
-.sans-message-head {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-
-    margin-bottom: 18px;
-}
-
-.sans-message-fish {
-    font-size: 42px;
-}
-
-.sans-message-head h3 {
-    margin: 0;
-}
-
-.sans-message-head p {
-    margin: 4px 0 0;
-    opacity: 0.7;
-}
-
-.sans-message-bubble {
-    padding: 16px 18px;
-    margin-bottom: 15px;
-
-    border-radius: 18px 18px 18px 5px;
-
-    background: rgba(255,255,255,0.12);
-
-    font-size: 17px;
-    line-height: 1.5;
-}
-
-.sans-pop {
-    animation: sansMessagePop 0.4s ease;
-}
-
-@keyframes sansMessagePop {
-    0% {
-        transform: scale(0.92);
-        opacity: 0.3;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
 .love-counter-card {
-    width: min(650px, 92%);
-    margin: 25px auto;
-    padding: 28px;
-
     text-align: center;
-
-    border-radius: 26px;
-    background: rgba(255,255,255,0.09);
-    border: 1px solid rgba(255,255,255,0.15);
 }
 
 .love-counter-heart {
-    font-size: 40px;
-    margin-bottom: 5px;
-    animation: loveBeat 1.8s ease-in-out infinite;
-}
-
-@keyframes loveBeat {
-    0%, 100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.12);
-    }
+    font-size: 35px;
 }
 
 .love-counter-card h3 {
-    font-size: 25px;
-    margin: 5px 0;
+    margin: 7px 0 2px;
 }
 
 .love-counter-since {
-    opacity: 0.65;
-    margin-bottom: 22px;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 12px;
 }
 
 .love-counter {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    gap: 6px;
+    margin: 20px 0;
 }
 
 .love-counter > div {
-    padding: 15px 5px;
+    padding: 11px 3px;
+    border-radius: 14px;
+    background: #fff1f3;
+}
 
-    border-radius: 16px;
-    background: rgba(255,255,255,0.08);
+.love-counter strong,
+.love-counter span {
+    display: block;
 }
 
 .love-counter strong {
-    display: block;
-    font-size: 25px;
+    font-size: 20px;
+    color: #b9475a;
 }
 
 .love-counter span {
-    display: block;
-    margin-top: 4px;
-
-    font-size: 12px;
-    opacity: 0.65;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 9px;
 }
 
 .love-dates {
-    margin-top: 20px;
     display: grid;
-    gap: 8px;
+    gap: 7px;
 }
 
 .love-dates > div {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-
-    padding: 12px 15px;
-
-    border-radius: 14px;
-    background: rgba(0,0,0,0.12);
+    padding: 10px;
+    border-radius: 12px;
+    background: var(--light);
+    font-size: 11px;
 }
 
-.love-dates span {
-    opacity: 0.7;
-}
-
-@media (max-width: 600px) {
-
-    .love-counter {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-.favorites-header {
-    width: min(700px, 92%);
-    margin: 0 auto 25px;
+.nisa-card {
     text-align: center;
 }
 
-.favorites-icon {
-    width: 65px;
-    height: 65px;
-    margin: 0 auto 12px;
-
-    display: grid;
-    place-items: center;
-
-    font-size: 32px;
-
-    border-radius: 20px;
-
-    background: rgba(255,255,255,0.10);
-    border: 1px solid rgba(255,255,255,0.15);
+.nisa-heart {
+    font-size: 38px;
 }
 
-.favorites-header h2 {
-    margin: 0 0 8px;
-    font-size: 32px;
+.nisa-card h3 {
+    margin-bottom: 8px;
 }
 
-.favorites-header p {
-    max-width: 520px;
-    margin: 0 auto;
-    opacity: 0.7;
-    line-height: 1.5;
+#nisaMessage {
+    min-height: 45px;
+    color: var(--muted);
 }
 
-.favorites-stats {
-    width: min(700px, 92%);
-    margin: 0 auto 30px;
+.nisa-card button,
+.sans-message-card button {
+    width: 100%;
+    padding: 13px;
+    border-radius: 14px;
+    background: var(--navy);
+    color: white;
+    font-weight: 800;
+}
 
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+.sans-message-head {
+    display: flex;
+    align-items: center;
     gap: 12px;
 }
 
-.favorites-stats > div {
-    padding: 16px 10px;
-
-    text-align: center;
-
-    border-radius: 18px;
-
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.13);
+.sans-message-fish {
+    font-size: 37px;
 }
 
-.favorites-stats strong {
+.sans-message-head h3,
+.sans-message-head p {
+    margin: 2px 0;
+}
+
+.sans-message-head p {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.sans-message-bubble {
+    margin: 18px 0;
+    padding: 16px;
+    border-radius: 18px 18px 18px 5px;
+    background: var(--light);
+    line-height: 1.5;
+}
+
+
+/* =========================
+   ALT NAVİGASYON
+========================= */
+
+.bottom-nav {
+    position: fixed;
+    z-index: 4000;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    display: flex;
+    width: min(100%, 760px);
+    padding:
+        8px 4px
+        calc(8px + env(safe-area-inset-bottom));
+    background: rgba(255,255,255,.96);
+    border-top: 1px solid rgba(6,40,61,.08);
+    box-shadow: 0 -8px 30px rgba(6,40,61,.10);
+    backdrop-filter: blur(15px);
+}
+
+.bottom-nav button {
+    flex: 1;
+    min-width: 0;
+    padding: 7px 2px;
+    background: transparent;
+    color: var(--navy);
+    font-size: 18px;
+}
+
+.bottom-nav button span {
     display: block;
-    font-size: 24px;
+    margin-top: 3px;
+    overflow: hidden;
+    font-size: 8px;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.favorites-stats span {
-    display: block;
-    margin-top: 5px;
-    font-size: 12px;
-    opacity: 0.65;
+
+/* =========================
+   TELEFON
+========================= */
+
+@media (max-width: 520px) {
+
+    .page {
+        padding-left: 13px;
+        padding-right: 13px;
+    }
+
+    #home {
+        padding-top: 65px;
+    }
+
+    #home h2 {
+        margin-top: 75px;
+    }
+
+    .weather-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .current-temperature {
+        font-size: 36px;
+    }
+
+    .ideal-main h2 {
+        font-size: 20px;
+    }
+
+    .ideal-score {
+        width: 62px;
+        height: 62px;
+        font-size: 18px;
+    }
+
+    .favorite-live-weather {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tank-scene {
+        height: 300px;
+    }
+
+    .swimming-sans {
+        width: 90px;
+    }
 }
 
-@media (max-width: 600px) {
+
+/* =========================
+   ÇOK KÜÇÜK EKRAN
+========================= */
+
+@media (max-width: 370px) {
+
+    .bottom-nav button {
+        font-size: 16px;
+    }
+
+    .bottom-nav button span {
+        font-size: 7px;
+    }
+
     .favorites-stats {
+        gap: 5px;
+    }
+
+    .location-buttons,
+    .favorite-actions {
         grid-template-columns: 1fr;
     }
 }
