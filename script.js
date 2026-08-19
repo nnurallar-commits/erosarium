@@ -21,7 +21,7 @@ import {
 ========================================= */
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCcU1SMTkr18Fo2FcJ_m7HGydMgbSJpQFs",
+    apiKey: "AIzaSyCcU1sMTkrl8Fo2EcJ_mZHGydMgbSJpQFs",
     authDomain: "erosarium.firebaseapp.com",
     projectId: "erosarium",
     storageBucket: "erosarium.firebasestorage.app",
