@@ -1,478 +1,690 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erosarium</title>
-    <link rel="stylesheet" href="style.css">
-    <link
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+
+  <title>Erosarium</title>
+
+  <meta name="theme-color" content="#06283d" />
+
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+
+  <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-/>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#06283d">
+  />
 </head>
 
 <body>
 
-<main>
+  <main>
 
+    <!-- ANA SAYFA -->
     <section id="home" class="page active">
-        <h1>EROSARIUM</h1>
-        <p>His little world underwater 🐟</p>
 
-        <h2>Hoş geldin Balıkçı 🎣</h2>
-        <p>Bugünün sularında seni ne bekliyor?</p>
+      <h1>EROSARIUM</h1>
 
-        <button onclick="showPage('forecast')">
-            Bugünün Tahminini Gör
-        </button>
+      <p class="home-subtitle">
+        His little world underwater 🐟
+      </p>
+
+      <h2>Hoş geldin Balıkçı 🎣</h2>
+
+      <p>
+        Bugünün sularında seni ne bekliyor?
+      </p>
+
+      <button data-page="forecast">
+        Bugünün Tahminini Gör
+      </button>
+
     </section>
 
 
+    <!-- TAHMİN -->
     <section id="forecast" class="page">
-        <h2>🎣 Balıkçılık Tahmini</h2>
 
-        <p id="locationText">
-            Konum henüz alınmadı.
+      <h2>🎣 Balıkçılık Tahmini</h2>
+
+      <p id="locationText">
+        Konum henüz alınmadı.
+      </p>
+
+      <div class="location-buttons">
+
+        <button id="useLocationBtn">
+          📍 Konumumu Kullan
+        </button>
+
+        <button id="openMapBtn">
+          🗺️ Haritadan Konum Seç
+        </button>
+
+      </div>
+
+
+      <div
+        id="mapContainer"
+        class="map-container hidden"
+      >
+
+        <div id="map"></div>
+
+        <p id="selectedLocation">
+          📌 Haritadan bir noktaya dokun.
         </p>
 
-        <div class="location-buttons">
+        <button
+          id="saveSpotButton"
+          class="hidden"
+        >
+          ⭐ Av Noktası Olarak Kaydet
+        </button>
 
-    <button onclick="getLocation()">
-        📍 Konumumu Kullan
-    </button>
+      </div>
 
-    <button onclick="openMap()">
-        🗺️ Haritadan Konum Seç
-    </button>
 
-</div>
+      <!-- ŞU AN + SAATLİK HAVA + EN İDEAL AV -->
+      <div id="forecastResult"></div>
 
-<div id="mapContainer" style="display: none;">
-    <div id="map"></div>
 
-    <p id="selectedLocation">
-        📌 Haritadan bir noktaya dokun.
-    </p>
-    <button id="saveSpotButton" onclick="saveFishingSpot()" style="display: none;">
-    ⭐ Av Noktası Olarak Kaydet
-</button>
-</div>
+      <div id="weeklyForecast">
 
-<div id="forecastResult"></div>
-        <div id="weeklyForecast">
-    <h2>📅 7 Günlük Balık Tahmini</h2>
-    <p class="weekly-subtitle">
-        Önümüzdeki 7 gün için en iyi balık ve av saatleri
-    </p>
+        <h2>
+          📅 7 Günlük Balık Tahmini
+        </h2>
 
-    <div id="weeklyCards"></div>
-</div>
+        <p class="weekly-subtitle">
+          Önümüzdeki 7 gün için en iyi balık ve av saatleri
+        </p>
+
+        <div id="weeklyCards"></div>
+
+      </div>
+
     </section>
 
-<section id="favorites" class="page">
 
-    <div class="favorites-header">
-        <div class="favorites-icon">📍</div>
+    <!-- FAVORİLER -->
+    <section id="favorites" class="page">
 
-        <h2>Favori Yerlerim</h2>
+      <div class="favorites-header">
+
+        <div class="favorites-icon">
+          📍
+        </div>
+
+        <h2>
+          Favori Yerlerim
+        </h2>
 
         <p>
-            En sevdiğin av noktalarını kaydet,
-            hava koşullarını kontrol et ve tek dokunuşla tekrar aç.
+          Kaydettiğiniz av noktaları iki telefonda da ortak görünür.
         </p>
-    </div>
 
-    <div class="favorites-stats">
+      </div>
+
+
+      <div class="favorites-stats">
 
         <div>
-            <strong id="favoriteCount">0</strong>
-            <span>Kayıtlı Nokta</span>
+          <strong id="favoriteCount">
+            0
+          </strong>
+
+          <span>
+            Kayıtlı Nokta
+          </span>
         </div>
 
         <div>
-            <strong>🎣</strong>
-            <span>Av Noktaları</span>
+          <strong>
+            🎣
+          </strong>
+
+          <span>
+            Av Noktaları
+          </span>
         </div>
 
         <div>
-            <strong>🌦️</strong>
-            <span>Canlı Hava</span>
+          <strong>
+            ☁️
+          </strong>
+
+          <span>
+            Ortak Kayıt
+          </span>
         </div>
 
+      </div>
+
+
+      <div id="favoriteSpots"></div>
+
+    </section>
+
+
+    <!-- FAVORİ DETAY MODALI -->
+    <div
+      id="favoriteDetailModal"
+      class="favorite-detail-modal hidden"
+    >
+
+      <div class="favorite-detail-panel">
+
+        <button
+          id="closeFavoriteDetailBtn"
+          class="favorite-detail-close"
+        >
+          ✕
+        </button>
+
+        <div id="favoriteDetailContent">
+          Yükleniyor...
+        </div>
+
+      </div>
+
     </div>
 
-    <div id="favoriteSpots"></div>
 
-</section>
-   <section id="aquarium" class="page">
+    <!-- AKVARYUM -->
+    <section id="aquarium" class="page">
 
-    <div class="aquarium-header">
-        <h2>🐠 Şans'ın Akvaryumu</h2>
-        <p>Şans'ın küçük su altı dünyası 🫧</p>
-    </div>
+      <div class="aquarium-header">
 
-    <div class="sans-card">
+        <h2>
+          🐠 Şans'ın Akvaryumu
+        </h2>
+
+        <p>
+          Şans'ın küçük su altı dünyası 🫧
+        </p>
+
+      </div>
+
+
+      <div class="sans-card">
+
+        <div class="tank-scene">
+
+          <img
+            class="sans-aquarium-bg"
+            src="images/sans-aquarium-empty.png"
+            alt="Şans'ın Akvaryumu"
+          />
+
+          <img
+            id="sansFish"
+            class="swimming-sans"
+            src="images/sans-fish.png"
+            alt="Şans"
+          />
+
+          <div
+            id="algaeLayer"
+            class="algae-layer"
+          ></div>
+
+        </div>
+
+
         <div class="sans-title">
-  <div class="tank-scene">
 
-    <img
-        class="sans-aquarium-bg"
-        src="images/sans-aquarium-empty.png"
-        alt="Şans'ın Akvaryumu"
-    >
+          <div>
 
-    <img
-        id="sansFish"
-        class="swimming-sans"
-        src="images/sans-fish.png"
-        alt="Şans"
-    >
-<div id="algaeLayer" class="algae-layer"></div>
-    <div id="algaeLayer" class="algae-layer"></div>
+            <h3>
+              Şans ⭐
+            </h3>
 
-</div>
-            <div>
-                <h3>Şans ⭐</h3>
-                <p>Beta Balığı</p>
-            </div>
+            <p>
+              Beta Balığı
+            </p>
+
+          </div>
+
         </div>
+
 
         <div class="sans-info">
-            <div>
-                <span>💙</span>
-                <strong>Keyfi</strong>
-                <p id="fishMood">Yerinde</p>
-            </div>
 
-            <div>
-                <span>🍤</span>
-                <strong>Beslenme</strong>
-                <p id="lastFeeding">Henüz beslenmedi</p>
-            </div>
+          <div>
 
-            <div>
-                <span>🫧</span>
-                <strong>Akvaryum</strong>
-                <p id="tankStatus">Temiz</p>
-            </div>
+            <span>
+              💙
+            </span>
+
+            <strong>
+              Keyfi
+            </strong>
+
+            <p id="fishMood">
+              Yerinde
+            </p>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              🍤
+            </span>
+
+            <strong>
+              Beslenme
+            </strong>
+
+            <p id="lastFeeding">
+              Henüz beslenmedi
+            </p>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              🫧
+            </span>
+
+            <strong>
+              Akvaryum
+            </strong>
+
+            <p id="tankStatus">
+              Henüz temizlenmedi
+            </p>
+
+          </div>
+
         </div>
 
-        <button onclick="feedSans()" class="feed-button">
+
+        <div class="aquarium-actions">
+
+          <button
+            id="feedSansBtn"
+            class="feed-button"
+          >
             🍤 Şans'ı Besle
-        </button>
-        <button onclick="cleanTank()" class="clean-button">
-    🫧 Akvaryumu Temizle
-</button>
+          </button>
 
-    </div>
+          <button
+            id="cleanTankBtn"
+            class="clean-button"
+          >
+            🫧 Akvaryumu Temizle
+          </button>
 
-</section>
+        </div>
+
+      </div>
+
+    </section>
 
 
-   <section id="catches" class="page">
+    <!-- AVLAR -->
+    <section id="catches" class="page">
 
-    <h2>📖 Av Günlüğüm</h2>
-    <p class="catch-subtitle">
+      <h2>
+        📖 Av Günlüğüm
+      </h2>
+
+      <p class="catch-subtitle">
         Her avın küçük bir hikâyesi olsun 🎣
-    </p>
+      </p>
 
-    <div class="catch-form">
-<div class="catch-photo-upload">
 
-    <label for="catchPhoto">
-        📸 Av Fotoğrafı Ekle
-    </label>
+      <div class="catch-form">
 
-    <input
-        type="file"
-        id="catchPhoto"
-        accept="image/*"
-    >
+        <div class="catch-photo-upload">
 
-    <img
-        id="catchPhotoPreview"
-        class="catch-photo-preview"
-        alt="Av fotoğrafı önizleme"
-    >
+          <label for="catchPhoto">
+            📸 Av Fotoğrafı Ekle
+          </label>
 
-</div>
-        <input
-            type="text"
-            id="catchFish"
-            placeholder="🐟 Balık türü"
-        >
+          <input
+            type="file"
+            id="catchPhoto"
+            accept="image/*"
+          />
+
+          <img
+            id="catchPhotoPreview"
+            class="catch-photo-preview"
+            alt="Av fotoğrafı önizleme"
+          />
+
+        </div>
+
 
         <input
-            type="number"
-            id="catchWeight"
-            placeholder="⚖️ Kilo"
-            step="0.01"
-        >
+          type="text"
+          id="catchFish"
+          placeholder="🐟 Balık türü"
+        />
+
 
         <input
-            type="number"
-            id="catchLength"
-            placeholder="📏 Boy (cm)"
-        >
+          type="number"
+          id="catchWeight"
+          placeholder="⚖️ Kilo"
+          step="0.01"
+        />
+
 
         <input
-            type="text"
-            id="catchLocation"
-            placeholder="📍 Nerede yakalandı?"
-        >
+          type="number"
+          id="catchLength"
+          placeholder="📏 Boy (cm)"
+        />
+
 
         <input
-            type="datetime-local"
-            id="catchDate"
-        >
+          type="text"
+          id="catchLocation"
+          placeholder="📍 Nerede yakalandı?"
+        />
+
+
+        <input
+          type="datetime-local"
+          id="catchDate"
+        />
+
 
         <textarea
-            id="catchNote"
-            placeholder="📝 Bu av hakkında bir not..."
+          id="catchNote"
+          placeholder="📝 Bu av hakkında bir not..."
         ></textarea>
 
-        <button onclick="saveCatch()">
-            🎣 Avı Kaydet
+
+        <button id="saveCatchBtn">
+          🎣 Avı Kaydet
         </button>
 
-    </div>
+      </div>
 
-    <div id="catchStats"></div>
 
-    <div id="catchList"></div>
+      <div id="catchStats"></div>
 
-</section>
+      <div id="catchList"></div>
 
-<section id="favorites" class="page">
+    </section>
 
-    <h2>⭐ Favori Yerlerim</h2>
 
-    <p class="favorites-subtitle">
-        Kaydettiğin av noktaları burada 🎣
-    </p>
+    <!-- BALIK REHBERİ -->
+    <section id="fishguide" class="page">
 
-    <div id="favoriteSpots"></div>
+      <h2>
+        🐟 Balık Rehberi
+      </h2>
 
-</section>
-<section id="fishguide" class="page">
-
-    <h2>🐟 Balık Rehberi</h2>
-
-    <p class="fish-guide-subtitle">
+      <p class="fish-guide-subtitle">
         İzmir ve Manisa'daki balıkları keşfet 🎣
-    </p>
+      </p>
 
-    <div class="fish-city-buttons">
+
+      <div class="fish-city-buttons">
 
         <button
-            class="fish-city active"
-            onclick="showFishCity('izmir', this)">
-            🌊 İzmir
+          class="fish-city active"
+          data-city="izmir"
+        >
+          🌊 İzmir
         </button>
 
         <button
-            class="fish-city"
-            onclick="showFishCity('manisa', this)">
-            🌿 Manisa
+          class="fish-city"
+          data-city="manisa"
+        >
+          🌿 Manisa
         </button>
 
-    </div>
+      </div>
 
-    <div id="fishGuideList"></div>
 
-</section>
+      <div id="fishGuideList"></div>
+
+    </section>
+
+
+    <!-- NİSU'DAN -->
     <section id="nisa" class="page">
 
-    <div class="nisa-header">
-        <h2>❤️ Nisu'dan</h2>
-        <p>Sadece sana ait küçük bir köşe.</p>
-    </div>
+      <div class="nisa-header">
 
-    <div class="nisa-card">
-<div class="love-counter-card">
+        <h2>
+          ❤️ Nisu'dan
+        </h2>
 
-    <div class="love-counter-heart">❤️</div>
-
-    <h3>Bizim Zamanımız</h3>
-
-    <p class="love-counter-since">
-        14 Ağustos 2026'dan beri
-    </p>
-
-    <div class="love-counter">
-
-        <div>
-            <strong id="loveDays">0</strong>
-            <span>Gün</span>
-        </div>
-
-        <div>
-            <strong id="loveHours">0</strong>
-            <span>Saat</span>
-        </div>
-
-        <div>
-            <strong id="loveMinutes">0</strong>
-            <span>Dakika</span>
-        </div>
-
-        <div>
-            <strong id="loveSeconds">0</strong>
-            <span>Saniye</span>
-        </div>
-
-    </div>
-
-    <div class="love-dates">
-
-        <div>
-            <span>🤍 İlk hikâyemiz</span>
-            <strong>26.11.2024</strong>
-        </div>
-
-        <div>
-            <span>❤️ Yeniden biz</span>
-            <strong>14.08.2026</strong>
-        </div>
-
-    </div>
-
-</div>
-        <div class="nisa-heart">💌</div>
-
-        <h3>Bugünün notu</h3>
-
-        <p id="nisaMessage">
-            Balıklar kaçsa da ben buradayım. 🎣🤍
+        <p>
+          Sadece sana ait küçük bir köşe.
         </p>
 
-        <button onclick="changeNisaMessage()">
-            ✨ Başka Bir Not
+      </div>
+
+
+      <div class="love-counter-card">
+
+        <div class="love-counter-heart">
+          ❤️
+        </div>
+
+        <h3>
+          Bizim Zamanımız
+        </h3>
+
+        <p class="love-counter-since">
+          14 Ağustos 2026'dan beri
+        </p>
+
+
+        <div class="love-counter">
+
+          <div>
+            <strong id="loveDays">
+              0
+            </strong>
+            <span>
+              Gün
+            </span>
+          </div>
+
+          <div>
+            <strong id="loveHours">
+              0
+            </strong>
+            <span>
+              Saat
+            </span>
+          </div>
+
+          <div>
+            <strong id="loveMinutes">
+              0
+            </strong>
+            <span>
+              Dakika
+            </span>
+          </div>
+
+          <div>
+            <strong id="loveSeconds">
+              0
+            </strong>
+            <span>
+              Saniye
+            </span>
+          </div>
+
+        </div>
+
+
+        <div class="love-dates">
+
+          <div>
+
+            <span>
+              🤍 İlk hikâyemiz
+            </span>
+
+            <strong>
+              26.11.2024
+            </strong>
+
+          </div>
+
+          <div>
+
+            <span>
+              ❤️ Yeniden biz
+            </span>
+
+            <strong>
+              14.08.2026
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="nisa-card">
+
+        <div class="nisa-heart">
+          💌
+        </div>
+
+        <h3>
+          Bugünün notu
+        </h3>
+
+        <p id="nisaMessage">
+          Balıklar kaçsa da ben buradayım. 🎣🤍
+        </p>
+
+        <button id="changeNisaMessageBtn">
+          ✨ Başka Bir Not
         </button>
 
-    </div>
+      </div>
 
-    <div class="nisa-mini-grid">
-<div class="sans-message-card">
-    <div class="sans-message-head">
-        <span class="sans-message-fish">🐠</span>
 
-        <div>
-            <h3>Şans’tan Mesaj</h3>
-            <p>Bugün sana söyleyeceği bir şey var.</p>
-        </div>
-    </div>
+      <div class="sans-message-card">
 
-    <div id="sansMessageBubble" class="sans-message-bubble">
-        Babacım, bir mesajım var 🫧
-    </div>
+        <div class="sans-message-head">
 
-    <button onclick="getSansMessage()">
-        🐠 Şans Ne Diyor?
-    </button>
-</div>
-        <div class="nisa-mini-card">
-            <span>🎣</span>
-            <strong>Bol şans</strong>
-            <p>Bugün oltan boş dönmesin.</p>
+          <span class="sans-message-fish">
+            🐠
+          </span>
+
+          <div>
+
+            <h3>
+              Şans’tan Mesaj
+            </h3>
+
+            <p>
+              Bugün sana söyleyeceği bir şey var.
+            </p>
+
+          </div>
+
         </div>
 
-        <div class="nisa-mini-card">
-            <span>🌊</span>
-            <strong>Keyfini çıkar</strong>
-            <p>Bazen en güzel av, geçirilen zamandır.</p>
+
+        <div
+          id="sansMessageBubble"
+          class="sans-message-bubble"
+        >
+          Babacım, bir mesajım var 🫧
         </div>
 
-        <div class="nisa-mini-card">
-            <span>❤️</span>
-            <strong>Nisu'dan</strong>
-            <p>Kendine dikkat et.</p>
-        </div>
 
-    </div>
+        <button id="getSansMessageBtn">
+          🐠 Şans Ne Diyor?
+        </button>
 
-</section>
+      </div>
 
-</main>
-<nav class="bottom-nav">
-    <button onclick="showPage('fishguide'); showFishCity('izmir');">
-    🐟<span>Rehber</span>
-</button>
-    <button onclick="showPage('home')">
-        🏠<span>Ana Sayfa</span>
+    </section>
+
+  </main>
+
+
+  <!-- ALT MENÜ -->
+  <nav class="bottom-nav">
+
+    <button data-page="fishguide">
+      🐟
+      <span>
+        Rehber
+      </span>
     </button>
 
-    <button onclick="showPage('forecast')">
-        🎣<span>Tahmin</span>
+    <button data-page="home">
+      🏠
+      <span>
+        Ana Sayfa
+      </span>
     </button>
 
-    <button onclick="showPage('aquarium')">
-        🐠<span>Akvaryum</span>
+    <button data-page="forecast">
+      🎣
+      <span>
+        Tahmin
+      </span>
     </button>
 
-    <button onclick="showPage('catches')">
-        📖<span>Avlar</span>
+    <button data-page="aquarium">
+      🐠
+      <span>
+        Akvaryum
+      </span>
     </button>
 
-    <button onclick="showPage('favorites'); showFavoriteSpots();">
-        ⭐<span>Favori Yerlerim</span>
+    <button data-page="catches">
+      📖
+      <span>
+        Avlar
+      </span>
     </button>
 
-    <button onclick="showPage('nisa')">
-        ❤️<span>Nisu'dan</span>
+    <button data-page="favorites">
+      ⭐
+      <span>
+        Favoriler
+      </span>
     </button>
-</nav>
-<script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-    import {
-        getFirestore,
-        collection,
-        addDoc,
-        deleteDoc,
-        doc,
-        onSnapshot,
-        setDoc,
-        getDoc,
-        getDocs,
-        updateDoc
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCcU1SMTkr18Fo2FcJ_m7HGydMgbSJpQFs",
-        authDomain: "erosarium.firebaseapp.com",
-        projectId: "erosarium",
-        storageBucket: "erosarium.firebasestorage.app",
-        messagingSenderId: "1041155718188",
-        appId: "1:1041155718188:web:b2473f8a91c834484e2589"
-    };
+    <button data-page="nisa">
+      ❤️
+      <span>
+        Nisu'dan
+      </span>
+    </button>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+  </nav>
 
-    await signInAnonymously(auth);
 
-    window.firebaseDb = db;
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  ></script>
 
-    window.firebaseTools = {
-        collection,
-        addDoc,
-        deleteDoc,
-        doc,
-        onSnapshot,
-        setDoc,
-        getDoc,
-        getDocs,
-        updateDoc
-    };
+  <script
+    type="module"
+    src="script.js"
+  ></script>
 
-</script>
-    <script src="script.js"></script>
 </body>
 </html>
