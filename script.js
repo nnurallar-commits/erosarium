@@ -1089,7 +1089,138 @@ function createWeeklyForecast(data) {
         `;
     });
 }
- async function showFavoriteSpots() {
+ function showFavoriteSpots() {
+
+    const container = document.getElementById("favoriteSpots");
+    const favoriteCount = document.getElementById("favoriteCount");
+
+    if (!container) return;
+
+    if (!window.firebaseDb || !window.firebaseTools) {
+        container.innerHTML = `
+            <div class="empty-favorites">
+                <h3>☁️ Bağlantı hazırlanıyor...</h3>
+            </div>
+        `;
+        return;
+    }
+
+    const {
+        collection,
+        onSnapshot
+    } = window.firebaseTools;
+
+    const favoritesRef =
+        collection(window.firebaseDb, "favoriteSpots");
+
+    onSnapshot(
+        favoritesRef,
+
+        function(snapshot) {
+
+            const spots = [];
+
+            snapshot.forEach(function(document) {
+
+                spots.push({
+                    firebaseId: document.id,
+                    ...document.data()
+                });
+
+            });
+
+            if (favoriteCount) {
+                favoriteCount.innerText = spots.length;
+            }
+
+            if (spots.length === 0) {
+
+                container.innerHTML = `
+                    <div class="empty-favorites">
+                        <div class="empty-icon">🎣</div>
+                        <h3>Henüz favori yer yok</h3>
+                        <p>
+                            Sen veya Erol bir av noktası kaydettiğinde
+                            burada görünecek.
+                        </p>
+                    </div>
+                `;
+
+                return;
+            }
+
+            container.innerHTML = spots.map(function(spot, index) {
+
+                return `
+                    <div class="favorite-card">
+
+                        <div class="favorite-top">
+
+                            <div>
+                                <span class="favorite-number">
+                                    #${index + 1}
+                                </span>
+
+                                <h3>
+                                    ⭐ ${spot.name}
+                                </h3>
+                            </div>
+
+                            <button
+                                class="delete-favorite"
+                                onclick="deleteFirebaseFishingSpot('${spot.firebaseId}')">
+                                🗑️
+                            </button>
+
+                        </div>
+
+                        <p class="favorite-location">
+                            📍 ${Number(spot.latitude).toFixed(4)},
+                            ${Number(spot.longitude).toFixed(4)}
+                        </p>
+
+                        ${
+                            spot.note
+                                ? `<p class="favorite-note">
+                                    📝 ${spot.note}
+                                   </p>`
+                                : ""
+                        }
+
+                        <div class="favorite-actions">
+
+                            <button
+                                onclick="showSpotOnMap(
+                                    ${spot.latitude},
+                                    ${spot.longitude}
+                                )">
+                                🗺️ Haritada Göster
+                            </button>
+
+                        </div>
+
+                    </div>
+                `;
+
+            }).join("");
+        },
+
+        function(error) {
+
+            console.error(
+                "Favoriler okunamadı:",
+                error
+            );
+
+            container.innerHTML = `
+                <div class="empty-favorites">
+                    <h3>⚠️ Favoriler alınamadı</h3>
+                    <p>Firebase bağlantısını kontrol et.</p>
+                </div>
+            `;
+        }
+    );
+}
 
     const container = document.getElementById("favoriteSpots");
 
@@ -2150,4 +2281,38 @@ if ("serviceWorker" in navigator) {
 
     });
 
+}
+async function deleteFirebaseFishingSpot(firebaseId) {
+
+    const confirmed =
+        confirm("Bu favori av noktasını silmek istiyor musun?");
+
+    if (!confirmed) return;
+
+    if (!window.firebaseDb || !window.firebaseTools) return;
+
+    const {
+        doc,
+        deleteDoc
+    } = window.firebaseTools;
+
+    try {
+
+        await deleteDoc(
+            doc(
+                window.firebaseDb,
+                "favoriteSpots",
+                firebaseId
+            )
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Favori silinemedi:",
+            error
+        );
+
+        alert("Favori silinemedi.");
+    }
 }
