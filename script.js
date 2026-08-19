@@ -2083,7 +2083,19 @@ document.getElementById(
     "click",
     cleanTank
 );
+document.getElementById(
+    "undoFeedBtn"
+)?.addEventListener(
+    "click",
+    undoFeedSans
+);
 
+document.getElementById(
+    "undoCleanBtn"
+)?.addEventListener(
+    "click",
+    undoCleanTank
+);
 
 function startAquariumListener() {
     if (
@@ -2174,7 +2186,45 @@ async function cleanTank() {
     }
 }
 
+async function undoFeedSans() {
+    if (!firebaseReady) return;
 
+    const confirmed = confirm(
+        "Son besleme kaydını geri almak istiyor musun?"
+    );
+
+    if (!confirmed) return;
+
+    try {
+        await setDoc(
+            aquariumRef,
+            { lastFeeding: null },
+            { merge: true }
+        );
+    } catch (error) {
+        console.error("Besleme geri alınamadı:", error);
+    }
+}
+
+async function undoCleanTank() {
+    if (!firebaseReady) return;
+
+    const confirmed = confirm(
+        "Son temizlik kaydını geri almak istiyor musun?"
+    );
+
+    if (!confirmed) return;
+
+    try {
+        await setDoc(
+            aquariumRef,
+            { lastCleaning: null },
+            { merge: true }
+        );
+    } catch (error) {
+        console.error("Temizlik geri alınamadı:", error);
+    }
+}
 function renderAquariumState(state) {
     const feeding =
         document.getElementById(
