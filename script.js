@@ -489,7 +489,7 @@ document.getElementById("saveSpotButton").style.display = "inline-block";
         map.invalidateSize();
     }, 100);
 }
-function saveFishingSpot() {
+async function saveFishingSpot() {
 
     if (selectedLatitude === null || selectedLongitude === null) {
         alert("Önce haritadan bir konum seç.");
@@ -508,41 +508,55 @@ function saveFishingSpot() {
         ""
     );
 
-    const spots =
-        JSON.parse(localStorage.getItem("fishingSpots")) || [];
+    if (!window.firebaseDb || !window.firebaseTools) {
+        alert("Firebase bağlantısı hazır değil.");
+        return;
+    }
+
+    const {
+        collection,
+        addDoc
+    } = window.firebaseTools;
 
     const newSpot = {
-        id: Date.now(),
         name: spotName,
         note: note || "",
         latitude: selectedLatitude,
-        longitude: selectedLongitude
+        longitude: selectedLongitude,
+        createdAt: Date.now()
     };
 
-    spots.push(newSpot);
+    try {
 
-localStorage.setItem(
-    "fishingSpots",
-    JSON.stringify(spots)
-);
+        await addDoc(
+            collection(window.firebaseDb, "favoriteSpots"),
+            newSpot
+        );
 
-// Kaydedilen noktayı hemen haritada göster
-const savedMarker = L.marker([
-    selectedLatitude,
-    selectedLongitude
-]).addTo(map);
+        const savedMarker = L.marker([
+            selectedLatitude,
+            selectedLongitude
+        ]).addTo(map);
 
-savedMarker.bindPopup(`
-    <strong>⭐ ${spotName}</strong><br>
-    🎣 Av Noktası<br>
-    <button onclick="getWeather(${selectedLatitude}, ${selectedLongitude})">
-        🌦️ Bu Konumun Tahminini Gör
-    </button>
-`);
+        savedMarker.bindPopup(`
+            <strong>⭐ ${spotName}</strong><br>
+            🎣 Av Noktası<br>
+            ${note ? "📝 " + note + "<br>" : ""}
+            <button onclick="getWeather(${selectedLatitude}, ${selectedLongitude})">
+                🌦️ Bu Konumun Tahminini Gör
+            </button>
+        `);
 
-savedMarker.openPopup();
-showFavoriteSpots();
-alert("⭐ Av noktası kaydedildi!");
+        savedMarker.openPopup();
+
+        alert("⭐ Av noktası ortak favorilere kaydedildi!");
+
+    } catch (error) {
+
+        console.error("Favori kaydetme hatası:", error);
+
+        alert("Av noktası kaydedilemedi.");
+    }
 }
 
 function showSavedFishingSpots() {
