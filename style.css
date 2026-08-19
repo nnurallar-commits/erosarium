@@ -1481,3 +1481,74 @@ button:hover {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+.favorites-header {
+    width: min(700px, 92%);
+    margin: 0 auto 25px;
+    text-align: center;
+}
+
+.favorites-icon {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 12px;
+
+    display: grid;
+    place-items: center;
+
+    font-size: 32px;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.favorites-header h2 {
+    margin: 0 0 8px;
+    font-size: 32px;
+}
+
+.favorites-header p {
+    max-width: 520px;
+    margin: 0 auto;
+    opacity: 0.7;
+    line-height: 1.5;
+}
+
+.favorites-stats {
+    width: min(700px, 92%);
+    margin: 0 auto 30px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.favorites-stats > div {
+    padding: 16px 10px;
+
+    text-align: center;
+
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.13);
+}
+
+.favorites-stats strong {
+    display: block;
+    font-size: 24px;
+}
+
+.favorites-stats span {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    opacity: 0.65;
+}
+
+@media (max-width: 600px) {
+    .favorites-stats {
+        grid-template-columns: 1fr;
+    }
+}
