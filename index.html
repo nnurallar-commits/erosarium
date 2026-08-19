@@ -427,6 +427,54 @@
 <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 </script>
-<script src="script.js"></script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+    import {
+        getFirestore,
+        collection,
+        addDoc,
+        deleteDoc,
+        doc,
+        onSnapshot,
+        setDoc,
+        getDoc,
+        getDocs,
+        updateDoc
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCcU1SMTkr18Fo2FcJ_m7HGydMgbSJpQFs",
+        authDomain: "erosarium.firebaseapp.com",
+        projectId: "erosarium",
+        storageBucket: "erosarium.firebasestorage.app",
+        messagingSenderId: "1041155718188",
+        appId: "1:1041155718188:web:b2473f8a91c834484e2589"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    await signInAnonymously(auth);
+
+    window.firebaseDb = db;
+
+    window.firebaseTools = {
+        collection,
+        addDoc,
+        deleteDoc,
+        doc,
+        onSnapshot,
+        setDoc,
+        getDoc,
+        getDocs,
+        updateDoc
+    };
+
+    const erosariumScript = document.createElement("script");
+    erosariumScript.src = "script.js";
+    document.body.appendChild(erosariumScript);
+</script>
 </body>
 </html>
