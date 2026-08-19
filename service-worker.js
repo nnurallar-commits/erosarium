@@ -1,4 +1,5 @@
-const CACHE_NAME = "erosarium-v20";
+const CACHE_NAME =
+    "erosarium-v30";
 
 const APP_FILES = [
     "./",
@@ -9,133 +10,178 @@ const APP_FILES = [
 ];
 
 
-/* =========================
-   INSTALL
-========================= */
+self.addEventListener(
+    "install",
+    event => {
 
-self.addEventListener("install", event => {
+        self.skipWaiting();
 
-    self.skipWaiting();
+        event.waitUntil(
+            caches
+                .open(
+                    CACHE_NAME
+                )
+                .then(
+                    cache =>
+                        cache.addAll(
+                            APP_FILES
+                        )
+                )
+        );
 
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(cache => {
-                return cache.addAll(APP_FILES);
-            })
-    );
-
-});
-
-
-/* =========================
-   ACTIVATE
-   ESKİ CACHE'LERİ SİL
-========================= */
-
-self.addEventListener("activate", event => {
-
-    event.waitUntil(
-        Promise.all([
-            caches.keys().then(keys => {
-                return Promise.all(
-                    keys.map(key => {
-
-                        if (key !== CACHE_NAME) {
-                            return caches.delete(key);
-                        }
-
-                    })
-                );
-            }),
-
-            self.clients.claim()
-        ])
-    );
-
-});
-
-
-/* =========================
-   FETCH
-========================= */
-
-self.addEventListener("fetch", event => {
-
-    const request = event.request;
-
-    if (request.method !== "GET") {
-        return;
     }
+);
 
-    const url = new URL(request.url);
 
+self.addEventListener(
+    "activate",
+    event => {
 
-    /*
-       Firebase, hava durumu, harita vb.
-       dış servisleri cache'leme.
-    */
+        event.waitUntil(
 
-    if (url.origin !== self.location.origin) {
-        return;
+            Promise.all([
+
+                caches
+                    .keys()
+                    .then(keys => {
+
+                        return Promise.all(
+
+                            keys.map(key => {
+
+                                if (
+                                    key !==
+                                    CACHE_NAME
+                                ) {
+
+                                    return caches
+                                        .delete(
+                                            key
+                                        );
+
+                                }
+
+                            })
+
+                        );
+
+                    }),
+
+                self.clients.claim()
+
+            ])
+
+        );
+
     }
+);
 
 
-    /*
-       HTML / JS / CSS:
-       Önce internetten en güncel sürümü al.
+self.addEventListener(
+    "fetch",
+    event => {
 
-       İnternet yoksa cache'e dön.
-    */
+        const request =
+            event.request;
 
-    event.respondWith(
 
-        fetch(request)
+        if (
+            request.method !==
+            "GET"
+        ) {
 
-            .then(response => {
+            return;
 
-                if (
-                    response &&
-                    response.status === 200
-                ) {
+        }
 
-                    const responseClone =
-                        response.clone();
 
-                    caches.open(CACHE_NAME)
-                        .then(cache => {
-                            cache.put(
-                                request,
-                                responseClone
+        const url =
+            new URL(
+                request.url
+            );
+
+
+        if (
+            url.origin !==
+            self.location.origin
+        ) {
+
+            return;
+
+        }
+
+
+        event.respondWith(
+
+            fetch(request)
+
+                .then(response => {
+
+                    if (
+                        response &&
+                        response.status ===
+                        200
+                    ) {
+
+                        const copy =
+                            response.clone();
+
+
+                        caches
+                            .open(
+                                CACHE_NAME
+                            )
+                            .then(
+                                cache => {
+
+                                    cache.put(
+                                        request,
+                                        copy
+                                    );
+
+                                }
                             );
-                        });
 
-                }
+                    }
 
-                return response;
 
-            })
+                    return response;
 
-            .catch(() => {
+                })
 
-                return caches.match(request)
-                    .then(cachedResponse => {
+                .catch(
+                    async () => {
 
-                        if (cachedResponse) {
-                            return cachedResponse;
+                        const cached =
+                            await caches
+                                .match(
+                                    request
+                                );
+
+
+                        if (cached) {
+
+                            return cached;
+
                         }
+
 
                         if (
-                            request.mode === "navigate"
+                            request.mode ===
+                            "navigate"
                         ) {
-                            return caches.match(
-                                "./index.html"
-                            );
+
+                            return caches
+                                .match(
+                                    "./index.html"
+                                );
+
                         }
 
-                    });
+                    }
+                )
 
-            })
+        );
 
-    );
-
-});
+    }
+);
