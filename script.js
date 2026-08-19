@@ -105,6 +105,10 @@ function showPage(pageId) {
     if (pageId === "aquarium") {
         startAquariumListener();
     }
+    
+    if (pageId === "activity") {
+    startActivityListener();
+    }
 
     if (pageId === "fishguide") {
         showFishCity("izmir");
@@ -122,7 +126,122 @@ document.querySelectorAll("[data-page]").forEach(button => {
     });
 });
 
+document.querySelectorAll("[data-page]").forEach(button => {
+    button.addEventListener("click", () => {
+        showPage(button.dataset.page);
+    });
+});
 
+
+/* =========================================
+   HAREKETLER
+========================================= */
+
+let activityListenerStarted = false;
+
+async function logActivity(type, text, icon = "🔔") {
+    if (!firebaseReady) return;
+
+    try {
+        await addDoc(
+            collection(db, "activities"),
+            {
+                type,
+                text,
+                icon,
+                createdAt: Date.now()
+            }
+        );
+    } catch (error) {
+        console.error("Hareket kaydedilemedi:", error);
+    }
+}
+
+function startActivityListener() {
+    if (activityListenerStarted || !firebaseReady) return;
+
+    const activityList =
+        document.getElementById("activityList");
+
+    if (!activityList) return;
+
+    activityListenerStarted = true;
+
+    onSnapshot(
+        collection(db, "activities"),
+
+        snapshot => {
+            const activities = snapshot.docs.map(item => ({
+                id: item.id,
+                ...item.data()
+            }));
+
+            activities.sort(
+                (a, b) =>
+                    (b.createdAt || 0) -
+                    (a.createdAt || 0)
+            );
+
+            if (activities.length === 0) {
+                activityList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🌊</div>
+                        <h3>Henüz hareket yok</h3>
+                        <p>Yeni işlemler burada görünecek.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            activityList.innerHTML = activities
+                .slice(0, 50)
+                .map(activity => {
+
+                    const date =
+                        new Date(activity.createdAt);
+
+                    const dateText =
+                        date.toLocaleString("tr-TR", {
+                            day: "numeric",
+                            month: "short",
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        });
+
+                    return `
+                        <div class="activity-card">
+                            <div class="activity-card-icon">
+                                ${activity.icon || "🔔"}
+                            </div>
+
+                            <div class="activity-card-content">
+                                <p>
+                                    ${escapeHtml(activity.text || "Yeni hareket")}
+                                </p>
+
+                                <span>
+                                    ${dateText}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                })
+                .join("");
+        },
+
+        error => {
+            console.error(
+                "Hareketler okunamadı:",
+                error
+            );
+        }
+    );
+}
+
+
+/* =========================================
+   HARİTA
+========================================= */
 /* =========================================
    HARİTA
 ========================================= */
