@@ -1,57 +1,141 @@
-const CACHE_NAME = "erosarium-v3";
+const CACHE_NAME = "erosarium-v20";
 
-const FILES_TO_CACHE = [
+const APP_FILES = [
     "./",
     "./index.html",
     "./style.css",
     "./script.js",
-    "./manifest.json",
-    "./images/icon-192.png",
-    "./images/icon-512.png"
+    "./manifest.json"
 ];
 
-// Uygulama kurulurken dosyaları cache'e al
+
+/* =========================
+   INSTALL
+========================= */
+
 self.addEventListener("install", event => {
+
     self.skipWaiting();
 
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then(cache => cache.addAll(FILES_TO_CACHE))
+            .then(cache => {
+                return cache.addAll(APP_FILES);
+            })
     );
+
 });
 
-// Eski cache'leri temizle
+
+/* =========================
+   ACTIVATE
+   ESKİ CACHE'LERİ SİL
+========================= */
+
 self.addEventListener("activate", event => {
+
     event.waitUntil(
-        caches.keys().then(keys => {
-            return Promise.all(
-                keys.map(key => {
-                    if (key !== CACHE_NAME) {
-                        return caches.delete(key);
-                    }
-                })
-            );
-        }).then(() => self.clients.claim())
+        Promise.all([
+            caches.keys().then(keys => {
+                return Promise.all(
+                    keys.map(key => {
+
+                        if (key !== CACHE_NAME) {
+                            return caches.delete(key);
+                        }
+
+                    })
+                );
+            }),
+
+            self.clients.claim()
+        ])
     );
+
 });
 
-// İnternet varsa güncel dosyayı al,
-// olmazsa cache'deki sürümü kullan
-self.addEventListener("fetch", event => {
-    event.respondWith(
-        fetch(event.request)
-            .then(response => {
-                const responseClone = response.clone();
 
-                caches.open(CACHE_NAME)
-                    .then(cache => {
-                        cache.put(event.request, responseClone);
-                    });
+/* =========================
+   FETCH
+========================= */
+
+self.addEventListener("fetch", event => {
+
+    const request = event.request;
+
+    if (request.method !== "GET") {
+        return;
+    }
+
+    const url = new URL(request.url);
+
+
+    /*
+       Firebase, hava durumu, harita vb.
+       dış servisleri cache'leme.
+    */
+
+    if (url.origin !== self.location.origin) {
+        return;
+    }
+
+
+    /*
+       HTML / JS / CSS:
+       Önce internetten en güncel sürümü al.
+
+       İnternet yoksa cache'e dön.
+    */
+
+    event.respondWith(
+
+        fetch(request)
+
+            .then(response => {
+
+                if (
+                    response &&
+                    response.status === 200
+                ) {
+
+                    const responseClone =
+                        response.clone();
+
+                    caches.open(CACHE_NAME)
+                        .then(cache => {
+                            cache.put(
+                                request,
+                                responseClone
+                            );
+                        });
+
+                }
 
                 return response;
+
             })
+
             .catch(() => {
-                return caches.match(event.request);
+
+                return caches.match(request)
+                    .then(cachedResponse => {
+
+                        if (cachedResponse) {
+                            return cachedResponse;
+                        }
+
+                        if (
+                            request.mode === "navigate"
+                        ) {
+                            return caches.match(
+                                "./index.html"
+                            );
+                        }
+
+                    });
+
             })
+
     );
+
 });
