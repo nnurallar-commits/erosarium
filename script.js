@@ -4823,3 +4823,22 @@ if (
         }
     );
 }
+// 🐈 Nisu'ya Bak Modu
+
+const pussModeBtn =
+    document.getElementById("pussModeBtn");
+
+const pussMode =
+    document.getElementById("pussMode");
+
+if (pussModeBtn && pussMode) {
+
+    pussModeBtn.addEventListener("click", () => {
+        pussMode.classList.add("active");
+    });
+
+    pussMode.addEventListener("click", () => {
+        pussMode.classList.remove("active");
+    });
+
+}
