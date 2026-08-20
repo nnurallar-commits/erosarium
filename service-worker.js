@@ -1,5 +1,5 @@
 const CACHE_NAME =
-    "erosarium-v30";
+    "erosarium-v31";
 
 const APP_FILES = [
     "./",
