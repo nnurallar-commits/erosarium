@@ -24,7 +24,7 @@ from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 ===================================================== */
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCcUlSMTkrl8Fo2EcJ_m7HGydMgbSJpQFs",
+    apiKey: "AIzaSyCcUlSMTkrl8Fo2EcJ_mZHGydMgbSJpQFs",
     authDomain: "erosarium.firebaseapp.com",
     projectId: "erosarium",
     storageBucket: "erosarium.firebasestorage.app",
