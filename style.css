@@ -2251,3 +2251,77 @@ button:active {
     }
 
 }
+/* 🐈 NİSU'YA BAK MODU */
+
+#pussModeBtn {
+    position: fixed;
+    right: 18px;
+    bottom: 90px;
+    z-index: 999;
+    border: none;
+    border-radius: 999px;
+    padding: 12px 18px;
+    background: #fff0f5;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+    transition: transform 0.2s ease;
+}
+
+#pussModeBtn:hover {
+    transform: scale(1.06);
+}
+
+.puss-mode {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(8px);
+}
+
+.puss-mode.active {
+    display: flex;
+}
+
+.puss-card {
+    width: min(90vw, 390px);
+    padding: 25px;
+    background: white;
+    border-radius: 30px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    animation: pussPop 0.45s ease;
+}
+
+.puss-image {
+    display: block;
+    width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+    border-radius: 22px;
+}
+
+.puss-card h2 {
+    margin: 18px 5px 5px;
+    font-size: 22px;
+    line-height: 1.35;
+    color: #333;
+}
+
+@keyframes pussPop {
+    from {
+        opacity: 0;
+        transform: scale(0.65) translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
