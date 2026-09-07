@@ -1,7 +1,7 @@
 {
   "name": "Erosarium",
   "short_name": "Erosarium",
-  "description": "Erosarium balıkçılık uygulaması",
+  "description": "Erosarium balıkçılık ve akvaryum uygulaması",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -10,13 +10,13 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "images/icon-192.png",
+      "src": "images/erosarium-icon-192-v7.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "images/icon-512.png",
+      "src": "images/erosarium-icon-512-v7.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
