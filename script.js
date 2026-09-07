@@ -194,6 +194,10 @@ function showPage(pageId) {
     }
 
 
+    document.querySelectorAll(".bottom-nav [data-page]").forEach(button => {
+        button.classList.toggle("nav-active", button.dataset.page === pageId);
+    });
+
     window.scrollTo({
         top: 0,
         behavior: "smooth"
@@ -219,6 +223,25 @@ document
         );
 
     });
+
+
+
+
+/* Konforlu av formu */
+const toggleCatchFormBtn = document.getElementById("toggleCatchForm");
+const closeCatchFormBtn = document.getElementById("closeCatchForm");
+const catchFormPanel = document.getElementById("catchFormPanel");
+
+function setCatchFormOpen(open) {
+    if (!catchFormPanel) return;
+    catchFormPanel.classList.toggle("catch-form-collapsed", !open);
+    if (open) {
+        setTimeout(() => catchFormPanel.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
+    }
+}
+
+toggleCatchFormBtn?.addEventListener("click", () => setCatchFormOpen(true));
+closeCatchFormBtn?.addEventListener("click", () => setCatchFormOpen(false));
 
 
 /* =====================================================
