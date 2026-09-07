@@ -3,7 +3,11 @@ from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 import {
     getAuth,
-    signInAnonymously
+    signInAnonymously,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+    onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
@@ -42,6 +46,38 @@ const db =
     getFirestore(firebaseApp);
 
 let firebaseReady = false;
+
+let currentAuthUser = null;
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: "select_account" });
+
+function updateGoogleAccountUI(user) {
+    const title = document.getElementById("googleAccountTitle");
+    const text = document.getElementById("googleAccountText");
+    const signInBtn = document.getElementById("googleSignInBtn");
+    const signOutBtn = document.getElementById("googleSignOutBtn");
+    const isGoogleUser = !!user && !user.isAnonymous;
+    if (title) title.textContent = isGoogleUser ? (user.displayName || "Google hesabın bağlı") : "Google hesabını bağla";
+    if (text) text.textContent = isGoogleUser ? `${user.email || "Google hesabı"} · yeni av noktaların bu hesaba bağlanır.` : "Yeni kaydettiğin av noktaları hesabınla eşleşsin.";
+    signInBtn?.classList.toggle("hidden", isGoogleUser);
+    signOutBtn?.classList.toggle("hidden", !isGoogleUser);
+}
+
+onAuthStateChanged(auth, user => {
+    currentAuthUser = user;
+    updateGoogleAccountUI(user);
+});
+
+async function signInWithGoogleAccount() {
+    try { await signInWithPopup(auth, googleProvider); }
+    catch (error) { console.error("Google giriş:", error); alert("Google girişi açılamadı. Firebase Console'da Google giriş yöntemini etkinleştirmen gerekiyor."); }
+}
+
+async function signOutGoogleAccount() {
+    try { await signOut(auth); await signInAnonymously(auth); }
+    catch (error) { console.error("Google çıkış:", error); }
+}
+
 
 try {
 
@@ -272,7 +308,13 @@ async function logActivity(
                 text,
                 icon,
                 createdAt:
-                    Date.now()
+                    Date.now(),
+
+                ownerUid:
+                    currentAuthUser && !currentAuthUser.isAnonymous ? currentAuthUser.uid : null,
+
+                ownerEmail:
+                    currentAuthUser && !currentAuthUser.isAnonymous ? (currentAuthUser.email || "") : ""
             }
         );
 
@@ -462,6 +504,9 @@ saveSpotButton?.addEventListener(
     "click",
     saveFishingSpot
 );
+
+document.getElementById("googleSignInBtn")?.addEventListener("click", signInWithGoogleAccount);
+document.getElementById("googleSignOutBtn")?.addEventListener("click", signOutGoogleAccount);
 
 
 function getLocation() {
@@ -2445,6 +2490,8 @@ function renderFavoriteSpots(
                         🗺️ Haritada Göster
                     </button>
 
+                    <button class="favorite-google-button" data-google-map="${spot.id}">Google Maps</button>
+
                 </div>
 
             </div>
@@ -2537,6 +2584,15 @@ function renderFavoriteSpots(
             );
 
         });
+
+    container.querySelectorAll("[data-google-map]").forEach(button => {
+        button.addEventListener("click", () => {
+            const spot = spots.find(item => item.id === button.dataset.googleMap);
+            if (!spot) return;
+            const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${spot.latitude},${spot.longitude}`)}`;
+            window.open(url, "_blank", "noopener");
+        });
+    });
 }
 
 
@@ -4079,65 +4135,73 @@ if (
 
 
 /* =====================================================
-   ANA SAYFA CANLI HAVA + AV DURUMU
+   ANA SAYFA CANLI HAVA + AV DURUMU + KOLAY KONUM
 ===================================================== */
-const HOME_DEFAULT_LAT = 38.4237;
-const HOME_DEFAULT_LON = 27.1428;
+const HOME_DEFAULT_LOCATION = { latitude: 38.4237, longitude: 27.1428, name: "İzmir" };
+let homeLocation = (() => { try { return JSON.parse(localStorage.getItem("erosariumHomeLocation")) || HOME_DEFAULT_LOCATION; } catch { return HOME_DEFAULT_LOCATION; } })();
 
-function homeSetText(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-}
-
+function homeSetText(id, value) { const el = document.getElementById(id); if (el) el.textContent = value; }
 function describeFishingDay(score) {
     if (score >= 80) return { title: "Bugün av için çok iyi.", reason: "Koşullar güçlü görünüyor. İyi saatleri kaçırma." };
     if (score >= 65) return { title: "Bugün av için iyi.", reason: "Hava ve saat koşulları balık için gayet uygun." };
     if (score >= 50) return { title: "Bugün av yapılabilir.", reason: "Koşullar orta seviyede. Saat seçimi önemli." };
     return { title: "Bugün av için zayıf.", reason: "Koşullar çok desteklemiyor. Tahmini kontrol ederek çık." };
 }
+function getCurrentLikeItem(items) { const now = new Date(); return items.reduce((best,item)=>!best || Math.abs(item.date-now)<Math.abs(best.date-now)?item:best,null); }
+function getTodayBest(items) { const now = new Date(); return items.filter(item=>sameDay(item.date,now)).sort((a,b)=>b.score-a.score || a.date-b.date)[0] || null; }
+function hourLabel(date) { if (!date) return "--:--"; return String(date.getHours()).padStart(2,"0")+":00"; }
 
-function getCurrentLikeItem(items) {
-    const now = new Date();
-    return items.reduce((best, item) => !best || Math.abs(item.date-now) < Math.abs(best.date-now) ? item : best, null);
+function setHomeLocation(location) {
+    homeLocation = { latitude:Number(location.latitude), longitude:Number(location.longitude), name:location.name || "Seçilen konum" };
+    localStorage.setItem("erosariumHomeLocation", JSON.stringify(homeLocation));
+    selectedLatitude = homeLocation.latitude; selectedLongitude = homeLocation.longitude;
+    homeSetText("homeLocationName", homeLocation.name);
+    const locationText=document.getElementById("locationText"); if(locationText) locationText.textContent=`📍 ${homeLocation.name}`;
+    loadHomeDashboard(homeLocation);
 }
 
-function getTodayBest(items) {
-    const now = new Date();
-    return items.filter(item => sameDay(item.date, now)).sort((a,b) => b.score-a.score || a.date-b.date)[0] || null;
-}
-
-function hourLabel(date) {
-    if (!date) return "--:--";
-    return String(date.getHours()).padStart(2,"0") + ":00";
-}
-
-async function loadHomeDashboard() {
+async function loadHomeDashboard(location=homeLocation) {
     if (!document.getElementById("homeTemp")) return;
+    homeSetText("homeLocationName", location.name || "Konum");
     try {
-        const data = await fetchWeather(HOME_DEFAULT_LAT, HOME_DEFAULT_LON);
-        const items = buildHourlyScores(data);
-        const current = getCurrentLikeItem(items);
-        const best = getTodayBest(items);
-        if (!current) return;
-        const verdict = describeFishingDay(current.score);
-        homeSetText("homeFishingVerdict", verdict.title);
-        homeSetText("homeFishingReason", `${Math.round(current.temperature)}°C, ${Math.round(current.wind)} km/sa rüzgâr. ${verdict.reason}`);
-        homeSetText("homeTemp", `${Math.round(current.temperature)}°`);
-        homeSetText("homeWeatherText", current.cloud > 70 ? "Bulutlu" : current.cloud > 35 ? "Parçalı bulutlu" : "Açık / az bulutlu");
-        homeSetText("homeWind", `${Math.round(current.wind)} km/sa`);
-        homeSetText("homeScore", `${current.score}/100`);
-        homeSetText("homeBestTime", hourLabel(best?.date));
-
-        const today = items.filter(i => sameDay(i.date, new Date()));
-        const morning = today.filter(i => i.date.getHours() >= 4 && i.date.getHours() <= 11).sort((a,b)=>b.score-a.score)[0];
-        const evening = today.filter(i => i.date.getHours() >= 16 && i.date.getHours() <= 23).sort((a,b)=>b.score-a.score)[0];
-        if (morning) homeSetText("homeMorningTime", `${hourLabel(morning.date)} civarı`);
-        if (evening) homeSetText("homeEveningTime", `${hourLabel(evening.date)} civarı`);
-    } catch (error) {
-        console.warn("Ana sayfa hava özeti alınamadı:", error);
-        homeSetText("homeFishingVerdict", "Bugünün koşullarını aç.");
-        homeSetText("homeFishingReason", "Canlı hava alınamadı. Tahmin bölümünden tekrar deneyebilirsin.");
-    }
+        const data=await fetchWeather(location.latitude,location.longitude);
+        const items=buildHourlyScores(data); const current=getCurrentLikeItem(items); const best=getTodayBest(items); if(!current)return;
+        const verdict=describeFishingDay(current.score);
+        homeSetText("homeFishingVerdict",verdict.title);
+        homeSetText("homeFishingReason",`${location.name}: ${Math.round(current.temperature)}°C, ${Math.round(current.wind)} km/sa rüzgâr. ${verdict.reason}`);
+        homeSetText("homeTemp",`${Math.round(current.temperature)}°`);
+        homeSetText("homeWeatherText",current.cloud>70?"Bulutlu":current.cloud>35?"Parçalı bulutlu":"Açık / az bulutlu");
+        homeSetText("homeWind",`${Math.round(current.wind)} km/sa`); homeSetText("homeScore",`${current.score}/100`); homeSetText("homeBestTime",hourLabel(best?.date));
+        const today=items.filter(i=>sameDay(i.date,new Date()));
+        const morning=today.filter(i=>i.date.getHours()>=4&&i.date.getHours()<=11).sort((a,b)=>b.score-a.score)[0];
+        const evening=today.filter(i=>i.date.getHours()>=16&&i.date.getHours()<=23).sort((a,b)=>b.score-a.score)[0];
+        if(morning)homeSetText("homeMorningTime",`${hourLabel(morning.date)} civarı`); if(evening)homeSetText("homeEveningTime",`${hourLabel(evening.date)} civarı`);
+    } catch(error) { console.warn("Ana sayfa hava özeti alınamadı:",error); homeSetText("homeFishingVerdict","Bugünün koşullarını aç."); homeSetText("homeFishingReason","Canlı hava alınamadı. Başka bir konum seçip tekrar deneyebilirsin."); }
 }
 
-loadHomeDashboard();
+const locationPickerModal=document.getElementById("locationPickerModal");
+const locationSearchInput=document.getElementById("locationSearchInput");
+const locationSearchResults=document.getElementById("locationSearchResults");
+let locationSearchTimer=null;
+function openLocationPicker(){locationPickerModal?.classList.remove("hidden");locationPickerModal?.setAttribute("aria-hidden","false");setTimeout(()=>locationSearchInput?.focus(),80);}
+function closeLocationPicker(){locationPickerModal?.classList.add("hidden");locationPickerModal?.setAttribute("aria-hidden","true");}
+document.getElementById("homeLocationBtn")?.addEventListener("click",openLocationPicker);
+document.getElementById("closeLocationPicker")?.addEventListener("click",closeLocationPicker);
+locationPickerModal?.addEventListener("click",e=>{if(e.target===locationPickerModal)closeLocationPicker();});
+document.querySelectorAll("[data-home-location]").forEach(btn=>btn.addEventListener("click",()=>{const [latitude,longitude,...name]=btn.dataset.homeLocation.split(",");setHomeLocation({latitude,longitude,name:name.join(",")});closeLocationPicker();}));
+document.getElementById("homeUseMyLocation")?.addEventListener("click",()=>{
+    if(!navigator.geolocation){alert("Bu cihaz konum özelliğini desteklemiyor.");return;}
+    navigator.geolocation.getCurrentPosition(pos=>{setHomeLocation({latitude:pos.coords.latitude,longitude:pos.coords.longitude,name:"Konumum"});closeLocationPicker();},()=>alert("Konum alınamadı. Tarayıcı konum iznini kontrol et."),{enableHighAccuracy:true,timeout:12000,maximumAge:60000});
+});
+async function searchHomeLocations(query){
+    if(!locationSearchResults)return; if(query.trim().length<2){locationSearchResults.innerHTML="";return;}
+    locationSearchResults.innerHTML='<div class="location-search-loading">Aranıyor...</div>';
+    try{const res=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query.trim())}&count=8&language=tr&format=json`);if(!res.ok)throw new Error("search");const data=await res.json();const results=data.results||[];
+    if(!results.length){locationSearchResults.innerHTML='<div class="location-search-empty">Sonuç bulunamadı.</div>';return;}
+    locationSearchResults.innerHTML=results.map((item,i)=>`<button type="button" class="location-result" data-location-result="${i}"><span>⌖</span><div><b>${escapeHtml(item.name)}</b><small>${escapeHtml([item.admin1,item.country].filter(Boolean).join(" · "))}</small></div><i>›</i></button>`).join("");
+    locationSearchResults.querySelectorAll("[data-location-result]").forEach(btn=>btn.addEventListener("click",()=>{const item=results[Number(btn.dataset.locationResult)];setHomeLocation({latitude:item.latitude,longitude:item.longitude,name:item.name});closeLocationPicker();locationSearchInput.value="";locationSearchResults.innerHTML="";}));
+    }catch(error){console.error(error);locationSearchResults.innerHTML='<div class="location-search-empty">Konum aranamadı. Tekrar dene.</div>';}
+}
+locationSearchInput?.addEventListener("input",()=>{clearTimeout(locationSearchTimer);locationSearchTimer=setTimeout(()=>searchHomeLocations(locationSearchInput.value),300);});
+homeSetText("homeLocationName",homeLocation.name); selectedLatitude=homeLocation.latitude; selectedLongitude=homeLocation.longitude; loadHomeDashboard(homeLocation);
+

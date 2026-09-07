@@ -6,7 +6,7 @@
   <title>Erosarium</title>
   <meta name="theme-color" content="#f5f2e8">
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style-v5.css?v=7">
+  <link rel="stylesheet" href="style-v5.css?v=8">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
   <link rel="icon" type="image/png" sizes="192x192" href="images/erosarium-icon-192-v7.png">
@@ -28,7 +28,7 @@
         <span class="premium-kicker">BUGÜN</span>
         <h1 id="homeFishingVerdict">Av durumun hesaplanıyor...</h1>
         <p id="homeFishingReason">İzmir için güncel hava ve av koşullarına bakıyorum.</p>
-        <button class="premium-location" data-page="forecast">⌖ İzmir <span>›</span></button>
+        <button class="premium-location" id="homeLocationBtn" type="button">⌖ <span id="homeLocationName">İzmir</span> <span>⌄</span></button>
       </div>
     </div>
 
@@ -61,6 +61,26 @@
     </div>
   </section>
 
+  <div id="locationPickerModal" class="location-picker-modal hidden" aria-hidden="true">
+    <div class="location-picker-sheet">
+      <div class="location-picker-head">
+        <div><span class="eyebrow">KONUM</span><h3>Av bölgesini seç</h3><p>Şehir, ilçe veya kıyı adı yazabilirsin.</p></div>
+        <button id="closeLocationPicker" type="button" aria-label="Kapat">✕</button>
+      </div>
+      <button id="homeUseMyLocation" class="location-current-btn" type="button"><span>◎</span><div><b>Şu anki konumumu kullan</b><small>GPS ile bulunduğun yere göre tahmin</small></div></button>
+      <label class="location-search-box"><span>⌕</span><input id="locationSearchInput" type="search" placeholder="örn. Çeşme, Foça, Bodrum..." autocomplete="off"></label>
+      <div class="location-presets">
+        <button type="button" data-home-location="38.4237,27.1428,İzmir">İzmir</button>
+        <button type="button" data-home-location="38.3228,26.3057,Çeşme">Çeşme</button>
+        <button type="button" data-home-location="38.6703,26.7566,Foça">Foça</button>
+        <button type="button" data-home-location="38.3220,26.7640,Urla">Urla</button>
+        <button type="button" data-home-location="38.1969,26.8388,Seferihisar">Seferihisar</button>
+        <button type="button" data-home-location="38.6364,26.5127,Karaburun">Karaburun</button>
+      </div>
+      <div id="locationSearchResults" class="location-search-results"></div>
+    </div>
+  </div>
+
   <section id="forecast" class="page">
     <div class="page-head">
       <span class="eyebrow">AV PLANI</span>
@@ -92,6 +112,11 @@
       <div><span class="eyebrow">YERLER</span><h2>Av noktalarım</h2><p>Kaydettiğin noktalar iki telefonda da ortak görünür.</p></div>
       <div class="count-pill"><strong id="favoriteCount">0</strong><span>nokta</span></div>
     </div>
+    <div class="google-account-card">
+      <div class="google-account-main"><div class="google-g-badge">G</div><div><b id="googleAccountTitle">Google hesabını bağla</b><small id="googleAccountText">Yeni kaydettiğin av noktaları hesabınla eşleşsin.</small></div></div>
+      <div class="google-account-actions"><button id="googleSignInBtn" type="button">Google ile giriş</button><button id="googleSignOutBtn" class="hidden" type="button">Çıkış</button></div>
+    </div>
+    <div class="maps-info-note"><span>⌖</span><p>Kaydettiğin noktaları tek dokunuşla Google Maps'te açabilirsin.</p></div>
     <div id="favoriteSpots"></div>
   </section>
 
