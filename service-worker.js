@@ -1,10 +1,11 @@
 const CACHE_NAME =
-    "erosarium-v40";
+    "erosarium-v41";
 
 const APP_FILES = [
     "./",
     "./index.html",
-    "./style.css",
+    "./style-v5.css?v=5",
+    "./images/erosarium-hero-v5.jpg",
     "./script.js",
     "./manifest.json"
 ];
