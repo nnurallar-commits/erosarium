@@ -1,12 +1,12 @@
 {
   "name": "Erosarium",
   "short_name": "Erosarium",
-  "description": "Erosarium balıkçılık ve akvaryum uygulaması",
+  "description": "Erosarium balıkçılık uygulaması",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#eef8fb",
-  "theme_color": "#06283d",
+  "background_color": "#f5f2e8",
+  "theme_color": "#153d32",
   "orientation": "portrait-primary",
   "icons": [
     {
