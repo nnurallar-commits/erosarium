@@ -822,8 +822,7 @@ button:active {
 /* FAVORİLER */
 
 .favorites-header,
-.activity-header,
-.nisa-header {
+.activity-header {
     text-align: center;
 }
 
@@ -833,8 +832,7 @@ button:active {
 }
 
 .favorites-header h2,
-.activity-header h2,
-.nisa-header h2 {
+.activity-header h2 {
     margin:
         6px 0;
 
@@ -842,8 +840,7 @@ button:active {
 }
 
 .favorites-header p,
-.activity-header p,
-.nisa-header p {
+.activity-header p {
     margin-top: 5px;
 
     color:
@@ -1629,88 +1626,6 @@ button:active {
 }
 
 
-/* NİSU */
-
-.love-counter-card,
-.nisa-card,
-.love-counter-card,
-.nisa-card {
-    text-align: center;
-}
-
-.love-counter-heart,
-.nisa-heart {
-    font-size: 36px;
-}
-
-.love-counter {
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            4,
-            1fr
-        );
-
-    gap: 6px;
-
-    margin: 20px 0;
-}
-
-.love-counter > div {
-    padding:
-        11px 3px;
-
-    border-radius: 14px;
-
-    background:
-        #fff1f3;
-}
-
-.love-counter strong,
-.love-counter span {
-    display: block;
-}
-
-.love-counter strong {
-    color:
-        #b9475a;
-
-    font-size: 20px;
-}
-
-.love-counter span {
-    margin-top: 3px;
-
-    color:
-        var(--muted);
-
-    font-size: 9px;
-}
-
-.love-dates {
-    display: grid;
-
-    gap: 7px;
-}
-
-.love-dates > div {
-    display: flex;
-
-    justify-content:
-        space-between;
-
-    padding: 10px;
-
-    border-radius: 12px;
-
-    background:
-        var(--light);
-
-    font-size: 11px;
-}
-
-.nisa-card button,
 /* ALT MENÜ */
 
 .bottom-nav {
@@ -1878,77 +1793,286 @@ button:active {
     }
 
 }
-/* 🐈 NİSU'YA BAK MODU */
 
-#pussModeBtn {
-    position: fixed;
-    right: 18px;
-    bottom: 90px;
-    z-index: 999;
-    border: none;
-    border-radius: 999px;
-    padding: 12px 18px;
-    background: #fff0f5;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
-    transition: transform 0.2s ease;
+
+/* =====================================================
+   EROSARIUM 2.0 · MODERN / KONFORLU TEMA
+===================================================== */
+:root {
+    --navy: #102f3a;
+    --navy2: #174452;
+    --blue: #287b86;
+    --light: #eef5f2;
+    --white: #fffdf9;
+    --text: #17343a;
+    --muted: #6f8282;
+    --green: #3e7866;
+    --yellow: #c59a45;
+    --red: #ad6660;
+    --surface: rgba(255, 253, 249, .94);
+    --surface-2: #f4f7f3;
+    --line: rgba(22, 57, 63, .10);
+    --shadow: 0 12px 34px rgba(24, 56, 61, .10);
+    --shadow-soft: 0 5px 18px rgba(24, 56, 61, .07);
+    --radius: 24px;
 }
 
-#pussModeBtn:hover {
-    transform: scale(1.06);
+html { background: #edf3ef; }
+
+body {
+    background:
+        radial-gradient(circle at 12% 0%, rgba(129, 168, 150, .14), transparent 32%),
+        radial-gradient(circle at 90% 12%, rgba(190, 163, 99, .10), transparent 26%),
+        linear-gradient(180deg, #f7f7f2 0%, #edf4f1 52%, #f7f8f4 100%);
+    color: var(--text);
+    letter-spacing: -.01em;
+    padding-bottom: calc(104px + env(safe-area-inset-bottom));
 }
 
-.puss-mode {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 25px;
-    background: rgba(0, 0, 0, 0.72);
-    backdrop-filter: blur(8px);
+.page {
+    max-width: 720px;
+    min-height: calc(100vh - 90px);
+    padding: 28px 18px 54px;
 }
 
-.puss-mode.active {
-    display: flex;
+.page > h1,
+.page > h2 {
+    letter-spacing: -.035em;
 }
 
-.puss-card {
-    width: min(90vw, 390px);
-    padding: 25px;
-    background: white;
-    border-radius: 30px;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-    animation: pussPop 0.45s ease;
+.page > h2 {
+    margin-top: 8px;
+    font-size: clamp(25px, 7vw, 32px);
 }
 
-.puss-image {
-    display: block;
+.page > p {
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.55;
+}
+
+button {
+    min-height: 48px;
+    border-radius: 16px;
+    transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+}
+
+button:active { transform: scale(.975); }
+
+input,
+textarea,
+select {
     width: 100%;
-    max-height: 420px;
-    object-fit: contain;
-    border-radius: 22px;
+    min-height: 48px;
+    border: 1px solid var(--line) !important;
+    border-radius: 16px !important;
+    background: rgba(255,255,255,.88) !important;
+    color: var(--text) !important;
+    outline: none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.55);
 }
 
-.puss-card h2 {
-    margin: 18px 5px 5px;
-    font-size: 22px;
-    line-height: 1.35;
-    color: #333;
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: rgba(62, 120, 102, .42) !important;
+    box-shadow: 0 0 0 4px rgba(62, 120, 102, .09) !important;
 }
 
-@keyframes pussPop {
-    from {
-        opacity: 0;
-        transform: scale(0.65) translateY(30px);
-    }
+/* Ana sayfa: daha sakin ve premium */
+#home {
+    min-height: calc(100vh - 110px);
+    display: none;
+    align-content: center;
+    padding-top: 34px;
+    padding-bottom: 80px;
+}
+#home.active { display: grid; }
 
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+#home h1 {
+    color: var(--navy);
+    font-size: clamp(44px, 12vw, 68px);
+    letter-spacing: .045em;
+    text-shadow: 0 1px 0 rgba(255,255,255,.9);
+}
+
+#home .home-subtitle {
+    margin-top: 8px;
+    color: var(--green);
+    font-weight: 700;
+    letter-spacing: .08em;
+}
+
+#home h2 {
+    margin-top: 62px;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-size: 25px;
+}
+
+#home > button {
+    justify-self: center;
+    width: min(100%, 330px);
+    min-height: 54px;
+    margin-top: 22px;
+    background: linear-gradient(135deg, var(--navy), var(--navy2));
+    box-shadow: 0 12px 28px rgba(16, 47, 58, .20);
+}
+
+/* Genel kart hissi */
+.favorites-stats > div,
+.favorite-card,
+.activity-card,
+.catch-form,
+.catch-card,
+.fish-guide-card,
+.weekly-day-detail,
+.weather-card,
+.forecast-card,
+.ideal-card,
+.favorite-detail-panel,
+.map-container {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
+}
+
+.favorite-card,
+.activity-card,
+.catch-form,
+.catch-card,
+.fish-guide-card,
+.weekly-day-detail,
+.weather-card,
+.forecast-card,
+.ideal-card,
+.favorite-detail-panel {
+    border-radius: var(--radius) !important;
+}
+
+.map-container {
+    padding: 12px;
+    border-radius: var(--radius);
+}
+
+#map { border-radius: 18px; overflow: hidden; }
+
+.location-buttons {
+    gap: 10px;
+    margin: 20px 0 24px;
+}
+
+.location-buttons button,
+#saveSpotButton,
+.detail-map-button,
+#saveCatchBtn {
+    min-height: 50px;
+    background: linear-gradient(135deg, var(--navy), var(--navy2));
+    box-shadow: 0 8px 20px rgba(16,47,58,.13);
+}
+
+#saveSpotButton { background: linear-gradient(135deg, #4d806f, #366a59); }
+
+/* Başlık blokları */
+.favorites-header,
+.activity-header {
+    padding: 12px 8px 4px;
+}
+
+.favorites-icon,
+.activity-icon {
+    display: grid;
+    width: 62px;
+    height: 62px;
+    place-items: center;
+    margin: 0 auto 10px;
+    border-radius: 21px;
+    background: rgba(62,120,102,.09);
+    font-size: 31px;
+}
+
+.favorites-header h2,
+.activity-header h2 {
+    font-size: 29px;
+    letter-spacing: -.035em;
+}
+
+/* Alt navigasyon: büyük dokunma alanı, yüzen panel */
+.bottom-nav {
+    left: 12px;
+    right: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    transform: none;
+    width: auto;
+    max-width: 696px;
+    margin: 0 auto;
+    padding: 7px;
+    gap: 2px;
+    border: 1px solid rgba(16,47,58,.10);
+    border-radius: 25px;
+    background: rgba(255, 253, 249, .92);
+    box-shadow: 0 14px 40px rgba(18,47,53,.16);
+    backdrop-filter: blur(22px) saturate(1.15);
+    -webkit-backdrop-filter: blur(22px) saturate(1.15);
+}
+
+.bottom-nav button {
+    min-height: 56px;
+    padding: 7px 2px 6px;
+    border-radius: 18px;
+    color: #536b6b;
+    font-size: 20px;
+}
+
+.bottom-nav button:active,
+.bottom-nav button:focus-visible {
+    background: rgba(62,120,102,.10);
+    color: var(--navy);
+}
+
+.bottom-nav button span {
+    margin-top: 2px;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: -.01em;
+}
+
+/* Daha rahat okunabilir veri alanları */
+.weather-grid,
+.favorite-live-weather {
+    gap: 10px;
+}
+
+.weather-grid > div,
+.favorite-live-weather > div {
+    border-radius: 17px !important;
+}
+
+.favorites-stats { gap: 10px; }
+.favorites-stats > div { border-radius: 19px; }
+
+#catchList,
+#favoriteSpots,
+#fishGuideList,
+#activityList {
+    display: grid;
+    gap: 14px;
+}
+
+textarea { min-height: 110px; resize: vertical; }
+
+@media (max-width: 520px) {
+    .page { padding: 22px 14px 48px; }
+    #home { padding-left: 22px; padding-right: 22px; }
+    #home h2 { margin-top: 50px; }
+    .location-buttons { grid-template-columns: 1fr; }
+    .bottom-nav { left: 8px; right: 8px; bottom: calc(7px + env(safe-area-inset-bottom)); }
+    .bottom-nav button { min-height: 54px; font-size: 19px; }
+    .bottom-nav button span { font-size: 8.5px; }
+}
+
+@media (max-width: 370px) {
+    .bottom-nav button span { font-size: 7.5px; }
+    .bottom-nav button { font-size: 17px; padding-left: 0; padding-right: 0; }
 }
