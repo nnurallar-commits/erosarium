@@ -4076,3 +4076,68 @@ if (
         }
     );
 }
+
+
+/* =====================================================
+   ANA SAYFA CANLI HAVA + AV DURUMU
+===================================================== */
+const HOME_DEFAULT_LAT = 38.4237;
+const HOME_DEFAULT_LON = 27.1428;
+
+function homeSetText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+}
+
+function describeFishingDay(score) {
+    if (score >= 80) return { title: "Bugün av için çok iyi.", reason: "Koşullar güçlü görünüyor. İyi saatleri kaçırma." };
+    if (score >= 65) return { title: "Bugün av için iyi.", reason: "Hava ve saat koşulları balık için gayet uygun." };
+    if (score >= 50) return { title: "Bugün av yapılabilir.", reason: "Koşullar orta seviyede. Saat seçimi önemli." };
+    return { title: "Bugün av için zayıf.", reason: "Koşullar çok desteklemiyor. Tahmini kontrol ederek çık." };
+}
+
+function getCurrentLikeItem(items) {
+    const now = new Date();
+    return items.reduce((best, item) => !best || Math.abs(item.date-now) < Math.abs(best.date-now) ? item : best, null);
+}
+
+function getTodayBest(items) {
+    const now = new Date();
+    return items.filter(item => sameDay(item.date, now)).sort((a,b) => b.score-a.score || a.date-b.date)[0] || null;
+}
+
+function hourLabel(date) {
+    if (!date) return "--:--";
+    return String(date.getHours()).padStart(2,"0") + ":00";
+}
+
+async function loadHomeDashboard() {
+    if (!document.getElementById("homeTemp")) return;
+    try {
+        const data = await fetchWeather(HOME_DEFAULT_LAT, HOME_DEFAULT_LON);
+        const items = buildHourlyScores(data);
+        const current = getCurrentLikeItem(items);
+        const best = getTodayBest(items);
+        if (!current) return;
+        const verdict = describeFishingDay(current.score);
+        homeSetText("homeFishingVerdict", verdict.title);
+        homeSetText("homeFishingReason", `${Math.round(current.temperature)}°C, ${Math.round(current.wind)} km/sa rüzgâr. ${verdict.reason}`);
+        homeSetText("homeTemp", `${Math.round(current.temperature)}°`);
+        homeSetText("homeWeatherText", current.cloud > 70 ? "Bulutlu" : current.cloud > 35 ? "Parçalı bulutlu" : "Açık / az bulutlu");
+        homeSetText("homeWind", `${Math.round(current.wind)} km/sa`);
+        homeSetText("homeScore", `${current.score}/100`);
+        homeSetText("homeBestTime", hourLabel(best?.date));
+
+        const today = items.filter(i => sameDay(i.date, new Date()));
+        const morning = today.filter(i => i.date.getHours() >= 4 && i.date.getHours() <= 11).sort((a,b)=>b.score-a.score)[0];
+        const evening = today.filter(i => i.date.getHours() >= 16 && i.date.getHours() <= 23).sort((a,b)=>b.score-a.score)[0];
+        if (morning) homeSetText("homeMorningTime", `${hourLabel(morning.date)} civarı`);
+        if (evening) homeSetText("homeEveningTime", `${hourLabel(evening.date)} civarı`);
+    } catch (error) {
+        console.warn("Ana sayfa hava özeti alınamadı:", error);
+        homeSetText("homeFishingVerdict", "Bugünün koşullarını aç.");
+        homeSetText("homeFishingReason", "Canlı hava alınamadı. Tahmin bölümünden tekrar deneyebilirsin.");
+    }
+}
+
+loadHomeDashboard();

@@ -17,86 +17,44 @@
 </header>
 
 <main>
-  <section id="home" class="page active modern-home premium-home">
+  <section id="home" class="page active premium-home">
     <div class="premium-hero">
-      <svg class="hero-art" viewBox="0 0 1200 430" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4c79b"/><stop offset=".42" stop-color="#d99170"/><stop offset="1" stop-color="#3e6668"/></linearGradient>
-          <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#365d60"/><stop offset="1" stop-color="#193f41"/></linearGradient>
-          <radialGradient id="sun"><stop offset="0" stop-color="#fff7cf"/><stop offset="1" stop-color="#ffc66e"/></radialGradient>
-        </defs>
-        <rect width="1200" height="430" fill="url(#sky)"/>
-        <circle cx="790" cy="130" r="34" fill="url(#sun)" opacity=".95"/>
-        <path d="M0 180 C120 130 220 145 320 185 C420 115 540 130 650 188 C760 142 865 148 990 190 C1060 160 1135 170 1200 190 L1200 255 L0 255 Z" fill="#27484b" opacity=".88"/>
-        <path d="M0 240 C140 225 250 245 370 235 C520 220 610 250 760 235 C900 220 1040 245 1200 225 L1200 430 L0 430 Z" fill="url(#sea)"/>
-        <g opacity=".19" stroke="#d9ece8" stroke-width="3" fill="none">
-          <path d="M20 292 C110 274 180 310 275 292 S440 310 545 291 S720 310 835 290 S1040 304 1175 286"/>
-          <path d="M0 325 C120 304 205 338 312 322 S500 340 620 320 S815 338 940 319 S1100 330 1200 316"/>
-          <path d="M30 362 C150 344 240 377 355 360 S550 378 680 357 S885 378 1020 358 S1140 363 1200 352"/>
-        </g>
-        <g stroke="#111e1f" stroke-width="6" stroke-linecap="round" fill="none" opacity=".9">
-          <path d="M1040 340 Q1000 225 930 105"/>
-          <path d="M930 105 Q915 85 904 72"/>
-        </g>
-        <g fill="#162b2c" opacity=".9"><circle cx="1017" cy="292" r="6"/><circle cx="987" cy="242" r="5"/><circle cx="956" cy="185" r="4"/></g>
-      </svg>
-
       <div class="hero-overlay"></div>
-      <div class="hero-brand-row">
-        <div class="hero-brand"><span class="hero-brand-wave">≈</span><strong>Erosarium</strong><small>iyi hava, iyi avlar</small></div>
-        <button class="hero-action-icon" data-page="activity" aria-label="Hareketler">◌</button>
-      </div>
+      <div class="premium-brandline"><span>EROSARIUM</span><button class="hero-round" data-page="activity" aria-label="Hareketler">⌕</button></div>
       <div class="premium-hero-copy">
-        <span class="hero-day">BUGÜN</span>
-        <h1>İyi avlar.</h1>
-        <p>Doğru zamanda, doğru yerde.</p>
-        <button class="hero-location" data-page="forecast">⌖ İzmir <span>›</span></button>
+        <span class="premium-kicker">BUGÜN</span>
+        <h1 id="homeFishingVerdict">Av durumun hesaplanıyor...</h1>
+        <p id="homeFishingReason">İzmir için güncel hava ve av koşullarına bakıyorum.</p>
+        <button class="premium-location" data-page="forecast">⌖ İzmir <span>›</span></button>
       </div>
-      <div class="hero-date">7 Eylül 2026<br><span>Pazartesi</span></div>
     </div>
 
-    <div class="condition-grid">
-      <div class="condition-card"><div class="condition-icon sun">☀</div><div><strong>26°</strong><span>Açık</span><small>H: 28° · L: 20°</small></div></div>
-      <div class="condition-card"><div class="condition-icon">≋</div><div><strong>0.6 m</strong><span>Deniz durumu</span><small>Sakin</small></div></div>
-      <div class="condition-card"><div class="condition-icon">≋</div><div><strong>8 km/sa</strong><span>Rüzgar</span><small>Kuzeydoğu</small></div></div>
-      <div class="condition-card"><div class="condition-icon">◐</div><div><strong>05:30</strong><span>Gün doğumu</span><small>20:12 gün batımı</small></div></div>
+    <div class="home-weather-row" aria-label="Bugünün hava özeti">
+      <div class="home-weather-card temp"><span class="home-weather-icon">☀</span><div><strong id="homeTemp">--°</strong><small id="homeWeatherText">Hava</small></div></div>
+      <div class="home-weather-card"><span class="home-weather-icon">≋</span><div><strong id="homeWind">-- km/sa</strong><small>Rüzgâr</small></div></div>
+      <div class="home-weather-card"><span class="home-weather-icon">◌</span><div><strong id="homeScore">--/100</strong><small>Av skoru</small></div></div>
+      <div class="home-weather-card"><span class="home-weather-icon">◐</span><div><strong id="homeBestTime">--:--</strong><small>En iyi saat</small></div></div>
     </div>
 
-    <div class="shortcut-strip">
-      <div class="strip-note"><span>Deniz</span><b>her zaman<br>iyi hissettirir.</b></div>
-      <button data-page="forecast"><span>🐟</span><b>Av Tahmini</b><small>En iyi saatler</small></button>
+    <div class="premium-shortcuts">
+      <button data-page="forecast"><span>≋</span><b>Av Tahmini</b><small>En iyi saatler</small></button>
       <button data-page="favorites"><span>⌖</span><b>Av Noktaları</b><small>Favori yerler</small></button>
       <button data-page="catches"><span>▣</span><b>Av Günlüğü</b><small>Kayıtlarını gör</small></button>
       <button data-page="fishguide"><span>◫</span><b>Balık Rehberi</b><small>Türler & bilgiler</small></button>
     </div>
 
-    <div class="dashboard-grid">
-      <section class="dash-card recommendation-card">
-        <div class="dash-title"><div><span>BUGÜNÜN ÖNERİSİ</span><h2>Güzelbahçe Sahil</h2></div><button data-page="favorites">Tümünü gör ›</button></div>
-        <div class="recommendation-body">
-          <div class="coast-thumb"><svg viewBox="0 0 300 180" preserveAspectRatio="none"><defs><linearGradient id="ct" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#89bfd3"/><stop offset=".55" stop-color="#4e9aae"/><stop offset="1" stop-color="#235a66"/></linearGradient></defs><rect width="300" height="180" fill="url(#ct)"/><path d="M0 70 Q70 30 130 64 T300 55 L300 0 L0 0Z" fill="#315f52"/><path d="M0 130 Q70 95 135 120 T300 105 L300 180 L0 180Z" fill="#bdb89f"/></svg><span>⌖ İzmir</span></div>
-          <div class="recommendation-copy"><p>Hafif rüzgar, sakin deniz. Levrek için uygun saatler <b>17:00 – 20:00</b>.</p><div><span>Levrek</span><span>Çipura</span><span>Spin</span></div></div>
-        </div>
-      </section>
+    <div class="premium-dashboard-grid">
+      <div class="premium-panel best-hours-panel">
+        <div class="panel-head"><div><span>BUGÜN</span><h2>En iyi av saatleri</h2></div><button data-page="forecast">Detay ›</button></div>
+        <div class="time-track"><i></i><i class="active morning"></i><i></i><i class="active evening"></i><i></i></div>
+        <div class="best-time-row"><span>☀ Sabah</span><strong id="homeMorningTime">05:30 – 08:00</strong></div>
+        <div class="best-time-row"><span>☾ Akşam</span><strong id="homeEveningTime">18:00 – 20:30</strong></div>
+      </div>
 
-      <section class="dash-card best-times-card">
-        <div class="dash-title light"><div><span>BUGÜNÜN EN İYİ SAATLERİ</span><h2>Av pencereleri</h2></div><button data-page="forecast">Detay ›</button></div>
-        <div class="time-track"><i style="left:11%"></i><i style="left:73%"></i></div>
-        <div class="time-row"><span>☀ Sabah</span><b>05:30 – 08:00</b><em>›</em></div>
-        <div class="time-row"><span>☾ Akşam</span><b>18:00 – 20:30</b><em>›</em></div>
-      </section>
-
-      <section class="dash-card recent-card">
-        <div class="dash-title"><div><span>SON AVLAR</span><h2>Av günlüğün</h2></div><button data-page="catches">Tümünü gör ›</button></div>
-        <button class="recent-entry" data-page="catches"><div class="fish-thumb">🐟</div><div><b>Son kayıtlarını gör</b><span>Fotoğraf, konum ve notların</span></div><em>›</em></button>
-      </section>
-
-      <section class="dash-card favorites-card-home">
-        <div class="dash-title"><div><span>FAVORİ NOKTALAR</span><h2>Kaydettiğin yerler</h2></div><button data-page="favorites">Tümünü gör ›</button></div>
-        <div class="mini-spots"><button data-page="favorites"><i>≈</i><b>Güzelbahçe</b></button><button data-page="favorites"><i>⌖</i><b>Urla</b></button><button data-page="favorites"><i>◌</i><b>Karaburun</b></button></div>
-      </section>
-
-      <button class="add-catch-card" data-page="catches"><span>Daha güzel<br>avlara...</span><b>＋</b><small>Av Ekle</small></button>
+      <button class="premium-panel add-catch-panel" data-page="catches">
+        <div><span>KAYITLAR</span><h2>Daha güzel avlara...</h2><small>Fotoğraf, balık, konum ve notunu kaydet.</small></div>
+        <b>＋</b>
+      </button>
     </div>
   </section>
 
