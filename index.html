@@ -17,27 +17,28 @@
 </header>
 
 <main>
-  <section id="home" class="page active">
-    <div class="home-hero">
-      <div>
-        <span class="eyebrow">BUGÜN</span>
-        <h1>Av planın<br>tek ekranda.</h1>
-        <p>Hava, av noktaları ve kayıtların arasında kaybolmadan ilerle.</p>
-      </div>
-      <button class="hero-action" data-page="forecast"><span>🎣</span><b>Tahmine bak</b><small>bugünün koşulları</small></button>
+  <section id="home" class="page active modern-home">
+    <div class="modern-hero">
+      <div class="hero-topline"><span>EROSARIUM</span><button class="hero-bell" data-page="activity" aria-label="Hareketler">◌</button></div>
+      <div class="hero-copy"><span class="hero-kicker">BUGÜN</span><h1>İyi avlar.</h1><p>Doğru zamanda, doğru yerde.</p></div>
+      <button class="hero-location" data-page="forecast">⌖ İzmir <span>›</span></button>
     </div>
 
-    <div class="quick-grid">
-      <button class="quick-card" data-page="forecast"><span class="quick-icon">⌁</span><b>Av tahmini</b><small>hava ve en iyi saatler</small></button>
-      <button class="quick-card" data-page="favorites"><span class="quick-icon">⌖</span><b>Av noktaları</b><small>kayıtlı yerlerin</small></button>
-      <button class="quick-card" data-page="catches"><span class="quick-icon">≋</span><b>Av günlüğü</b><small>yakalananlar</small></button>
-      <button class="quick-card" data-page="fishguide"><span class="quick-icon">◌</span><b>Balık rehberi</b><small>İzmir & Manisa</small></button>
+    <div class="modern-shortcuts">
+      <button data-page="forecast"><span class="shortcut-icon">≋</span><b>Av Tahmini</b><small>En iyi saatler</small></button>
+      <button data-page="favorites"><span class="shortcut-icon">⌖</span><b>Av Noktaları</b><small>Favori yerler</small></button>
+      <button data-page="catches"><span class="shortcut-icon">▣</span><b>Av Günlüğü</b><small>Kayıtlarını gör</small></button>
+      <button data-page="fishguide"><span class="shortcut-icon">◫</span><b>Balık Rehberi</b><small>Türler & bilgiler</small></button>
     </div>
 
-    <div class="home-strip">
-      <div><span>⚡</span><p><b>Daha az menü</b><small>En sık kullandığın 4 bölüm aşağıda.</small></p></div>
-      <button data-page="activity">Hareketler →</button>
+    <div class="home-section-title"><div><span>HIZLI PLAN</span><h2>Bugün ne yapıyoruz?</h2></div><button data-page="forecast">Detaylı tahmin ›</button></div>
+    <div class="plan-grid">
+      <button class="plan-card plan-dark" data-page="forecast"><span>AV SAATLERİ</span><strong>Sabah 05:30 – 08:00</strong><small>Akşam 18:00 – 20:30</small><i>→</i></button>
+      <button class="plan-card" data-page="favorites"><span>YERLER</span><strong>Av noktalarını aç</strong><small>Kaydettiğin konumlara hızlıca git</small><i>→</i></button>
     </div>
+
+    <div class="home-section-title second"><div><span>KAYITLAR</span><h2>Av günlüğün</h2></div><button data-page="catches">Tümünü gör ›</button></div>
+    <button class="journal-banner" data-page="catches"><div class="journal-plus">＋</div><div><strong>Yeni av ekle</strong><small>Fotoğraf, balık, konum ve notunu kaydet</small></div><span>›</span></button>
   </section>
 
   <section id="forecast" class="page">
