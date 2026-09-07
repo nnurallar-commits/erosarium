@@ -822,7 +822,6 @@ button:active {
 /* FAVORİLER */
 
 .favorites-header,
-.aquarium-header,
 .activity-header,
 .nisa-header {
     text-align: center;
@@ -834,7 +833,6 @@ button:active {
 }
 
 .favorites-header h2,
-.aquarium-header h2,
 .activity-header h2,
 .nisa-header h2 {
     margin:
@@ -844,7 +842,6 @@ button:active {
 }
 
 .favorites-header p,
-.aquarium-header p,
 .activity-header p,
 .nisa-header p {
     margin-top: 5px;
@@ -1281,313 +1278,6 @@ button:active {
 }
 
 
-/* AKVARYUM */
-
-.sans-card {
-    margin-top: 25px;
-
-    overflow: hidden;
-
-    background: white;
-
-    border-radius: 25px;
-
-    box-shadow:
-        var(--shadow);
-}
-
-.tank-scene {
-    position: relative;
-
-    width: 100%;
-    height: 340px;
-
-    overflow: hidden;
-
-    background:
-        #80cfe4;
-}
-
-.sans-aquarium-bg {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-}
-
-.swimming-sans {
-    position: absolute;
-
-    z-index: 4;
-
-    top: 120px;
-    left: 70px;
-
-    width: 105px;
-
-    transition:
-        left 3s ease-in-out,
-        top 3s ease-in-out,
-        transform .5s ease;
-
-    filter:
-        drop-shadow(
-            0 6px 8px
-            rgba(
-                0,
-                0,
-                0,
-                .18
-            )
-        );
-}
-
-.algae-layer {
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 3;
-
-    pointer-events: none;
-}
-
-.algae-light {
-    background:
-        linear-gradient(
-            0deg,
-            rgba(
-                55,
-                128,
-                71,
-                .10
-            ),
-            transparent 40%
-        );
-}
-
-.algae-medium {
-    background:
-        linear-gradient(
-            0deg,
-            rgba(
-                40,
-                117,
-                56,
-                .20
-            ),
-            transparent 55%
-        );
-}
-
-.algae-heavy {
-    background:
-        linear-gradient(
-            0deg,
-            rgba(
-                31,
-                103,
-                46,
-                .34
-            ),
-            rgba(
-                40,
-                117,
-                56,
-                .06
-            )
-        );
-}
-
-.tank-scene.cleaning::after {
-    content:
-        "🫧 🫧 🫧";
-
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 10;
-
-    display: grid;
-
-    place-items: center;
-
-    background:
-        rgba(
-            191,
-            239,
-            250,
-            .35
-        );
-
-    font-size: 35px;
-
-    animation:
-        cleanFlash
-        1.8s ease;
-}
-
-@keyframes cleanFlash {
-
-    0% {
-        opacity: 0;
-    }
-
-    40% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
-
-}
-
-.fish-food {
-    position: absolute;
-
-    z-index: 8;
-
-    top: -10px;
-
-    color:
-        #6e3d20;
-
-    font-size: 28px;
-
-    animation:
-        foodFall
-        2.5s linear
-        forwards;
-}
-
-@keyframes foodFall {
-
-    to {
-        top: 70%;
-        opacity: .2;
-    }
-
-}
-
-.sans-title {
-    padding:
-        18px 20px
-        4px;
-}
-
-.sans-title h3 {
-    margin: 0;
-
-    font-size: 23px;
-}
-
-.sans-title p {
-    margin:
-        4px 0;
-
-    color:
-        var(--muted);
-}
-
-.sans-info {
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            3,
-            1fr
-        );
-
-    gap: 7px;
-
-    padding: 14px;
-}
-
-.sans-info > div {
-    padding:
-        12px 5px;
-
-    border-radius: 14px;
-
-    background:
-        var(--light);
-
-    text-align: center;
-}
-
-.sans-info span,
-.sans-info strong,
-.sans-info p {
-    display: block;
-}
-
-.sans-info strong {
-    margin-top: 4px;
-
-    font-size: 11px;
-}
-
-.sans-info p {
-    margin:
-        4px 0
-        0;
-
-    color:
-        var(--muted);
-
-    font-size: 9px;
-}
-
-.aquarium-actions {
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap: 9px;
-
-    padding:
-        0 14px
-        18px;
-}
-
-.aquarium-actions button {
-    padding:
-        13px 6px;
-
-    border-radius: 15px;
-
-    font-weight: 800;
-}
-
-.feed-button {
-    background:
-        #f2b84b;
-
-    color:
-        #51370b;
-}
-
-.clean-button {
-    background:
-        var(--navy);
-
-    color: white;
-}
-
-.undo-button {
-    background:
-        #edf3f5;
-
-    color:
-        var(--navy);
-
-    font-size: 11px;
-}
-
-
 /* AVLAR */
 
 .catch-form {
@@ -1943,20 +1633,6 @@ button:active {
 
 .love-counter-card,
 .nisa-card,
-.sans-message-card {
-    margin:
-        20px 0;
-
-    padding: 22px;
-
-    border-radius: 24px;
-
-    background: white;
-
-    box-shadow:
-        var(--shadow);
-}
-
 .love-counter-card,
 .nisa-card {
     text-align: center;
@@ -2035,50 +1711,6 @@ button:active {
 }
 
 .nisa-card button,
-.sans-message-card button {
-    width: 100%;
-
-    padding: 13px;
-
-    border-radius: 14px;
-
-    background:
-        var(--navy);
-
-    color: white;
-
-    font-weight: 800;
-}
-
-.sans-message-head {
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-}
-
-.sans-message-fish {
-    font-size: 37px;
-}
-
-.sans-message-bubble {
-    margin:
-        18px 0;
-
-    padding: 16px;
-
-    border-radius:
-        18px
-        18px
-        18px
-        5px;
-
-    background:
-        var(--light);
-}
-
-
 /* ALT MENÜ */
 
 .bottom-nav {
@@ -2222,11 +1854,6 @@ button:active {
     .tank-scene {
         height: 300px;
     }
-
-    .swimming-sans {
-        width: 90px;
-    }
-
 }
 
 
