@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Erosarium</title>
+  <meta name="theme-color" content="#f5f2e8">
+  <link rel="manifest" href="manifest.json?v=8">
+  <link rel="stylesheet" href="style-v5.css?v=8">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <link rel="icon" type="image/png" sizes="192x192" href="images/erosarium-icon-192-v8.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/erosarium-icon-180-v8.png">
+</head>
+<body>
+<header class="app-topbar">
+  <div class="brand-mark"><img src="images/erosarium-icon-512-v8.png" alt="Erosarium"></div>
+  <div class="brand-copy"><strong>Erosarium</strong><span>balıkçının cep defteri</span></div>
+  <button class="top-icon" data-page="activity" aria-label="Hareketler">🔔</button>
+</header>
+
+<main>
+  <section id="home" class="page active premium-home">
+    <div class="premium-hero">
+      <div class="hero-overlay"></div>
+      <div class="premium-brandline"><span>EROSARIUM</span><button class="hero-round" data-page="activity" aria-label="Hareketler">⌕</button></div>
+      <div class="premium-hero-copy">
+        <span class="premium-kicker">BUGÜN</span>
+        <h1 id="homeFishingVerdict">Av durumun hesaplanıyor...</h1>
+        <p id="homeFishingReason">İzmir için güncel hava ve av koşullarına bakıyorum.</p>
+        <button class="premium-location" id="homeLocationBtn" type="button">⌖ <span id="homeLocationName">İzmir</span> <span>⌄</span></button>
+      </div>
+    </div>
+
+    <div class="home-weather-row" aria-label="Bugünün hava özeti">
+      <div class="home-weather-card temp"><span class="home-weather-icon">☀</span><div><strong id="homeTemp">--°</strong><small id="homeWeatherText">Hava</small></div></div>
+      <div class="home-weather-card"><span class="home-weather-icon">≋</span><div><strong id="homeWind">-- km/sa</strong><small>Rüzgâr</small></div></div>
+      <div class="home-weather-card"><span class="home-weather-icon">◌</span><div><strong id="homeScore">--/100</strong><small>Av skoru</small></div></div>
+      <div class="home-weather-card"><span class="home-weather-icon">◐</span><div><strong id="homeBestTime">--:--</strong><small>En iyi saat</small></div></div>
+    </div>
+
+    <div class="premium-shortcuts">
+      <button data-page="forecast"><span>≋</span><b>Av Tahmini</b><small>En iyi saatler</small></button>
+      <button data-page="favorites"><span>⌖</span><b>Av Noktaları</b><small>Favori yerler</small></button>
+      <button data-page="catches"><span>▣</span><b>Av Günlüğü</b><small>Kayıtlarını gör</small></button>
+      <button data-page="fishguide"><span>◫</span><b>Balık Rehberi</b><small>Türler & bilgiler</small></button>
+    </div>
+
+    <div class="premium-dashboard-grid">
+      <div class="premium-panel best-hours-panel">
+        <div class="panel-head"><div><span>BUGÜN</span><h2>En iyi av saatleri</h2></div><button data-page="forecast">Detay ›</button></div>
+        <div class="time-track"><i></i><i class="active morning"></i><i></i><i class="active evening"></i><i></i></div>
+        <div class="best-time-row"><span>☀ Sabah</span><strong id="homeMorningTime">05:30 – 08:00</strong></div>
+        <div class="best-time-row"><span>☾ Akşam</span><strong id="homeEveningTime">18:00 – 20:30</strong></div>
+      </div>
+
+      <button class="premium-panel add-catch-panel" data-page="catches">
+        <div><span>KAYITLAR</span><h2>Daha güzel avlara...</h2><small>Fotoğraf, balık, konum ve notunu kaydet.</small></div>
+        <b>＋</b>
+      </button>
+    </div>
+  </section>
+
+  <div id="locationPickerModal" class="location-picker-modal hidden" aria-hidden="true">
+    <div class="location-picker-sheet">
+      <div class="location-picker-head">
+        <div><span class="eyebrow">KONUM</span><h3>Av bölgesini seç</h3><p>Şehir, ilçe veya kıyı adı yazabilirsin.</p></div>
+        <button id="closeLocationPicker" type="button" aria-label="Kapat">✕</button>
+      </div>
+      <button id="homeUseMyLocation" class="location-current-btn" type="button"><span>◎</span><div><b>Şu anki konumumu kullan</b><small>GPS ile bulunduğun yere göre tahmin</small></div></button>
+      <label class="location-search-box"><span>⌕</span><input id="locationSearchInput" type="search" placeholder="örn. Çeşme, Foça, Bodrum..." autocomplete="off"></label>
+      <div class="location-presets">
+        <button type="button" data-home-location="38.4237,27.1428,İzmir">İzmir</button>
+        <button type="button" data-home-location="38.3228,26.3057,Çeşme">Çeşme</button>
+        <button type="button" data-home-location="38.6703,26.7566,Foça">Foça</button>
+        <button type="button" data-home-location="38.3220,26.7640,Urla">Urla</button>
+        <button type="button" data-home-location="38.1969,26.8388,Seferihisar">Seferihisar</button>
+        <button type="button" data-home-location="38.6364,26.5127,Karaburun">Karaburun</button>
+      </div>
+      <div id="locationSearchResults" class="location-search-results"></div>
+    </div>
+  </div>
+
+  <section id="forecast" class="page">
+    <div class="page-head">
+      <span class="eyebrow">AV PLANI</span>
+      <h2>Bugünün tahmini</h2>
+      <p id="locationText">Konum henüz alınmadı.</p>
+    </div>
+
+    <div class="segmented-actions">
+      <button id="useLocationBtn">📍 Konumum</button>
+      <button id="openMapBtn">🗺 Haritadan seç</button>
+    </div>
+
+    <div id="mapContainer" class="map-container hidden">
+      <div id="map"></div>
+      <p id="selectedLocation">Haritadan bir noktaya dokun.</p>
+      <button id="saveSpotButton" class="hidden">⭐ Av noktası olarak kaydet</button>
+    </div>
+
+    <div id="forecastResult"></div>
+
+    <div id="weeklyForecast" class="section-block">
+      <div class="section-title"><div><span class="eyebrow">ÖNÜMÜZDEKİ GÜNLER</span><h3>7 günlük görünüm</h3></div></div>
+      <div id="weeklyCards"></div>
+    </div>
+  </section>
+
+  <section id="favorites" class="page">
+    <div class="page-head page-head-row">
+      <div><span class="eyebrow">YERLER</span><h2>Av noktalarım</h2><p>Kaydettiğin noktalar iki telefonda da ortak görünür.</p></div>
+      <div class="count-pill"><strong id="favoriteCount">0</strong><span>nokta</span></div>
+    </div>
+    <div class="google-account-card">
+      <div class="google-account-main"><div class="google-g-badge">G</div><div><b id="googleAccountTitle">Google hesabını bağla</b><small id="googleAccountText">Yeni kaydettiğin av noktaları hesabınla eşleşsin.</small></div></div>
+      <div class="google-account-actions"><button id="googleSignInBtn" type="button">Google ile giriş</button><button id="googleSignOutBtn" class="hidden" type="button">Çıkış</button></div>
+    </div>
+    <div class="maps-info-note"><span>⌖</span><p>Kaydettiğin noktaları tek dokunuşla Google Maps'te açabilirsin.</p></div>
+    <div id="favoriteSpots"></div>
+  </section>
+
+  <div id="favoriteDetailModal" class="favorite-detail-modal hidden">
+    <div class="favorite-detail-panel">
+      <button id="closeFavoriteDetailBtn" class="favorite-detail-close">✕</button>
+      <div id="favoriteDetailContent">Yükleniyor...</div>
+    </div>
+  </div>
+
+  <section id="activity" class="page">
+    <div class="page-head"><span class="eyebrow">AKIŞ</span><h2>Hareketler</h2><p>Erosarium'da olan biten burada.</p></div>
+    <div id="activityList" class="activity-list">
+      <div class="empty-state"><div class="empty-icon">⌁</div><h3>Henüz hareket yok</h3><p>Yeni işlemler burada görünecek.</p></div>
+    </div>
+  </section>
+
+  <section id="catches" class="page">
+    <div class="page-head page-head-row catches-head">
+      <div><span class="eyebrow">KAYITLAR</span><h2>Av günlüğüm</h2><p>Avlarını düzenli, hızlı ve fotoğraflı tut.</p></div>
+      <button id="toggleCatchForm" class="primary-compact">＋ Av ekle</button>
+    </div>
+
+    <div class="catch-form catch-form-collapsed" id="catchFormPanel">
+      <div class="form-head"><div><b>Yeni av kaydı</b><small>Temel bilgileri girmen yeterli.</small></div><button type="button" id="closeCatchForm">✕</button></div>
+      <div class="catch-photo-upload">
+        <label for="catchPhoto">📷 Fotoğraf seç</label>
+        <input type="file" id="catchPhoto" accept="image/*">
+        <img id="catchPhotoPreview" class="catch-photo-preview" alt="Av fotoğrafı önizleme">
+      </div>
+      <div class="form-grid two-col">
+        <input type="text" id="catchFish" placeholder="Balık türü">
+        <input type="number" id="catchWeight" placeholder="Kilo" step="0.01">
+        <input type="number" id="catchLength" placeholder="Boy (cm)">
+        <input type="text" id="catchLocation" placeholder="Konum">
+      </div>
+      <input type="datetime-local" id="catchDate">
+      <textarea id="catchNote" placeholder="Bu av hakkında kısa bir not..."></textarea>
+      <button id="saveCatchBtn" class="primary-wide">Avı kaydet</button>
+    </div>
+
+    <div id="catchStats"></div>
+    <div id="catchList"></div>
+  </section>
+
+  <section id="fishguide" class="page">
+    <div class="page-head"><span class="eyebrow">REHBER</span><h2>Balık rehberi</h2><p>İzmir ve Manisa'da karşılaşabileceğin türler.</p></div>
+    <div class="fish-city-buttons">
+      <button class="fish-city active" data-city="izmir">İzmir</button>
+      <button class="fish-city" data-city="manisa">Manisa</button>
+    </div>
+    <div id="fishGuideList"></div>
+  </section>
+</main>
+
+<nav class="bottom-nav" aria-label="Ana menü">
+  <button data-page="home" class="nav-active"><span class="nav-icon">⌂</span><span>Ana</span></button>
+  <button data-page="forecast"><span class="nav-icon">⌁</span><span>Tahmin</span></button>
+  <button data-page="catches"><span class="nav-icon">≋</span><span>Avlar</span></button>
+  <button data-page="favorites"><span class="nav-icon">⌖</span><span>Yerler</span></button>
+</nav>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script type="module" src="script.js?v=5"></script>
+</body>
+</html>
