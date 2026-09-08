@@ -1,15 +1,16 @@
 const CACHE_NAME =
-    "erosarium-v45-logo";
+    "erosarium-v46-logo-fixed";
 
 const APP_FILES = [
     "./",
     "./index.html",
     "./style-v5.css?v=8",
-    "./images/erosarium-icon-192-v8.png",
-    "./images/erosarium-icon-512-v8.png",
-    "./images/erosarium-icon-180-v8.png",
+    "./erosarium-blue-32-v9.png",
+    "./erosarium-blue-192-v9.png",
+    "./erosarium-blue-512-v9.png",
+    "./erosarium-blue-180-v9.png",
     "./script.js?v=5",
-    "./manifest.json?v=8"
+    "./manifest.json?v=11"
 ];
 
 
