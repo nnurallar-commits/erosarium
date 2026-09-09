@@ -1322,6 +1322,41 @@ function findNextIdealFishingTime(
 
 
 /* =====================================================
+   BASINÇ TRENDİ + BALIK HAREKETİ
+===================================================== */
+function getPressureTrend(hourlyScores, current) {
+    if (!current || !hourlyScores?.length) return { delta: 0, direction: "stable", label: "Stabil", icon: "→" };
+    const targetTime = current.date.getTime() - (3 * 60 * 60 * 1000);
+    const previous = hourlyScores.reduce((best, item) => {
+        if (item.date > current.date) return best;
+        return !best || Math.abs(item.date.getTime() - targetTime) < Math.abs(best.date.getTime() - targetTime) ? item : best;
+    }, null);
+    const delta = previous ? current.pressure - previous.pressure : 0;
+    if (delta <= -3) return { delta, direction:"falling-fast", label:"Hızlı düşüyor", icon:"↓↓" };
+    if (delta <= -1.5) return { delta, direction:"falling", label:"Düşüyor", icon:"↓" };
+    if (delta >= 3) return { delta, direction:"rising-fast", label:"Hızlı yükseliyor", icon:"↑↑" };
+    if (delta >= 1.5) return { delta, direction:"rising", label:"Yükseliyor", icon:"↑" };
+    return { delta, direction:"stable", label:"Stabil", icon:"→" };
+}
+
+function getFishPressureBehavior(pressure, trend) {
+    const p = Math.round(pressure);
+    const d = trend?.direction || "stable";
+    if (d === "falling-fast") return { title:"Hareket artabilir", text:`${p} hPa ve basınç hızlı düşüyor. Hava değişimi öncesi bazı türlerde yemlenme ve gezme artabilir; kısa süreli güçlü bir pencere olabilir.`, tone:"active" };
+    if (d === "falling") return { title:"Balık daha hareketli olabilir", text:`${p} hPa ve basınç düşüşte. Özellikle avcı türlerde hareket ve yem arama davranışı artabilir.`, tone:"active" };
+    if (d === "rising-fast") return { title:"Balık daha temkinli olabilir", text:`${p} hPa ve basınç hızlı yükseliyor. Bazı balıklar daha derine veya yapıya yakın bölgelere çekilebilir; sunumu yavaşlatmak işe yarayabilir.`, tone:"calm" };
+    if (d === "rising") return { title:"Hareket dengeleniyor", text:`${p} hPa ve basınç yükseliyor. Aktivite tür ve suya göre değişebilir; kıyı yerine biraz daha derin hattı da denemek mantıklı.`, tone:"mixed" };
+    if (pressure < 1000) return { title:"Düşük basınç", text:`${p} hPa. Hava sistemi etkisi güçlü olabilir; balık hareketi değişken olabilir. Rüzgâr ve yağışla birlikte değerlendir.`, tone:"mixed" };
+    if (pressure > 1025) return { title:"Yüksek basınç", text:`${p} hPa. Bazı türlerde hareket daha sakin olabilir; sabah-akşam geçiş saatleri daha değerli hale gelebilir.`, tone:"calm" };
+    return { title:"Dengeli basınç", text:`${p} hPa ve son 3 saatte belirgin değişim yok. Balık davranışı daha öngörülebilir olabilir; saat, rüzgâr ve su koşulları belirleyici olur.`, tone:"steady" };
+}
+
+function pressureNeedlePercent(trend) {
+    const delta = Math.max(-5, Math.min(5, trend?.delta || 0));
+    return Math.round(((delta + 5) / 10) * 100);
+}
+
+/* =====================================================
    ANA HAVA
 ===================================================== */
 
@@ -1396,11 +1431,15 @@ async function getWeather(
                 hourlyScores
             );
 
+        const pressureTrend =
+            getPressureTrend(hourlyScores, current);
+
 
         result.innerHTML = `
 
             ${createCurrentWeatherHtml(
-                current
+                current,
+                pressureTrend
             )}
 
             ${createNextIdealHtml(
@@ -1438,7 +1477,7 @@ async function getWeather(
    ŞU AN
 ===================================================== */
 
-function createCurrentWeatherHtml(item) {
+function createCurrentWeatherHtml(item, pressureTrend = {delta:0,direction:"stable",label:"Stabil",icon:"→"}) {
 
     if (!item) return "";
 
@@ -1543,6 +1582,18 @@ function createCurrentWeatherHtml(item) {
                 </div>
 
 
+                <div class="weather-item pressure-weather-item">
+                    <span>
+                        ◉ Basınç
+                    </span>
+
+                    <strong>
+                        ${Math.round(item.pressure)} hPa ${pressureTrend.icon}
+                    </strong>
+                    <small>${pressureTrend.label} · 3 saatte ${pressureTrend.delta >= 0 ? "+" : ""}${pressureTrend.delta.toFixed(1)} hPa</small>
+                </div>
+
+
                 <div class="weather-item">
                     <span>
                         🎣 Av Koşulu
@@ -1554,6 +1605,13 @@ function createCurrentWeatherHtml(item) {
                 </div>
 
             </div>
+
+            ${(() => { const behavior = getFishPressureBehavior(item.pressure, pressureTrend); return `
+            <div class="pressure-behavior-inline ${behavior.tone}">
+                <div><span>🐟 Basınca göre hareket</span><strong>${behavior.title}</strong></div>
+                <p>${behavior.text}</p>
+                <small>Basınç tek başına kesin sonuç vermez; tür, su sıcaklığı, akıntı ve yem durumu da etkilidir.</small>
+            </div>`; })()}
 
         </div>
 
@@ -4172,6 +4230,10 @@ async function loadHomeDashboard(location=homeLocation) {
         homeSetText("homeTemp",`${Math.round(current.temperature)}°`);
         homeSetText("homeWeatherText",current.cloud>70?"Bulutlu":current.cloud>35?"Parçalı bulutlu":"Açık / az bulutlu");
         homeSetText("homeWind",`${Math.round(current.wind)} km/sa`); homeSetText("homeScore",`${current.score}/100`); homeSetText("homeBestTime",hourLabel(best?.date));
+        const pressureTrend=getPressureTrend(items,current); const pressureBehavior=getFishPressureBehavior(current.pressure,pressureTrend);
+        homeSetText("homePressure",`${Math.round(current.pressure)} hPa`); homeSetText("homePressureTrend",`${pressureTrend.icon} ${pressureTrend.label}`);
+        homeSetText("homePressureBehaviorTitle",pressureBehavior.title); homeSetText("homePressureBehaviorText",pressureBehavior.text); homeSetText("homePressureDelta",`${pressureTrend.delta>=0?"+":""}${pressureTrend.delta.toFixed(1)} hPa / 3s`);
+        const pressureNeedle=document.getElementById("homePressureNeedle"); if(pressureNeedle) pressureNeedle.style.left=`${pressureNeedlePercent(pressureTrend)}%`;
         const today=items.filter(i=>sameDay(i.date,new Date()));
         const morning=today.filter(i=>i.date.getHours()>=4&&i.date.getHours()<=11).sort((a,b)=>b.score-a.score)[0];
         const evening=today.filter(i=>i.date.getHours()>=16&&i.date.getHours()<=23).sort((a,b)=>b.score-a.score)[0];

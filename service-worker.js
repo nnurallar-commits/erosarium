@@ -4,12 +4,12 @@ const CACHE_NAME =
 const APP_FILES = [
     "./",
     "./index.html",
-    "./style-v5.css?v=8",
+    "./style-v5.css?v=12",
     "./erosarium-blue-32-v9.png",
     "./erosarium-blue-192-v9.png",
     "./erosarium-blue-512-v9.png",
     "./erosarium-blue-180-v9.png",
-    "./script.js?v=5",
+    "./script.js?v=12",
     "./manifest.json?v=11"
 ];
 

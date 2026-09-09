@@ -6,7 +6,7 @@
   <title>Erosarium</title>
   <meta name="theme-color" content="#f5f2e8">
   <link rel="manifest" href="manifest.json?v=11">
-  <link rel="stylesheet" href="style-v5.css?v=8">
+  <link rel="stylesheet" href="style-v5.css?v=12">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
   <link rel="icon" type="image/png" sizes="32x32" href="erosarium-blue-32-v9.png?v=11">
@@ -35,6 +35,7 @@
     <div class="home-weather-row" aria-label="Bugünün hava özeti">
       <div class="home-weather-card temp"><span class="home-weather-icon">☀</span><div><strong id="homeTemp">--°</strong><small id="homeWeatherText">Hava</small></div></div>
       <div class="home-weather-card"><span class="home-weather-icon">≋</span><div><strong id="homeWind">-- km/sa</strong><small>Rüzgâr</small></div></div>
+      <div class="home-weather-card pressure"><span class="home-weather-icon">◉</span><div><strong id="homePressure">-- hPa</strong><small id="homePressureTrend">Basınç</small></div></div>
       <div class="home-weather-card"><span class="home-weather-icon">◌</span><div><strong id="homeScore">--/100</strong><small>Av skoru</small></div></div>
       <div class="home-weather-card"><span class="home-weather-icon">◐</span><div><strong id="homeBestTime">--:--</strong><small>En iyi saat</small></div></div>
     </div>
@@ -44,6 +45,12 @@
       <button data-page="favorites"><span>⌖</span><b>Av Noktaları</b><small>Favori yerler</small></button>
       <button data-page="catches"><span>▣</span><b>Av Günlüğü</b><small>Kayıtlarını gör</small></button>
       <button data-page="fishguide"><span>◫</span><b>Balık Rehberi</b><small>Türler & bilgiler</small></button>
+    </div>
+
+    <div class="pressure-behavior-card" id="homePressureBehaviorCard">
+      <div class="pressure-behavior-head"><span class="pressure-gauge">◉</span><div><small>BASINÇ & BALIK HAREKETİ</small><h3 id="homePressureBehaviorTitle">Basınç analizi hazırlanıyor...</h3></div><b id="homePressureDelta">--</b></div>
+      <p id="homePressureBehaviorText">Son saatlerdeki basınç değişimine göre balık hareketi burada görünecek.</p>
+      <div class="pressure-scale"><span>Düşüyor</span><i><b id="homePressureNeedle"></b></i><span>Yükseliyor</span></div>
     </div>
 
     <div class="premium-dashboard-grid">
@@ -180,6 +187,6 @@
 </nav>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script type="module" src="script.js?v=5"></script>
+<script type="module" src="script.js?v=12"></script>
 </body>
 </html>
